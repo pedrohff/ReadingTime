@@ -1,4 +1,4 @@
-package com.example.pedro.readingtime
+package com.readingtime
 
 import org.junit.Test
 

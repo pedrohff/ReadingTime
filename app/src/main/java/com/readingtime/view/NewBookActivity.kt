@@ -1,37 +1,40 @@
-package com.example.pedro.readingtime.view
+package com.readingtime.view
 
 import android.databinding.DataBindingUtil
-import android.databinding.DataBindingUtil.setContentView
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.example.pedro.readingtime.R
-import com.example.pedro.readingtime.databinding.ActivityNewBookBinding
-import com.example.pedro.readingtime.model.Book
-import com.example.pedro.readingtime.model.BookCategory
-import com.example.pedro.readingtime.model.BookTypes
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.readingtime.R
+import com.readingtime.databinding.ActivityNewBookBinding
+import com.readingtime.model.Book
+import com.readingtime.model.BookCategory
+import com.readingtime.model.BookTypes
 import kotlinx.android.synthetic.main.activity_new_book.*
+
 
 class NewBookActivity() : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
-    var book:Book? = Book()
+    var book: Book? = Book()
     var types = arrayOf(BookTypes.BOOK, BookTypes.GRAPHIC_NOVEL)
-    var categories = arrayOf(BookCategory.ADVENTURE, BookCategory.FANTASY, BookCategory.SCIENCE_FICTION)
+    var categories = arrayOf(BookCategory.ADVENTURE, BookCategory.FANTASY, BookCategory.SCI_FI)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_book)
         val binding: ActivityNewBookBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_book)
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        binding.book = Book(name = "asjkdfhsahdf")
+        binding.book = Book()
         book = binding.book
         initAdapters()
 
         btSave.setOnClickListener { saveBook() }
+        btCancel.setOnClickListener { finish() }
     }
 
     fun initAdapters() {
@@ -53,20 +56,23 @@ class NewBookActivity() : AppCompatActivity(), AdapterView.OnItemSelectedListene
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when(parent?.id) {
             R.id.spCategory -> {
-
+                var selected: BookCategory?= parent.getItemAtPosition(position) as? BookCategory
+                book?.category = selected?.cat.toString()
             }
             R.id.spType -> {
-
+                var selected: BookTypes? = parent.getItemAtPosition(position) as? BookTypes
+                book?.type = selected?.type.toString()
             }
         }
     }
 
     fun saveBook() {
-        print(book)
-        print("---------------")
         var db :DatabaseReference = FirebaseDatabase.getInstance().getReference("books")
         val key = db.push().key
         book?.id = key
-        db.child(key).setValue(book)
+        db.child(key).setValue(book, DatabaseReference.CompletionListener { databaseError, databaseReference ->  TODO("Verificar")})
+
+        finish()
+        TODO("Save an empty record after saving a book")
     }
 }

@@ -1,4 +1,4 @@
-package com.example.pedro.readingtime.presenter
+package com.readingtime.presenter
 
 /**
  * Created by pedro on 27/12/17.
