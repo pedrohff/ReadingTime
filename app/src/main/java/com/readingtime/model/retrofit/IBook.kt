@@ -2,7 +2,6 @@ package com.readingtime.model.retrofit
 
 import com.readingtime.model.Book
 import com.readingtime.model.Record
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import rx.Observable

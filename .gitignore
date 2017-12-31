@@ -8,25 +8,7 @@
 /captures
 .externalNativeBuild
 
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
- @pedrohff
- Sign out
- Watch 17
-  Star 202  Fork 25 Plastix/Kotlin-Android-Boilerplate
- Code  Issues 2  Pull requests 1  Projects 0  Wiki  Insights
-Branch: master Find file Copy pathKotlin-Android-Boilerplate/.gitignore
-971ceef  on Aug 18, 2016
- Aidan Pieper Initial Commit
-0 contributors
-RawBlameHistory    
-99 lines (71 sloc)  1.33 KB
-
+google-services.json
 # Created by https://www.gitignore.io/api/android,java,macos
 
 ### Android ###

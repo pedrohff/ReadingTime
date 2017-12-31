@@ -2,7 +2,7 @@ package com.readingtime.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.concurrent.TimeUnit
+import com.readingtime.extensions.millisToString
 
 /**
  * Created by pedro on 26/12/17.
@@ -58,31 +58,14 @@ data class BookPresenter (var book: Book?,
                           var percentage: String){
     companion object {
         fun construct(book: Book?, records: List<Record>?): BookPresenter {
-            var lastRecord = records?.last()
+            val lastRecord = records?.last()
             var percentage = "0%"
-//            if(book!=null && lastRecord!=null)
-//                percentage = String.format("%d%", lastRecord.pageStopped*100/book.pages)
-            var millis: Long? = records?.fold(0, {acc:Long, record -> acc+record.milisRead })
-            var timeString = millisToString(millis)
-            return BookPresenter(book,records?.last(), timeString, percentage)
-        }
-
-        fun millisToString(millis: Long?):String {
-            var hour = TimeUnit.HOURS.toMillis(1)
-            if(millis==null)
-                return "0:00min"
-
-            if(millis > hour) {
-                return String.format("%d:%dh",
-                        TimeUnit.MILLISECONDS.toHours(millis),
-                        TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))
-                )
-            } else {
-                return String.format("%d:%dmin",
-                        TimeUnit.MILLISECONDS.toMinutes(millis),
-                        TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
-                )
+            if(book!=null && lastRecord!=null) {
+                percentage = String.format("%d%%", lastRecord.pageStopped * 100 / book.pages)
             }
+            val millis: Long? = records?.fold(0, {acc:Long, record -> acc+record.milisRead })
+            val timeString = millisToString(millis)
+            return BookPresenter(book,records?.last(), timeString, percentage)
         }
     }
 }

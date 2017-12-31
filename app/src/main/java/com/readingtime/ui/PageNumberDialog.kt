@@ -1,52 +1,46 @@
 package com.readingtime.ui
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.app.DialogFragment
-import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.readingtime.R
 import kotlinx.android.synthetic.main.dialog_numpage.*
+import kotlinx.android.synthetic.main.dialog_numpage.view.*
+
 
 /**
  * Created by pedro on 28/12/17.
  */
-class PageNumberDialog() : DialogFragment() {
+class PageNumberDialog() : DialogFragment(), TextView.OnEditorActionListener {
+
 
     interface NoticeDialogListener {
-        fun onDialogPositiveClick(dialog: DialogFragment, pagenum:Int)
-        fun onDialogNegativeClick(dialog: DialogFragment)
+        fun onDialogPositiveClick(page: Int)
     }
 
-    lateinit var mListener: NoticeDialogListener
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val view = inflater!!.inflate(R.layout.dialog_numpage, container)
+        dialog.setTitle("Test")
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
+        view.etPageStopped.requestFocus()
+        view.etPageStopped.setOnEditorActionListener(this)
 
-        try {
-            mListener = context as NoticeDialogListener
-        }catch (e:ClassCastException) {
-            throw ClassCastException(context.toString() + " must implement NoticeDialogListener")
+        return view
+    }
+
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (EditorInfo.IME_ACTION_DONE == actionId) {
+            val activity = activity as NoticeDialogListener
+            activity.onDialogPositiveClick(etPageStopped.getText().toString().toInt())
+            this.dismiss()
+            return true
         }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        var builder : AlertDialog.Builder = AlertDialog.Builder(activity)
-        var inflater: LayoutInflater = activity.layoutInflater
-
-        builder.setView(inflater.inflate(R.layout.dialog_numpage, null))
-                .setPositiveButton("Confirm", DialogInterface.OnClickListener {
-                    dialog, which ->  run{
-                        mListener.onDialogPositiveClick(this, Integer.parseInt(etPageStopped.text.toString()))
-                    }
-                })
-                .setNegativeButton("Cancel", DialogInterface.OnClickListener {
-                    dialog, which -> this.dialog.cancel()
-                })
-
-        return builder.create()
+        return false
     }
 
 

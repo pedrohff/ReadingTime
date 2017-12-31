@@ -36,8 +36,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.google.firebase:firebase-database:11.8.0'
     compile 'com.google.firebase:firebase-auth:11.8.0'
-    compile 'com.google.firebase:firebase-storage:11.8.0'
-    kapt 'com.google.dagger:dagger-compiler:2.5'
+//    compile 'com.google.firebase:firebase-storage:11.8.0'
+//    kapt 'com.google.dagger:dagger-compiler:2.5'
 //    compile 'com.google.dagger:dagger:2.5'
     kapt 'com.android.databinding:compiler:3.0.1'
     implementation 'com.android.support:design:26.1.0'
@@ -50,21 +50,25 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.5'
     // RXAndroid para termos acesso a main thread do Android
     compile 'io.reactivex:rxandroid:1.2.1'
-    // Retrofit
+    // Retrofit !!DONT UPDATE!!
     compile 'com.squareup.retrofit2:retrofit:2.0.0'
-    // Adapter do Retrofit para retornar objetos observáveis
+    // Adapter do Retrofit para retornar objetos observáveis !!DONT UPDATE!!
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    // Converter do Retrofit para utilizar o Gson para tratar a resposta do servidor
+    // Converter do Retrofit para utilizar o Gson para tratar a resposta do servidor !!DONT UPDATE!!
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     // Interceptor para visualizar os logs das requisições do Retrofit
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
-    compile 'microutils:kotlin.logging:1.2.1'
+//    compile 'microutils:kotlin.logging:1.2.1'
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-android
-    compile group: 'org.slf4j', name: 'slf4j-android', version: '1.7.21'
+//    compile group: 'org.slf4j', name: 'slf4j-android', version: '1.7.21'
 
     //RxJava debug
-    compile 'io.reactivex:rxjava-debug:1.0.3'
+//    compile 'io.reactivex:rxjava-debug:1.0.3'
+
+    //Multidex
+//    compile 'com.android.support:multidex:1.0.2'
+
 }
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'

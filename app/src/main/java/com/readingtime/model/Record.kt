@@ -8,20 +8,20 @@ import java.util.*
 /**
  * Created by pedro on 26/12/17.
  */
-data class Record (var id:String, var bookId:String, var date: Date?, var milisRead:Long, var pagesRead:Int, var pageStopped: Int) : Parcelable {
+data class Record (var id:String, var bookId:String, var date: Long, var milisRead:Long, var pagesRead:Int, var pageStopped: Int) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
-            TODO("date"),
+            parcel.readLong(),
             parcel.readLong(),
             parcel.readInt(),
             parcel.readInt()) {
     }
 
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(bookId)
+        parcel.writeLong(date)
         parcel.writeLong(milisRead)
         parcel.writeInt(pagesRead)
         parcel.writeInt(pageStopped)
@@ -47,12 +47,12 @@ data class Record (var id:String, var bookId:String, var date: Date?, var milisR
             calendar.set(Calendar.MINUTE, 0)
             calendar.set(Calendar.SECOND, 0)
             calendar.set(Calendar.MILLISECOND, 0)
-            var newDate = calendar.time
+            val newDate = calendar.time
 
-            var formatter: SimpleDateFormat = SimpleDateFormat("MMddyyy")
-            var id: String = formatter.format(date)
-            var pRead = if (lastRecord!=null) pageStopped - lastRecord.pageStopped else pageStopped
-            return Record(id, book.id, newDate, time, pRead, pageStopped)
+            val formatter = SimpleDateFormat("yyyy-MM-dd")
+            val id = formatter.format(date)
+            val pRead = if (lastRecord!=null) pageStopped - lastRecord.pageStopped else pageStopped
+            return Record(id, book.id, newDate.time, time, pRead, pageStopped)
         }
     }
 

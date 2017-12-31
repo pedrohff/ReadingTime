@@ -11,7 +11,6 @@ import com.readingtime.model.BookPresenter
 import com.readingtime.model.Record
 import com.readingtime.model.retrofit.BookApi
 import kotlinx.android.synthetic.main.activity_main.*
-import mu.KLogging
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.lang.IllegalStateException
@@ -20,7 +19,6 @@ import java.lang.IllegalStateException
 class MainActivity : AppCompatActivity() {
 
 
-    companion object: KLogging()
 
     val api = BookApi()
     var currentBook: Book? = null
@@ -47,11 +45,12 @@ class MainActivity : AppCompatActivity() {
         updateCurrentBook()
     }
 
-    private fun updateCurrentBook(){
-        getCurrentBook()
+    override fun onResume() {
+        super.onResume()
+        updateCurrentBook()
     }
 
-    private fun getCurrentBook() {
+    private fun updateCurrentBook() {
         var auxBook: Book? = null
         api.loadBooks()
                 ?.subscribeOn(Schedulers.io())
@@ -75,11 +74,16 @@ class MainActivity : AppCompatActivity() {
                 },{
                     e-> if(e.equals(IllegalStateException::class.java)) {
                         binding.bpresenter = BookPresenter.construct(book, null)
-                        logger("eeeeeeeeeeeee")
                     }
                 },{
                     binding.bpresenter = BookPresenter.construct(book, records)
                 })
     }
+
+//    private fun testSaveRecord(book:Book, record: Record) {
+//        val ref = FirebaseDatabase.getInstance().getReference("records")
+//        var rec: Record = Record.construct(book, 1000, record, 700, Date())
+//        ref.child("testbookid").child(rec.id).setValue(rec)
+//    }
 }
 

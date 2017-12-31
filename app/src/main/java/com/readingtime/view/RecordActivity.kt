@@ -1,11 +1,11 @@
 package com.readingtime.view
 
-import android.app.DialogFragment
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
 import com.readingtime.R
+import com.readingtime.extensions.removeHMS
 import com.readingtime.model.Book
 import com.readingtime.model.Record
 import com.readingtime.ui.PageNumberDialog
@@ -19,7 +19,7 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     lateinit var lastRecord: Record
     var timeaux:Long = 0
     var timecounter:Long = 0
-    var currentDate = Date()
+    var currentDate = Date().removeHMS()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,20 +34,16 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     }
 
     fun startStopTimer() {
-//        if(!counterStarted){
-//            counterStarted = true
-//            counter.base = SystemClock.elapsedRealtime()
-//        }
 
         if (isRunning){
             timeaux = counter.base - SystemClock.elapsedRealtime()
             counter.stop()
-            btStartStop.text = "Resume"
+            btStartStop.text = "Resume" //TODO("strings.xml")
             isRunning = !isRunning
         } else {
             counter.base = SystemClock.elapsedRealtime() + timeaux
             counter.start()
-            btStartStop.text = "Pause"
+            btStartStop.text = "Pause" //TODO("strings.xml")
             isRunning = !isRunning
         }
 
@@ -56,25 +52,27 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
 
 
     fun saveRecord(pagenum: Int) {
-        if(isRunning){
-            startStopTimer()
+        var record: Record
+        if(lastRecord.date == currentDate.time){
+            record = lastRecord
+            record.milisRead += timecounter
+            record.pagesRead += pagenum-record.pageStopped
+            record.pageStopped = pagenum
+        } else {
+            record = Record.construct(book, timecounter, lastRecord, pagenum, this.currentDate)
         }
 
-
-        var record: Record = Record.construct(book, timecounter, lastRecord, pagenum, currentDate)
-
         val db = FirebaseDatabase.getInstance().getReference("records")
-        db.child(book.id).setValue(record)
-
+        db.child(book.id).child(record.id).setValue(record)
+        finish()
     }
 
     //Dialog
-    override fun onDialogPositiveClick(dialog: DialogFragment, pagenum: Int) {
-        saveRecord(pagenum)
-    }
-
-    override fun onDialogNegativeClick(dialog: DialogFragment) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onDialogPositiveClick(page: Int) {
+        if(isRunning){
+            startStopTimer()
+        }
+        saveRecord(page)
     }
 
     private fun showDialog() {
