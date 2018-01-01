@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_new_book.*
 import java.util.*
 
 
-class NewBookActivity() : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class NewBookActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     var book: Book? = Book()
     var types = arrayOf(BookTypes.BOOK, BookTypes.GRAPHIC_NOVEL)
@@ -30,7 +30,7 @@ class NewBookActivity() : AppCompatActivity(), AdapterView.OnItemSelectedListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_book)
         val binding: ActivityNewBookBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_book)
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         binding.book = Book()
         book = binding.book
@@ -41,15 +41,15 @@ class NewBookActivity() : AppCompatActivity(), AdapterView.OnItemSelectedListene
     }
 
     fun initAdapters() {
-        spType.setOnItemSelectedListener(this)
+        spType.onItemSelectedListener = this
         val adapterTypes = ArrayAdapter(this, android.R.layout.simple_spinner_item, types)
         adapterTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spType.setAdapter(adapterTypes)
+        spType.adapter = adapterTypes
 
-        spCategory.setOnItemSelectedListener(this)
+        spCategory.onItemSelectedListener = this
         val adapterCategory = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spCategory.setAdapter(adapterCategory)
+        spCategory.adapter = adapterCategory
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -70,7 +70,7 @@ class NewBookActivity() : AppCompatActivity(), AdapterView.OnItemSelectedListene
     }
 
     fun saveBook() {
-        var db :DatabaseReference = FirebaseDatabase.getInstance().getReference()
+        var db: DatabaseReference = FirebaseDatabase.getInstance().reference
         val key = db.push().key
         book?.id = key
         db.child("books").child(key).setValue(book)

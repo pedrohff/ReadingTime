@@ -15,8 +15,7 @@ data class Record (var id:String, var bookId:String, var date: Long, var milisRe
             parcel.readLong(),
             parcel.readLong(),
             parcel.readInt(),
-            parcel.readInt()) {
-    }
+            parcel.readInt())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)

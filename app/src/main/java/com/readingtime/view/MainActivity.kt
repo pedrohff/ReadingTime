@@ -87,8 +87,7 @@ class MainActivity : AppCompatActivity() {
         val id = loadPreference(R.string.pref_last_book)
         lateinit var bookAux: BookPresenter
         if (id != null) {
-            api.findBook(id)
-                    ?.subscribeOn(Schedulers.io())
+            api.findBook(id).subscribeOn(Schedulers.io())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe({bookPres ->
                         bookAux = bookPres

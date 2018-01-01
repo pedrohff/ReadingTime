@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.dialog_numpage.view.*
 /**
  * Created by pedro on 28/12/17.
  */
-class PageNumberDialog() : DialogFragment(), TextView.OnEditorActionListener {
+class PageNumberDialog : DialogFragment(), TextView.OnEditorActionListener {
 
 
     interface NoticeDialogListener {
@@ -36,7 +36,7 @@ class PageNumberDialog() : DialogFragment(), TextView.OnEditorActionListener {
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             val activity = activity as NoticeDialogListener
-            activity.onDialogPositiveClick(etPageStopped.getText().toString().toInt())
+            activity.onDialogPositiveClick(etPageStopped.text.toString().toInt())
             this.dismiss()
             return true
         }

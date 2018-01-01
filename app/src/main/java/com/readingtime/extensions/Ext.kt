@@ -68,7 +68,7 @@ fun AppCompatActivity.loadPreference(key: Int): String? {
 }
 
 fun <T> rx.Observable<T>.subMainThread(onNext: Action1<T>, onError: Action1<Throwable>, onCompleted: Action0) {
-    this?.observeOn(Schedulers.io())
+    this.observeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe(onNext, onError, onCompleted)
 }
