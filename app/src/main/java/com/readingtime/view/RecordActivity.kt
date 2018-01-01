@@ -1,11 +1,14 @@
 package com.readingtime.view
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
 import com.readingtime.R
+import com.readingtime.databinding.ActivityRecordBinding
 import com.readingtime.extensions.removeHMS
+import com.readingtime.extensions.savePreference
 import com.readingtime.model.Book
 import com.readingtime.model.Record
 import com.readingtime.ui.PageNumberDialog
@@ -20,13 +23,17 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     var timeaux:Long = 0
     var timecounter:Long = 0
     var currentDate = Date().removeHMS()
+    lateinit var binding: ActivityRecordBinding
+    var firstClick = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_record)
         book = intent.getParcelableExtra("BOOK")
         lastRecord = intent.getParcelableExtra("RECORD")
+
+        binding.book = book
 
         btStartStop.setOnClickListener { startStopTimer() }
         btSend.setOnClickListener { showDialog() }
@@ -34,6 +41,11 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     }
 
     fun startStopTimer() {
+
+        if(firstClick) {
+            savePreference(R.string.pref_last_book, book.id)
+            firstClick = false
+        }
 
         if (isRunning){
             timeaux = counter.base - SystemClock.elapsedRealtime()
@@ -48,6 +60,7 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
         }
 
         timecounter = ((SystemClock.elapsedRealtime() - counter.base).toString()).toLong()
+        tvHelper.text = timecounter.toString()
     }
 
 

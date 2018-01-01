@@ -4,16 +4,18 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import com.readingtime.R
 import com.readingtime.databinding.ActivityMainBinding
+import com.readingtime.extensions.loadPreference
 import com.readingtime.model.Book
 import com.readingtime.model.BookPresenter
-import com.readingtime.model.Record
 import com.readingtime.model.retrofit.BookApi
+import com.readingtime.ui.BookAdapter
+import com.readingtime.ui.BookAdapter.OnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.lang.IllegalStateException
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     val api = BookApi()
     var currentBook: Book? = null
     lateinit var binding: ActivityMainBinding
+    var bookList: MutableList<BookPresenter> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,49 +44,60 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("RECORD", binding.bpresenter?.lastRecord)
             startActivity(intent)
         }
+        setAdapter()
 
-        updateCurrentBook()
     }
 
     override fun onResume() {
         super.onResume()
-        updateCurrentBook()
+        updateBookList()
+        getHighlighted()
     }
 
-    private fun updateCurrentBook() {
-        var auxBook: Book? = null
-        api.loadBooks()
-                ?.subscribeOn(Schedulers.io())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe({book ->
-                    auxBook = book
-                },{e ->
-                    e.printStackTrace()
+    private fun updateBookList() {
+        api.listBooks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    presenter -> bookList.add(presenter)
                 },{
-                    getRecords(auxBook)
+                    e -> e.printStackTrace()
+                },{
+                    rvBookList.adapter.notifyDataSetChanged()
                 })
     }
 
-    private fun getRecords(book:Book?) {
-        var records = mutableListOf<Record>()
-        api.listRecords(book?.id)
-                ?.subscribeOn(Schedulers.io())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe({
-                    record -> records.add(record)
-                },{
-                    e-> if(e.equals(IllegalStateException::class.java)) {
-                        binding.bpresenter = BookPresenter.construct(book, null)
-                    }
-                },{
-                    binding.bpresenter = BookPresenter.construct(book, records)
-                })
+    private fun setAdapter() {
+        rvBookList.adapter = BookAdapter(bookList, this, object: OnClickListener {
+            override fun onItemClick(item: BookPresenter) {
+                var intent: Intent = Intent(this@MainActivity, RecordActivity::class.java)
+                intent.putExtra("BOOK", item.book)
+                intent.putExtra("RECORD", item.lastRecord)
+                this@MainActivity.startActivity(intent)
+            }
+        })
+
+        //Grid Layout: https://medium.com/collabcode/criando-lista-com-recyclerview-no-android-com-kotlin-85cb76f3775d
+//        rvBookList.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+        rvBookList.layoutManager = LinearLayoutManager(this)
     }
 
-//    private fun testSaveRecord(book:Book, record: Record) {
-//        val ref = FirebaseDatabase.getInstance().getReference("records")
-//        var rec: Record = Record.construct(book, 1000, record, 700, Date())
-//        ref.child("testbookid").child(rec.id).setValue(rec)
-//    }
+    fun getHighlighted() {
+        val id = loadPreference(R.string.pref_last_book)
+        lateinit var bookAux: BookPresenter
+        if (id != null) {
+            api.findBook(id)
+                    ?.subscribeOn(Schedulers.io())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe({bookPres ->
+                        bookAux = bookPres
+                    },{e ->
+                        e.printStackTrace()
+                    },{
+                        binding.bpresenter = bookAux
+                    })
+        }
+    }
 }
 

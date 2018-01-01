@@ -40,8 +40,7 @@ dependencies {
 //    kapt 'com.google.dagger:dagger-compiler:2.5'
 //    compile 'com.google.dagger:dagger:2.5'
     kapt 'com.android.databinding:compiler:3.0.1'
-    implementation 'com.android.support:design:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
+
 //    compile 'com.kelvinapps:rxfirebase:0.0.15'
 //    compile 'com.squareup.retrofit2:retrofit:2.3.0'
 //    compile "com.squareup.retrofit2:converter-moshi:2.0.0"
@@ -69,6 +68,10 @@ dependencies {
     //Multidex
 //    compile 'com.android.support:multidex:1.0.2'
 
+    //Views & Layouts
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
 }
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'

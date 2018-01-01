@@ -2,6 +2,7 @@ package com.readingtime.model.retrofit
 
 import com.google.gson.GsonBuilder
 import com.readingtime.model.Book
+import com.readingtime.model.BookPresenter
 import com.readingtime.model.Record
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -38,23 +39,32 @@ class BookApi {
         service = retrofit.create(IBook::class.java)
     }
 
-    fun loadBooks(): rx.Observable<Book>? {
-//        val r = service.list()
-//        val w = r.flatMap { bookResults -> Observable.from(bookResults.result) }
-//        var f = w.toString()
-//        logger("----pedrooooo")
-//        r.doOnNext { logger(it.toString()) }
-//        val x = w.map { book -> Book(book["L1OCl5lsfY6xrEOdlrt"]!!.id,book["L1OCl5lsfY6xrEOdlrt"]!!.name, book["L1OCl5lsfY6xrEOdlrt"]!!.author, book["L1OCl5lsfY6xrEOdlrt"]!!.artist, book["L1OCl5lsfY6xrEOdlrt"]!!.publisher, book["L1OCl5lsfY6xrEOdlrt"]!!.type, book["L1OCl5lsfY6xrEOdlrt"]!!.pages, book["L1OCl5lsfY6xrEOdlrt"]!!.category) }
-//        return x
+    fun findBook(id: String): rx.Observable<BookPresenter> {
+        return service.bookFind(id)
+                .flatMap { book ->
+                    Observable.zip(
+                            Observable.just(book),
+                            listRecords(book.id).toList(),
+                            { t1: Book?, t2: MutableList<Record>? -> BookPresenter.construct(t1, t2)  }
+                    )
+                }
+    }
 
+
+    fun listBooks(): rx.Observable<BookPresenter> {
         return service.booksList()
-                .flatMap { bookresult-> Observable.from(bookresult.values) }
-//                .map { book -> Book(book.id,book.name, book.author, book.artist, book.publisher, book.type, book.pages, book.category) }
+                .flatMap { bookResult -> Observable.from(bookResult.values)}
+                .flatMap { book ->
+                    Observable.zip(
+                            Observable.just(book),
+                            listRecords(book.id).toList(),
+                            {t1: Book?, t2: MutableList<Record>? -> BookPresenter.construct(t1,t2) }
+                    )
+                }
     }
 
     fun listRecords(bookId: String?): rx.Observable<Record> {
         return service.recordslist(bookId)
                 .flatMap { record -> Observable.from(record.values) }
-//                .flatMap { book: Book -> presenter.book = book; return@flatMap service.recordslist(book.id)}
     }
 }

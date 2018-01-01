@@ -1,5 +1,15 @@
 package com.readingtime.extensions
 
+import android.content.Context
+import android.support.annotation.LayoutRes
+import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import rx.android.schedulers.AndroidSchedulers
+import rx.functions.Action0
+import rx.functions.Action1
+import rx.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -38,4 +48,27 @@ fun Date.removeHMS(): Date {
     cal.set(Calendar.SECOND, 0)
     cal.set(Calendar.MILLISECOND, 0)
     return cal.time
+}
+
+fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
+    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+}
+
+
+fun AppCompatActivity.savePreference(key: Int, value: String) {
+    val sharedPref = this.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+    val editor = sharedPref.edit()
+    editor.putString(getString(key), value)
+    editor.commit()
+}
+
+fun AppCompatActivity.loadPreference(key: Int): String? {
+    val sharedPref = this.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+    return sharedPref.getString(getString(key),null)
+}
+
+fun <T> rx.Observable<T>.subMainThread(onNext: Action1<T>, onError: Action1<Throwable>, onCompleted: Action0) {
+    this?.observeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe(onNext, onError, onCompleted)
 }

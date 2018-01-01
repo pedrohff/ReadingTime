@@ -16,7 +16,7 @@ interface IBook {
 
 
     @GET("books/{id}.json")
-    fun bookFind(id: String): Observable<Book>
+    fun bookFind(@Path("id")id: String): Observable<Book>
 
     @GET("records/{bookId}.json")
     fun recordslist(@Path("bookId")bookId: String?): Observable<Map<String,Record>>
