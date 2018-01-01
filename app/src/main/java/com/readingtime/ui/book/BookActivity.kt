@@ -1,4 +1,4 @@
-package com.readingtime.view
+package com.readingtime.ui.book
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar

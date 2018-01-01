@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.readingtime.model.Preferences
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action0
 import rx.functions.Action1
@@ -55,10 +56,10 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
 }
 
 
-fun AppCompatActivity.savePreference(key: Int, value: String) {
+fun AppCompatActivity.savePreference(key: Preferences, value: String) {
     val sharedPref = this.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
     val editor = sharedPref.edit()
-    editor.putString(getString(key), value)
+    editor.putString(key.desc, value)
     editor.commit()
 }
 

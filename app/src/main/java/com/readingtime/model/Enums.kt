@@ -13,3 +13,7 @@ enum class BookCategory(val cat:String, val description:String) {
     ADVENTURE("ADV", "Adventure"),
     FANTASY("FTS", "Fantasy")
 }
+
+enum class Preferences(val desc: String) {
+    LAST_BOOK("PREF_LAST_BOOK")
+}

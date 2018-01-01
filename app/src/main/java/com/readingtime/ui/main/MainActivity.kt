@@ -1,4 +1,4 @@
-package com.readingtime.view
+package com.readingtime.ui.main
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -9,10 +9,11 @@ import com.readingtime.R
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.extensions.loadPreference
 import com.readingtime.model.Book
-import com.readingtime.model.BookPresenter
-import com.readingtime.model.retrofit.BookApi
-import com.readingtime.ui.BookAdapter
-import com.readingtime.ui.BookAdapter.OnClickListener
+import com.readingtime.model.BookUI
+import com.readingtime.model.remote.FirebaseProvider
+import com.readingtime.ui.booknew.BookNewActivity
+import com.readingtime.ui.main.MainAdapter.OnClickListener
+import com.readingtime.ui.recording.RecordActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -21,11 +22,10 @@ import rx.schedulers.Schedulers
 class MainActivity : AppCompatActivity() {
 
 
-
-    val api = BookApi()
+    val api = FirebaseProvider
     var currentBook: Book? = null
     lateinit var binding: ActivityMainBinding
-    var bookList: MutableList<BookPresenter> = mutableListOf()
+    var bookList: MutableList<BookUI> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,15 +33,15 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         fabNewBook.setOnClickListener {
-            var intent:Intent = Intent(this, NewBookActivity::class.java)
+            var intent: Intent = Intent(this, BookNewActivity::class.java)
             startActivity(intent)
         }
 
 
         cvCurrent.setOnClickListener {
             var intent:Intent = Intent(this, RecordActivity::class.java)
-            intent.putExtra("BOOK", binding.bpresenter?.book)
-            intent.putExtra("RECORD", binding.bpresenter?.lastRecord)
+            intent.putExtra(RecordActivity.BOOK, binding.bpresenter?.book)
+            intent.putExtra(RecordActivity.RECORD, binding.bpresenter?.lastRecord)
             startActivity(intent)
         }
         setAdapter()
@@ -50,11 +50,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateBookList()
-        getHighlighted()
+        showBookList()
+        showHighlighted()
     }
 
-    private fun updateBookList() {
+    private fun showBookList() {
         api.listBooks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -68,11 +68,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        rvBookList.adapter = BookAdapter(bookList, this, object: OnClickListener {
-            override fun onItemClick(item: BookPresenter) {
+        rvBookList.adapter = MainAdapter(bookList, object : OnClickListener {
+            override fun onItemClick(item: BookUI) {
                 var intent: Intent = Intent(this@MainActivity, RecordActivity::class.java)
-                intent.putExtra("BOOK", item.book)
-                intent.putExtra("RECORD", item.lastRecord)
+                intent.putExtra(RecordActivity.BOOK, item.book)
+                intent.putExtra(RecordActivity.RECORD, item.lastRecord)
                 this@MainActivity.startActivity(intent)
             }
         })
@@ -83,9 +83,9 @@ class MainActivity : AppCompatActivity() {
         rvBookList.layoutManager = LinearLayoutManager(this)
     }
 
-    fun getHighlighted() {
+    fun showHighlighted() {
         val id = loadPreference(R.string.pref_last_book)
-        lateinit var bookAux: BookPresenter
+        lateinit var bookAux: BookUI
         if (id != null) {
             api.findBook(id).subscribeOn(Schedulers.io())
                     ?.observeOn(AndroidSchedulers.mainThread())

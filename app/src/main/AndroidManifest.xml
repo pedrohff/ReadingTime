@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,13 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.NewBookActivity"
+            android:name=".ui.booknew.BookNewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.RecordActivity"
+            android:name=".ui.recording.RecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.BookActivity"
+            android:name=".ui.book.BookActivity"
             android:label="@string/title_activity_book"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

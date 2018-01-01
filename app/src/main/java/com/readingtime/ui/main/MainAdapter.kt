@@ -1,34 +1,32 @@
-package com.readingtime.ui
+package com.readingtime.ui.main
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.readingtime.R
 import com.readingtime.extensions.inflate
-import com.readingtime.model.BookPresenter
+import com.readingtime.model.BookUI
 
 /**
  * Created by pedro on 31/12/17.
  */
 
 
-
-class BookAdapter(private val books: MutableList<BookPresenter>, private val context: Context, var listener: OnClickListener ) : RecyclerView.Adapter<BookAdapter.BookHolder>(){
+class MainAdapter(private val books: MutableList<BookUI>, private var listener: OnClickListener) : RecyclerView.Adapter<MainAdapter.BookHolder>() {
     interface OnClickListener {
-        fun onItemClick(item: BookPresenter)
+        fun onItemClick(item: BookUI)
     }
     override fun getItemCount(): Int {
         return books.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BookAdapter.BookHolder {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BookHolder {
         val inflatedView = parent!!.inflate(R.layout.item_book)
         return BookHolder(inflatedView)
     }
 
-    override fun onBindViewHolder(holder: BookAdapter.BookHolder?, position: Int) {
+    override fun onBindViewHolder(holder: BookHolder?, position: Int) {
         val book = books[position]
         if(holder !=null && book.book!=null){
             holder.bindView(book, listener)
@@ -37,16 +35,8 @@ class BookAdapter(private val books: MutableList<BookPresenter>, private val con
 
 
     class BookHolder(v: View) : RecyclerView.ViewHolder(v) {
-//        override fun onClick(v: View?) {
-//            var layout: CoordinatorLayout? = v?.findViewById(R.id.activity_main)
-//
-//            if(layout!=null) {
-//                Snackbar.make(layout, adapterPosition.toString(), Snackbar.LENGTH_SHORT)
-//            }
-//
-//        }
 
-        fun bindView(book: BookPresenter, listener: OnClickListener) {
+        fun bindView(book: BookUI, listener: OnClickListener) {
             presenter = book
             bookName.text = book.book?.name
             bookHours.text = book.timeRead
@@ -57,7 +47,7 @@ class BookAdapter(private val books: MutableList<BookPresenter>, private val con
             }
         }
 
-        lateinit var presenter: BookPresenter
+        lateinit var presenter: BookUI
         val bookName: TextView = v.findViewById(R.id.tvItemBookName)
         val bookPercentage: TextView = v.findViewById(R.id.tvItemBookPerc)
         val bookHours: TextView = v.findViewById(R.id.tvItemBookHours)

@@ -1,4 +1,4 @@
-package com.readingtime.model.retrofit
+package com.readingtime.model.remote
 
 import com.readingtime.model.Book
 import com.readingtime.model.Record
@@ -9,11 +9,14 @@ import rx.Observable
 /**
  * Created by pedro on 29/12/17.
  */
-interface IBook {
+interface FirebaseService {
+
+    companion object {
+        val FIREBASE_URL = "https://pizzagent-e12b9.firebaseio.com/"
+    }
 
     @GET("books.json")
     fun booksList(): Observable<Map<String, Book>>
-
 
     @GET("books/{id}.json")
     fun bookFind(@Path("id")id: String): Observable<Book>
@@ -23,4 +26,5 @@ interface IBook {
 
     @GET("records/{bookId}/{recordId}.json")
     fun recordsFind(@Path("bookId")bookId:String, recordId:String): Observable<Record>
+
 }

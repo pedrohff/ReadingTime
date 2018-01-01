@@ -2,7 +2,6 @@ package com.readingtime.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.readingtime.extensions.millisToString
 
 /**
  * Created by pedro on 26/12/17.
@@ -47,24 +46,6 @@ data class Book(var id:String="",
 
         override fun newArray(size: Int): Array<Book?> {
             return arrayOfNulls(size)
-        }
-    }
-}
-
-data class BookPresenter (var book: Book?,
-                          var lastRecord: Record?,
-                          var timeRead: String,
-                          var percentage: String){
-    companion object {
-        fun construct(book: Book?, records: List<Record>?): BookPresenter {
-            val lastRecord = records?.last()
-            var percentage = "0%"
-            if(book!=null && lastRecord!=null) {
-                percentage = String.format("%d%%", lastRecord.pageStopped * 100 / book.pages)
-            }
-            val millis: Long? = records?.fold(0, {acc:Long, record -> acc+record.milisRead })
-            val timeString = millisToString(millis)
-            return BookPresenter(book,records?.last(), timeString, percentage)
         }
     }
 }

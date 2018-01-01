@@ -1,4 +1,4 @@
-package com.readingtime.ui
+package com.readingtime.ui.recording
 
 import android.app.DialogFragment
 import android.os.Bundle

@@ -1,7 +1,25 @@
 <resources>
     <string name="app_name">Reading Time</string>
 
-
+    <!--SHARED PREFERENCES-->
     <string name="pref_last_book">PREF_LAST_BOOK</string>
     <string name="title_activity_book">BookActivity</string>
+
+    <!--INTERNATIONALIZATION-->
+    <string name="counter_start">Start</string>
+    <string name="counter_pause">Pause</string>
+    <string name="counter_resume">Resume</string>
+
+    <string name="reading">Reading</string>
+    <string name="num_pages">Number of Pages</string>
+    <string name="book_name">Book Name</string>
+    <string name="book_author">Author</string>
+    <string name="book_artist">Artist</string>
+    <string name="book_publisher">Publisher</string>
+    <string name="book_page_stopped">Page Stopped</string>
+
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="send">Send</string>
+
 </resources>

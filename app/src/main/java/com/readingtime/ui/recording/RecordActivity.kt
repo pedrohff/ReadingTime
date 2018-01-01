@@ -1,4 +1,4 @@
-package com.readingtime.view
+package com.readingtime.ui.recording
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -10,12 +10,17 @@ import com.readingtime.databinding.ActivityRecordBinding
 import com.readingtime.extensions.removeHMS
 import com.readingtime.extensions.savePreference
 import com.readingtime.model.Book
+import com.readingtime.model.Preferences
 import com.readingtime.model.Record
-import com.readingtime.ui.PageNumberDialog
 import kotlinx.android.synthetic.main.activity_record.*
 import java.util.*
 
 class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListener {
+
+    companion object {
+        val BOOK = "BOOKRECORDACTIVITY"
+        val RECORD = "RECORDRECORDACTIVITY"
+    }
 
     var isRunning = false
     lateinit var book: Book
@@ -30,8 +35,8 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record)
-        book = intent.getParcelableExtra("BOOK")
-        lastRecord = intent.getParcelableExtra("RECORD")
+        book = intent.getParcelableExtra(BOOK)
+        lastRecord = intent.getParcelableExtra(RECORD)
 
         binding.book = book
 
@@ -43,19 +48,19 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     fun startStopTimer() {
 
         if(firstClick) {
-            savePreference(R.string.pref_last_book, book.id)
+            savePreference(Preferences.LAST_BOOK, book.id)
             firstClick = false
         }
 
         if (isRunning){
             timeaux = counter.base - SystemClock.elapsedRealtime()
             counter.stop()
-            btStartStop.text = "Resume" //TODO("strings.xml")
+            btStartStop.text = getString(R.string.counter_resume)
             isRunning = !isRunning
         } else {
             counter.base = SystemClock.elapsedRealtime() + timeaux
             counter.start()
-            btStartStop.text = "Pause" //TODO("strings.xml")
+            btStartStop.text = getString(R.string.counter_pause)
             isRunning = !isRunning
         }
 
