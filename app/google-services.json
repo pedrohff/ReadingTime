@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "829794795770",
+    "firebase_url": "https://pizzagent-e12b9.firebaseio.com",
+    "project_id": "pizzagent-e12b9",
+    "storage_bucket": "pizzagent-e12b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829794795770:android:68c200760dfff5f9",
+        "android_client_info": {
+          "package_name": "com.example.pedro.readingtime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829794795770-36ql2p62t25idkjikh97sbrttjmc9m62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBydqzh5pY7VhLTd2WWHXJLptCnqZHZs4g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829794795770:android:02abd4d2c0b5af36",
+        "android_client_info": {
+          "package_name": "com.readingtime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829794795770-36ql2p62t25idkjikh97sbrttjmc9m62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBydqzh5pY7VhLTd2WWHXJLptCnqZHZs4g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
