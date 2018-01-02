@@ -9,6 +9,7 @@
 .externalNativeBuild
 
 app/google-services.json
+app/src/main/java/com/readingtime/google-services.json
 # Created by https://www.gitignore.io/api/android,java,macos
 
 ### Android ###
