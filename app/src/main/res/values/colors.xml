@@ -5,4 +5,18 @@
     <color name="colorAccent">#ff4dc4</color>
     <color name="ye1">#ffed4d</color>
     <color name="red1">#ff4d53</color>
+
+    <color name="hours_read">#90a5af</color>
+    <color name="percentage20">#91a992</color>
+    <color name="percentage40">#86B673</color>
+    <color name="percentage60">#7BC355</color>
+    <color name="percentage80">#6FD036</color>
+    <color name="percentage100">#64dd17</color>
+
+    <color name="greybackground">#5d6360</color>
+    <color name="greyaccent">#67c08a</color>
+    <color name="brownaccent">#948079</color>
+    <color name="greyfont">#dadcdb</color>
+    <color name="bluelight">#90a5af</color>
+    <color name="green">#67c08a</color>
 </resources>

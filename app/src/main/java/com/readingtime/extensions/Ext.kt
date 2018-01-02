@@ -23,13 +23,13 @@ fun millisToString(millis: Long?):String {
     if(millis==null)
         return "0:00min"
 
-    if(millis > hour) {
-        return String.format("%d:%dh",
+    return if (millis > hour) {
+        String.format("%d:%dh",
                 TimeUnit.MILLISECONDS.toHours(millis),
                 TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))
         )
     } else {
-        return String.format("%d:%dmin",
+        String.format("%d:%dmin",
                 TimeUnit.MILLISECONDS.toMinutes(millis),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
         )
@@ -60,7 +60,7 @@ fun AppCompatActivity.savePreference(key: Preferences, value: String) {
     val sharedPref = this.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
     val editor = sharedPref.edit()
     editor.putString(key.desc, value)
-    editor.commit()
+    editor.apply()
 }
 
 fun AppCompatActivity.loadPreference(key: Int): String? {
@@ -69,6 +69,7 @@ fun AppCompatActivity.loadPreference(key: Int): String? {
 }
 
 fun <T> rx.Observable<T>.subMainThread(onNext: Action1<T>, onError: Action1<Throwable>, onCompleted: Action0) {
+    TODO("verify parameters")
     this.observeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe(onNext, onError, onCompleted)

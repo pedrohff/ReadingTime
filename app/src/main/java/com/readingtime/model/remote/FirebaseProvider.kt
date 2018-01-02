@@ -55,7 +55,7 @@ object FirebaseProvider {
     }
 
     fun updateBook(book: Book) {
-
+        TODO("not implemented")
     }
 
     fun findBook(id: String): rx.Observable<BookUI> {
