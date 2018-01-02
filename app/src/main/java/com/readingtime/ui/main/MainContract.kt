@@ -17,6 +17,8 @@ interface MainContract {
         fun getViewBookList(): LinkedHashMap<String, BookUI>
         fun getViewAdapter(): RecyclerView.Adapter<*>?
         fun getViewBinding(): ActivityMainBinding
+        fun loadHighlightedImage(url: String)
+        fun updateHighlightedPercentage(percentage: Int)
     }
 
     interface Presenter {

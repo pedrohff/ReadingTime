@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Reading Time</string>
+    <string name="app_name" translatable="false">Reading Time</string>
 
     <!--SHARED PREFERENCES-->
-    <string name="pref_last_book">PREF_LAST_BOOK</string>
-    <string name="title_activity_book">BookActivity</string>
+    <string name="pref_last_book" translatable="false">PREF_LAST_BOOK</string>
+    <string name="title_activity_book" translatable="false">BookActivity</string>
 
     <!--INTERNATIONALIZATION-->
     <string name="counter_start">Start</string>
@@ -21,5 +21,7 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="send">Send</string>
+    <string name="hours_read">Time Read</string>
+    <string name="progress">Progress</string>
 
 </resources>

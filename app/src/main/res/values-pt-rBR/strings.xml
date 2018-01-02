@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="counter_start">Iniciar</string>
+    <string name="counter_pause">Pausar</string>
+    <string name="counter_resume">Continuar</string>
+    <string name="reading">Lendo</string>
+    <string name="num_pages">Número de Páginas</string>
+    <string name="book_name">Nome do Livro</string>
+    <string name="book_author">Autor</string>
+    <string name="book_artist">Artista</string>
+    <string name="book_publisher">Editora</string>
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="send">Enviar</string>
+    <string name="hours_read">Tempo Lendo</string>
+    <string name="progress">Progresso</string>
+    <string name="book_page_stopped">Ultima Página</string>
+</resources>

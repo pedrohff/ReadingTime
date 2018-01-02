@@ -25,6 +25,8 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
                         e.printStackTrace()
                     }, {
                         view.getViewBinding().bpresenter = bookAux
+                        view.loadHighlightedImage(bookAux.book!!.coverURL)
+                        view.updateHighlightedPercentage(bookAux.percentage.split("%")[0].toInt())
                     })
         }
     }

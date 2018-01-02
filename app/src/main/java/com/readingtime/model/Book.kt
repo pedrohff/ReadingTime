@@ -13,7 +13,8 @@ data class Book(var id:String="",
                 var publisher:String="",
                 var type:String="",
                 var pages:Int=0,
-                var category:String="") : Parcelable {
+                var category: String = "",
+                var coverURL: String = "") : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
@@ -22,6 +23,7 @@ data class Book(var id:String="",
             parcel.readString(),
             parcel.readString(),
             parcel.readInt(),
+            parcel.readString(),
             parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -33,6 +35,7 @@ data class Book(var id:String="",
         parcel.writeString(type)
         parcel.writeInt(pages)
         parcel.writeString(category)
+        parcel.writeString(coverURL)
     }
 
     override fun describeContents(): Int {

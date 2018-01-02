@@ -13,11 +13,9 @@ class ApplicationContextProvider : Application() {
         super.onCreate()
 
         context = applicationContext
-
     }
 
     companion object {
-
         lateinit var context: Context
             private set
     }
