@@ -13,8 +13,9 @@ import android.widget.ImageView
 import com.readingtime.R
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.extensions.getPercentageColor
-import com.readingtime.extensions.loadPreference
+import com.readingtime.extensions.loadPreferenceString
 import com.readingtime.model.BookUI
+import com.readingtime.model.Preferences
 import com.readingtime.ui.booknew.BookNewActivity
 import com.readingtime.ui.recording.RecordActivity
 import com.squareup.picasso.Callback
@@ -46,13 +47,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         presenter = MainPresenter(this)
-        highlightedId = loadPreference(R.string.pref_last_book)
+        highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
         createButtonListeners()
         createAdapter()
     }
 
     override fun onResume() {
         super.onResume()
+        highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
         presenter.loadHighlighted(highlightedId)
         presenter.loadAllBooks()
     }
@@ -85,31 +87,38 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             }
         })
 
-        rvBookList.layoutManager = LinearLayoutManager(this)
+        val mLayoutManager = LinearLayoutManager(this)
+        mLayoutManager.reverseLayout = true
+        mLayoutManager.stackFromEnd = true
+        rvBookList.layoutManager = mLayoutManager
     }
 
     override fun loadHighlightedImage(url: String) {
         var img = ImageView(this)
         var width = Resources.getSystem().displayMetrics.widthPixels
         var height: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 160f, Resources.getSystem().displayMetrics).toInt()
-        Picasso.with(this)
-                .load(url)
-                .resize(width, height)
-                .centerCrop()
-                .into(img, object : Callback {
-                    override fun onSuccess() {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            cvCurrent.background = img.drawable
-                        } else {
-                            cvCurrent.setBackgroundDrawable(img.drawable)
+        if (url != null && url != "") {
+            Picasso.with(this)
+                    .load(url)
+                    .resize(width, height)
+                    .centerCrop()
+                    .into(img, object : Callback {
+                        override fun onSuccess() {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                cvCurrent.background = img.drawable
+                            } else {
+                                cvCurrent.setBackgroundDrawable(img.drawable)
+                            }
                         }
-                    }
 
-                    override fun onError() {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
+                        override fun onError() {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
 
-                })
+                    })
+        } else {
+            TODO("PLACEHOLDER IMG")
+        }
     }
 
     override fun updateHighlightedPercentage(percentage: Int) {

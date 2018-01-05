@@ -15,5 +15,6 @@ enum class BookCategory(val cat:String, val description:String) {
 }
 
 enum class Preferences(val desc: String) {
-    LAST_BOOK("PREF_LAST_BOOK")
+    LAST_BOOK("PREF_LAST_BOOK"),
+    LAST_MILLIS("PREF_LAST_MILLIS")
 }

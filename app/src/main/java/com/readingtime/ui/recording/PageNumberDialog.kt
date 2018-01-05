@@ -1,12 +1,15 @@
 package com.readingtime.ui.recording
 
 import android.app.DialogFragment
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.readingtime.R
 import kotlinx.android.synthetic.main.dialog_numpage.*
@@ -24,12 +27,20 @@ class PageNumberDialog : DialogFragment(), TextView.OnEditorActionListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val imm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        } else {
+            null
+        }
         val view = inflater!!.inflate(R.layout.dialog_numpage, container)
         dialog.setTitle("Test")
 
         view.etPageStopped.requestFocus()
         view.etPageStopped.setOnEditorActionListener(this)
 
+        if (imm is InputMethodManager) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+        }
         return view
     }
 

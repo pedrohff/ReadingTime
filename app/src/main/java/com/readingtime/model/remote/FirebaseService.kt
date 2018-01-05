@@ -4,6 +4,7 @@ import com.readingtime.model.Book
 import com.readingtime.model.Record
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import rx.Observable
 
 /**
@@ -22,7 +23,12 @@ interface FirebaseService {
     fun bookFind(@Path("id")id: String): Observable<Book>
 
     @GET("records/{bookId}.json")
-    fun recordslist(@Path("bookId")bookId: String?): Observable<Map<String,Record>>
+    fun recordslist(@Path("bookId")
+                    bookId: String?,
+                    @Query("orderBy")
+                    orderBy: String = "\"\$key\"",
+                    @Query("limitToLast")
+                    limit: Int = 10): Observable<Map<String, Record>>
 
     @GET("records/{bookId}/{recordId}.json")
     fun recordsFind(@Path("bookId")bookId:String, recordId:String): Observable<Record>

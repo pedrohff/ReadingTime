@@ -45,8 +45,8 @@ object FirebaseProvider {
         fbRef = FirebaseDatabase.getInstance().reference
     }
 
-    fun saveBook(book: Book) {
-        val key = fbRef.push().key
+    fun saveBook(book: Book, provKey: String? = null) {
+        val key: String = if (provKey == null) fbRef.push().key else provKey
         book.id = key
         fbRef.child("books").child(key).setValue(book)
 

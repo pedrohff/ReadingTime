@@ -58,9 +58,21 @@ fun AppCompatActivity.savePreference(key: Preferences, value: String) {
     editor.apply()
 }
 
-fun AppCompatActivity.loadPreference(key: Int): String? {
+fun AppCompatActivity.savePreference(key: Preferences, value: Long) {
     val sharedPref = this.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
-    return sharedPref.getString(getString(key),null)
+    val editor = sharedPref.edit()
+    editor.putLong(key.desc, value)
+    editor.apply()
+}
+
+fun AppCompatActivity.loadPreferenceString(preference: Preferences): String? {
+    val sharedPref = this.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+    return sharedPref.getString(preference.desc, null)
+}
+
+fun AppCompatActivity.loadPreferenceLong(preference: Preferences): Long {
+    val sharedPref = this.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+    return sharedPref.getLong(preference.desc, 0L)
 }
 
 fun <T> rx.Observable<T>.subMainThread(onNext: Action1<T>, onError: Action1<Throwable>, onCompleted: Action0) {

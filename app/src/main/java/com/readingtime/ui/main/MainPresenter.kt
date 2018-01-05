@@ -1,7 +1,6 @@
 package com.readingtime.ui.main
 
 import com.readingtime.model.BookUI
-import com.readingtime.model.Record
 import com.readingtime.model.remote.FirebaseProvider
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -12,7 +11,6 @@ import rx.schedulers.Schedulers
 class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
 
     val api = FirebaseProvider
-    var recordCache = mutableMapOf<String, Record>()
 
     override fun loadHighlighted(bookId: String?) {
         lateinit var bookAux: BookUI
@@ -43,14 +41,4 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
                     view.getViewAdapter()?.notifyDataSetChanged()
                 })
     }
-
-//    private fun getCache(bookId: String): Observable<Record> {
-//        return Observable.from(recordCache.keys)
-//                .filter{
-//                    key -> key == bookId
-//                }
-//                .map {
-//                    key -> boo
-//                }
-//    }
 }

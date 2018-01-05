@@ -3,6 +3,8 @@
 
     <!--SHARED PREFERENCES-->
     <string name="pref_last_book" translatable="false">PREF_LAST_BOOK</string>
+    <string name="pref_last_millis" translatable="false">PREF_LAST_MILLIS</string>
+
     <string name="title_activity_book" translatable="false">BookActivity</string>
 
     <!--INTERNATIONALIZATION-->
