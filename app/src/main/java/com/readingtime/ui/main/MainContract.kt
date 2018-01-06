@@ -1,6 +1,5 @@
 package com.readingtime.ui.main
 
-import android.support.v7.widget.RecyclerView
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.model.UserBook
 
@@ -14,11 +13,11 @@ interface MainContract {
         fun loadHighlightedBookId(): String?
         fun createAdapter()
 
-        fun getViewBookList(): LinkedHashMap<String, UserBook>
-        fun getViewAdapter(): RecyclerView.Adapter<*>?
+        fun getViewBookMap(): LinkedHashMap<String, UserBook>
         fun getViewBinding(): ActivityMainBinding
         fun loadHighlightedImage(url: String)
         fun updateHighlightedPercentage(percentage: Int)
+        fun updateAdapter()
     }
 
     interface Presenter {

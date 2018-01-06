@@ -34,11 +34,11 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ uBook ->
-                    view.getViewBookList().put(uBook.id, uBook)
+                    view.getViewBookMap().put(uBook.id, uBook)
                 }, { e ->
                     e.printStackTrace()
                 }, {
-                    view.getViewAdapter()?.notifyDataSetChanged()
+                    view.updateAdapter()
                 })
     }
 }

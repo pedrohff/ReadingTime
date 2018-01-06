@@ -15,7 +15,7 @@ import com.readingtime.model.UserBook
  */
 
 
-class MainAdapter(private val books: MutableCollection<UserBook>, private var listener: OnClickListener) : RecyclerView.Adapter<MainAdapter.BookHolder>() {
+class MainAdapter(private val books: List<UserBook>, private var listener: OnClickListener) : RecyclerView.Adapter<MainAdapter.BookHolder>() {
     interface OnClickListener {
         fun onItemClick(item: UserBook)
     }

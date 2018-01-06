@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.widget.ImageView
 import com.readingtime.R
@@ -27,7 +26,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     lateinit var binding: ActivityMainBinding
     lateinit var presenter: MainContract.Presenter
-    var bookList: LinkedHashMap<String, UserBook> = linkedMapOf()
+    var bookMap: LinkedHashMap<String, UserBook> = linkedMapOf()
+    var bookList: MutableList<UserBook> = mutableListOf()
     var highlightedId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun createAdapter() {
-        rvBookList.adapter = MainAdapter(bookList.values, object : MainAdapter.OnClickListener {
+        rvBookList.adapter = MainAdapter(bookList, object : MainAdapter.OnClickListener {
             override fun onItemClick(item: UserBook) {
                 var intent = Intent(this@MainActivity, RecordActivity::class.java)
                 intent.putExtra(RecordActivity.BOOK, item)
@@ -114,13 +114,16 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         ivProgressIcon.setColorFilter(color)
     }
 
-    override fun getViewBookList(): LinkedHashMap<String, UserBook> {
-        return bookList
+    override fun updateAdapter() {
+        bookList.clear()
+        bookList.addAll(bookMap.values.sortedWith(compareBy({ it.lastVisit })))
+        rvBookList.adapter.notifyDataSetChanged()
     }
 
-    override fun getViewAdapter(): RecyclerView.Adapter<*>? {
-        return rvBookList.adapter
+    override fun getViewBookMap(): LinkedHashMap<String, UserBook> {
+        return bookMap
     }
+
 
     override fun getViewBinding(): ActivityMainBinding {
         return binding

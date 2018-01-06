@@ -119,7 +119,7 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
 
         uBook.pageStopped = pagenum
         uBook.lastVisit = Date().time
-        uBook.timeRead = timecounter
+        uBook.timeRead += timecounter
 
         if (uBook.pageStopped == uBook.book.pages) {
             uBook.dateFinished = Date().time
