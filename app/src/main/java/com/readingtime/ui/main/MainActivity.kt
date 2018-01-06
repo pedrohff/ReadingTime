@@ -14,8 +14,8 @@ import com.readingtime.R
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.extensions.getPercentageColor
 import com.readingtime.extensions.loadPreferenceString
-import com.readingtime.model.BookUI
 import com.readingtime.model.Preferences
+import com.readingtime.model.UserBook
 import com.readingtime.ui.booknew.BookNewActivity
 import com.readingtime.ui.recording.RecordActivity
 import com.squareup.picasso.Callback
@@ -24,23 +24,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), MainContract.View {
-    override fun getViewBookList(): LinkedHashMap<String, BookUI> {
-        return bookList
-    }
-
-    override fun getViewAdapter(): RecyclerView.Adapter<*>? {
-        return rvBookList.adapter
-    }
-
-    override fun getViewBinding(): ActivityMainBinding {
-        return binding
-    }
 
     lateinit var binding: ActivityMainBinding
-    var bookList: LinkedHashMap<String, BookUI> = linkedMapOf()
     lateinit var presenter: MainContract.Presenter
+    var bookList: LinkedHashMap<String, UserBook> = linkedMapOf()
     var highlightedId: String? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +55,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         cvCurrent.setOnClickListener {
             var intent = Intent(this, RecordActivity::class.java)
-            intent.putExtra(RecordActivity.BOOK, binding.bpresenter?.book)
-            intent.putExtra(RecordActivity.RECORD, binding.bpresenter?.lastRecord)
+            intent.putExtra(RecordActivity.BOOK, binding.uBook)
             startActivity(intent)
         }
     }
@@ -79,10 +66,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun createAdapter() {
         rvBookList.adapter = MainAdapter(bookList.values, object : MainAdapter.OnClickListener {
-            override fun onItemClick(item: BookUI) {
+            override fun onItemClick(item: UserBook) {
                 var intent = Intent(this@MainActivity, RecordActivity::class.java)
-                intent.putExtra(RecordActivity.BOOK, item.book)
-                intent.putExtra(RecordActivity.RECORD, item.lastRecord)
+                intent.putExtra(RecordActivity.BOOK, item)
                 this@MainActivity.startActivity(intent)
             }
         })
@@ -117,7 +103,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
                     })
         } else {
-            TODO("PLACEHOLDER IMG")
+            //TODO("PLACEHOLDER IMG")
         }
     }
 
@@ -126,6 +112,18 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         tvBookperc.setTextColor(color)
         tvProgressText.setTextColor(color)
         ivProgressIcon.setColorFilter(color)
+    }
+
+    override fun getViewBookList(): LinkedHashMap<String, UserBook> {
+        return bookList
+    }
+
+    override fun getViewAdapter(): RecyclerView.Adapter<*>? {
+        return rvBookList.adapter
+    }
+
+    override fun getViewBinding(): ActivityMainBinding {
+        return binding
     }
 }
 

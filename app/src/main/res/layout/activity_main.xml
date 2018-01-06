@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="bpresenter"
-            type="com.readingtime.model.BookUI" />
+            name="uBook"
+            type="com.readingtime.model.UserBook" />
     </data>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/activity_main"
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="@{bpresenter.timeRead}"
+                    android:text="@{uBook.timeString}"
                     android:textColor="@color/hours_read"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toTopOf="@+id/tvBookperc"
@@ -55,7 +55,7 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="@{bpresenter.percentage}"
+                    android:text="@{uBook.percString}"
                     android:textColor="@color/percentage20"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"

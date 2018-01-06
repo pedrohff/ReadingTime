@@ -8,16 +8,16 @@ import android.widget.TextView
 import com.readingtime.R
 import com.readingtime.extensions.getPercentageColor
 import com.readingtime.extensions.inflate
-import com.readingtime.model.BookUI
+import com.readingtime.model.UserBook
 
 /**
  * Created by pedro on 31/12/17.
  */
 
 
-class MainAdapter(private val books: MutableCollection<BookUI>, private var listener: OnClickListener) : RecyclerView.Adapter<MainAdapter.BookHolder>() {
+class MainAdapter(private val books: MutableCollection<UserBook>, private var listener: OnClickListener) : RecyclerView.Adapter<MainAdapter.BookHolder>() {
     interface OnClickListener {
-        fun onItemClick(item: BookUI)
+        fun onItemClick(item: UserBook)
     }
     override fun getItemCount(): Int {
         return books.size
@@ -29,8 +29,8 @@ class MainAdapter(private val books: MutableCollection<BookUI>, private var list
     }
 
     override fun onBindViewHolder(holder: BookHolder?, position: Int) {
-        val book: BookUI = books.elementAt(position)
-        if(holder !=null && book.book!=null){
+        val book: UserBook = books.elementAt(position)
+        if (holder != null) {
             holder.bindView(book, listener)
         }
     }
@@ -38,23 +38,37 @@ class MainAdapter(private val books: MutableCollection<BookUI>, private var list
 
     class BookHolder(v: View) : RecyclerView.ViewHolder(v) {
 
-        fun bindView(book: BookUI, listener: OnClickListener) {
-            presenter = book
-            bookName.text = book.book?.name
-            bookHours.text = book.timeRead
-            bookPercentage.text = book.percentage
+        //        fun bindView(uBook: BookUI, listener: OnClickListener) {
+//            presenter = uBook
+//            bookName.text = uBook.uBook?.name
+//            bookHours.text = uBook.timeRead
+//            bookPercentage.text = uBook.percentage
+//
+//            this.itemView.setOnClickListener {
+//                listener.onItemClick(presenter)
+//            }
+//            val percentage = uBook.percentage.split("%")[0].toInt()
+//            val color = getPercentageColor(percentage)
+//            percImg.setColorFilter(color)
+//            bookPercentage.setTextColor(color)
+//        }
+        fun bindView(uBook: UserBook, listener: OnClickListener) {
+            presenter = uBook
+            bookName.text = uBook.book.name
+            bookHours.text = uBook.getTimeString()
+            bookPercentage.text = uBook.getPercString()
 
             this.itemView.setOnClickListener {
                 listener.onItemClick(presenter)
             }
-            val percentage = book.percentage.split("%")[0].toInt()
+            val percentage = uBook.getPerc()
             val color = getPercentageColor(percentage)
             percImg.setColorFilter(color)
             bookPercentage.setTextColor(color)
         }
 
 
-        lateinit var presenter: BookUI
+        lateinit var presenter: UserBook
         val bookName: TextView = v.findViewById(R.id.tvItemBookName)
         val bookPercentage: TextView = v.findViewById(R.id.tvItemBookPerc)
         val bookHours: TextView = v.findViewById(R.id.tvItemBookHours)

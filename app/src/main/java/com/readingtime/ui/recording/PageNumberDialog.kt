@@ -33,14 +33,18 @@ class PageNumberDialog : DialogFragment(), TextView.OnEditorActionListener {
             null
         }
         val view = inflater!!.inflate(R.layout.dialog_numpage, container)
-        dialog.setTitle("Test")
 
         view.etPageStopped.requestFocus()
-        view.etPageStopped.setOnEditorActionListener(this)
+        view.etPageStopped.postDelayed(object : Runnable {
+            override fun run() {
+                if (imm is InputMethodManager) {
+                    imm.showSoftInput(view.etPageStopped, InputMethodManager.SHOW_IMPLICIT)
+                    view.etPageStopped.setOnEditorActionListener(this@PageNumberDialog)
+                }
+            }
 
-        if (imm is InputMethodManager) {
-            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
-        }
+        }, 300)
+
         return view
     }
 

@@ -65,7 +65,7 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Please select the book cover"), 7) //TODO("Strings")
+            startActivityForResult(Intent.createChooser(intent, "Please select the uBook cover"), 7) //TODO("Strings")
         }
     }
 
@@ -104,7 +104,7 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             finish()
         } else {
             Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show()
-            Log.e("NPE", "Trying to save null book")
+            Log.e("NPE", "Trying to save null uBook")
         }
     }
 
@@ -127,7 +127,7 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 btUpload.text = "Image Selected" //TODO("Strings")
 
                 val mb = (bitmap.byteCount / 1048576).toString()
-                tvFilesize.text = "File size: " + mb
+                tvFilesize.text = "File size: " + bitmap.byteCount
 
                 uploadImageFileToFirebaseStorage()
             } catch (e: IOException) {
