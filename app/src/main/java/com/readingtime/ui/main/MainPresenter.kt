@@ -2,6 +2,7 @@ package com.readingtime.ui.main
 
 import com.readingtime.model.UserBook
 import com.readingtime.model.remote.FirebaseProvider
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
@@ -12,10 +13,10 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
 
     val api = FirebaseProvider
 
-    override fun loadHighlighted(bookId: String?) {
+    override fun loadHighlighted(bookId: String?): Subscription? {
         lateinit var bookAux: UserBook
         if (bookId != null) {
-            api.findUserBook(bookId = bookId).subscribeOn(Schedulers.io())
+            return api.findUserBook(bookId = bookId).subscribeOn(Schedulers.io())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe({ bookPres ->
                         bookAux = bookPres
@@ -27,10 +28,12 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
                         view.updateHighlightedPercentage(bookAux.getPerc())
                     })
         }
+
+        return null
     }
 
-    override fun loadAllBooks() {
-        api.listUserBooks()
+    override fun loadAllBooks(): Subscription? {
+        return api.listUserBooks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ uBook ->
@@ -41,4 +44,5 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
                     view.updateAdapter()
                 })
     }
+
 }

@@ -2,6 +2,7 @@ package com.readingtime.ui.main
 
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.model.UserBook
+import rx.Subscription
 
 /**
  * Created by pedro on 02/01/18.
@@ -21,7 +22,7 @@ interface MainContract {
     }
 
     interface Presenter {
-        fun loadHighlighted(bookId: String?)
-        fun loadAllBooks()
+        fun loadHighlighted(bookId: String?): Subscription?
+        fun loadAllBooks(): Subscription?
     }
 }

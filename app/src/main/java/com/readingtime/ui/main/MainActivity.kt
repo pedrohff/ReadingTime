@@ -20,6 +20,7 @@ import com.readingtime.ui.recording.RecordActivity
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import rx.Subscription
 
 
 class MainActivity : AppCompatActivity(), MainContract.View {
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     var bookMap: LinkedHashMap<String, UserBook> = linkedMapOf()
     var bookList: MutableList<UserBook> = mutableListOf()
     var highlightedId: String? = null
+    var subHighlighted: Subscription? = null
+    var subBookUserList: Subscription? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +46,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onResume() {
         super.onResume()
         highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
-        presenter.loadHighlighted(highlightedId)
-        presenter.loadAllBooks()
+        subHighlighted = presenter.loadHighlighted(highlightedId)
+        subBookUserList = presenter.loadAllBooks()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        subHighlighted?.unsubscribe()
+        subBookUserList?.unsubscribe()
     }
 
     override fun createButtonListeners() {

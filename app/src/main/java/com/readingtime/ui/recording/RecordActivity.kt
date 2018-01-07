@@ -20,6 +20,7 @@ import com.readingtime.model.UserBookStatus
 import com.readingtime.model.remote.FirebaseProvider
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_record.*
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
@@ -39,6 +40,7 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     var currentDate = Date().removeHMS()
     lateinit var binding: ActivityRecordBinding
     var firstClick = true
+    var subLastRecord: Subscription? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,12 +74,17 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
 
     override fun onResume() {
         super.onResume()
-        FirebaseProvider.findLastRecord(bookId = uBook.id)
+        subLastRecord = FirebaseProvider.findLastRecord(bookId = uBook.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ record ->
                     lastRecord = record
                 })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        subLastRecord?.unsubscribe()
     }
 
     fun startStopTimer() {
