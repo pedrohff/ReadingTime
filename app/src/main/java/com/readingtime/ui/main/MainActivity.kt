@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         presenter.unsubscribe()
     }
 
-    //PRESENTER
+    //VIEW
     override fun updateAdapter() {
         bookList.clear()
         bookList.addAll(bookMap.values.sortedWith(compareBy({ it.lastVisit })))
