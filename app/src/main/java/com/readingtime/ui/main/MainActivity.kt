@@ -20,18 +20,15 @@ import com.readingtime.ui.recording.RecordActivity
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import rx.Subscription
 
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
     lateinit var binding: ActivityMainBinding
     lateinit var presenter: MainContract.Presenter
-    var bookMap: LinkedHashMap<String, UserBook> = linkedMapOf()
-    var bookList: MutableList<UserBook> = mutableListOf()
-    var highlightedId: String? = null
-    var subHighlighted: Subscription? = null
-    var subBookUserList: Subscription? = null
+    private var bookMap: LinkedHashMap<String, UserBook> = linkedMapOf()
+    private var bookList: MutableList<UserBook> = mutableListOf()
+    private var highlightedId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,37 +43,49 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onResume() {
         super.onResume()
         highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
-        subHighlighted = presenter.loadHighlighted(highlightedId)
-        subBookUserList = presenter.loadAllBooks()
+        presenter.subscribe(highlightedId)
     }
 
-    override fun onPause() {
-        super.onPause()
-        subHighlighted?.unsubscribe()
-        subBookUserList?.unsubscribe()
+    override fun onStop() {
+        super.onStop()
+        presenter.unsubscribe()
     }
 
-    override fun createButtonListeners() {
+    //PRESENTER
+    override fun updateAdapter() {
+        bookList.clear()
+        bookList.addAll(bookMap.values.sortedWith(compareBy({ it.lastVisit })))
+        rvBookList.adapter.notifyDataSetChanged()
+    }
+
+    override fun addBookToAdapter(book: UserBook) {
+        bookMap.put(book.id, book)
+    }
+
+    override fun updateHighlighted(bookAux: UserBook) {
+        binding.uBook = bookAux
+        loadHighlightedImage(bookAux.book.coverURL)
+        updateHighlightedPercentage(bookAux.getPerc())
+    }
+
+    //PRIVATE
+    private fun createButtonListeners() {
         fabNewBook.setOnClickListener {
-            var intent = Intent(this, BookNewActivity::class.java)
+            val intent = Intent(this, BookNewActivity::class.java)
             startActivity(intent)
         }
 
         cvCurrent.setOnClickListener {
-            var intent = Intent(this, RecordActivity::class.java)
+            val intent = Intent(this, RecordActivity::class.java)
             intent.putExtra(RecordActivity.BOOK, binding.uBook)
             startActivity(intent)
         }
     }
 
-    override fun loadHighlightedBookId(): String? {
-        return highlightedId
-    }
-
-    override fun createAdapter() {
+    private fun createAdapter() {
         rvBookList.adapter = MainAdapter(bookList, object : MainAdapter.OnClickListener {
             override fun onItemClick(item: UserBook) {
-                var intent = Intent(this@MainActivity, RecordActivity::class.java)
+                val intent = Intent(this@MainActivity, RecordActivity::class.java)
                 intent.putExtra(RecordActivity.BOOK, item)
                 this@MainActivity.startActivity(intent)
             }
@@ -88,11 +97,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         rvBookList.layoutManager = mLayoutManager
     }
 
-    override fun loadHighlightedImage(url: String) {
-        var img = ImageView(this)
-        var width = Resources.getSystem().displayMetrics.widthPixels
-        var height: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 160f, Resources.getSystem().displayMetrics).toInt()
-        if (url != null && url != "") {
+    private fun loadHighlightedImage(url: String) {
+        val img = ImageView(this)
+        val width = Resources.getSystem().displayMetrics.widthPixels
+        val height: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 160f, Resources.getSystem().displayMetrics).toInt()
+        if (url != "") {
             Picasso.with(this)
                     .load(url)
                     .resize(width, height)
@@ -116,26 +125,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
-    override fun updateHighlightedPercentage(percentage: Int) {
+    private fun updateHighlightedPercentage(percentage: Int) {
         val color = getPercentageColor(percentage)
         tvBookperc.setTextColor(color)
         tvProgressText.setTextColor(color)
         ivProgressIcon.setColorFilter(color)
-    }
-
-    override fun updateAdapter() {
-        bookList.clear()
-        bookList.addAll(bookMap.values.sortedWith(compareBy({ it.lastVisit })))
-        rvBookList.adapter.notifyDataSetChanged()
-    }
-
-    override fun getViewBookMap(): LinkedHashMap<String, UserBook> {
-        return bookMap
-    }
-
-
-    override fun getViewBinding(): ActivityMainBinding {
-        return binding
     }
 }
 

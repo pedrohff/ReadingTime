@@ -1,8 +1,6 @@
 package com.readingtime.ui.main
 
-import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.model.UserBook
-import rx.Subscription
 
 /**
  * Created by pedro on 02/01/18.
@@ -10,19 +8,15 @@ import rx.Subscription
 interface MainContract {
 
     interface View {
-        fun createButtonListeners()
-        fun loadHighlightedBookId(): String?
-        fun createAdapter()
-
-        fun getViewBookMap(): LinkedHashMap<String, UserBook>
-        fun getViewBinding(): ActivityMainBinding
-        fun loadHighlightedImage(url: String)
-        fun updateHighlightedPercentage(percentage: Int)
         fun updateAdapter()
+        fun updateHighlighted(bookAux: UserBook)
+        fun addBookToAdapter(book: UserBook)
     }
 
     interface Presenter {
-        fun loadHighlighted(bookId: String?): Subscription?
-        fun loadAllBooks(): Subscription?
+        fun subscribe(bookId: String?)
+        fun unsubscribe()
+        fun loadHighlighted(bookId: String?)
+        fun loadAllBooks()
     }
 }
