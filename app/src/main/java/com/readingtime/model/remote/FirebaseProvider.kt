@@ -23,6 +23,8 @@ object FirebaseProvider {
     val service: FirebaseService
     val fbRef: DatabaseReference
 
+    var booksCache = mutableMapOf<String, Book>()
+
     init {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
@@ -46,6 +48,7 @@ object FirebaseProvider {
         fbRef = FirebaseDatabase.getInstance().reference
     }
 
+    //BOOKS
     fun saveBook(book: Book, userId: String = "pedro", saveToUserBook: Boolean = true, provKey: String? = null) {
         val key: String = if (provKey == null) fbRef.push().key else provKey
         book.id = key
@@ -75,6 +78,16 @@ object FirebaseProvider {
                             listRecords(book.id).toList(),
                             { t1: Book?, t2: MutableList<Record>? -> BookUI.construct(t1, t2) }
                     )
+                }
+    }
+
+    private fun getCache(bookId: String): Observable<Book> {
+        return Observable.from(booksCache.keys)
+                .filter { key ->
+                    key == bookId
+                }
+                .map { key ->
+                    booksCache[key]
                 }
     }
 
@@ -124,7 +137,10 @@ object FirebaseProvider {
                 .flatMap { book: UserBook? ->
                     Observable.zip(
                             Observable.just(book),
-                            findBook(book!!.id),
+                            Observable.concat(
+                                    getCache(book!!.id),
+                                    findBook(book.id).doOnNext { tBook -> booksCache.put(tBook.id, tBook) }
+                            ).first(),
                             { uBook: UserBook?, bk: Book? -> uBook?.book = bk!!; uBook }
                     )
                 }
@@ -137,7 +153,10 @@ object FirebaseProvider {
                 .flatMap { book: UserBook? ->
                     Observable.zip(
                             Observable.just(book),
-                            findBook(book!!.id),
+                            Observable.concat(
+                                    getCache(book!!.id),
+                                    findBook(book.id).doOnNext { tBook -> booksCache.put(tBook.id, tBook) }
+                            ).first(),
                             { uBook: UserBook?, bk: Book? -> uBook?.book = bk!!; uBook }
                     )
                 }
