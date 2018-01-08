@@ -126,8 +126,8 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 // After selecting image change choose button above text.
                 btUpload.text = "Image Selected" //TODO("Strings")
 
-                val mb = (bitmap.byteCount / 1048576).toString()
-                tvFilesize.text = "File size: " + bitmap.byteCount
+                val mb = String.format("%.2f MB", (bitmap.byteCount / 1048576))
+                tvFilesize.text = "File size: " + mb
 
                 uploadImageFileToFirebaseStorage()
             } catch (e: IOException) {
