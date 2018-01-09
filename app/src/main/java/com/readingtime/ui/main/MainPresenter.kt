@@ -1,5 +1,8 @@
 package com.readingtime.ui.main
 
+import android.opengl.Visibility
+import android.support.v7.widget.CardView
+import android.view.View
 import com.readingtime.model.UserBook
 import com.readingtime.model.remote.RemoteUserBook
 import rx.android.schedulers.AndroidSchedulers
@@ -13,9 +16,11 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
 
     val subscriptions = CompositeSubscription()
 
-    override fun loadHighlighted(bookId: String?) {
+    override fun loadHighlighted(bookId: String?, cardView: CardView) {
         lateinit var bookAux: UserBook
         if (bookId != null) {
+            if(cardView.visibility == View.GONE)
+                cardView.visibility = View.VISIBLE
             subscriptions.add(
                     RemoteUserBook.findById(bookId = bookId).subscribeOn(Schedulers.io())
                             ?.observeOn(AndroidSchedulers.mainThread())
@@ -27,6 +32,8 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
                                 view.updateHighlighted(bookAux)
                             })
             )
+        } else {
+            cardView.visibility = View.GONE
         }
 
     }
@@ -46,8 +53,8 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
         )
     }
 
-    override fun subscribe(bookId: String?) {
-        loadHighlighted(bookId)
+    override fun subscribe(bookId: String?, cardView: CardView) {
+        loadHighlighted(bookId, cardView)
         loadAllBooks()
     }
 

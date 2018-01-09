@@ -1,5 +1,6 @@
 package com.readingtime.ui.main
 
+import android.support.v7.widget.CardView
 import com.readingtime.model.UserBook
 
 /**
@@ -14,9 +15,9 @@ interface MainContract {
     }
 
     interface Presenter {
-        fun subscribe(bookId: String?)
+        fun subscribe(bookId: String?, cardView: CardView)
         fun unsubscribe()
-        fun loadHighlighted(bookId: String?)
         fun loadAllBooks()
+        fun loadHighlighted(bookId: String?, cardView: CardView)
     }
 }

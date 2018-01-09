@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onResume() {
         super.onResume()
         highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
-        presenter.subscribe(highlightedId)
+        presenter.subscribe(highlightedId, cvCurrent)
     }
 
     override fun onStop() {

@@ -29,11 +29,15 @@ data class UserBook(var id: String = "",
             parcel.readValue(Long::class.java.classLoader) as? Long,
             parcel.readInt())
 
+    @Exclude
     fun getPerc(): Int = (pageStopped * 100 / book.pages).toInt()
 
+    @Exclude
     fun getPercString(): String = getPerc().toString() + "%"
 
+    @Exclude
     fun getTimeString(): String = millisToString(timeRead)
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeParcelable(book, flags)
