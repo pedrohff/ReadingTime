@@ -7,7 +7,8 @@ import android.widget.ImageView
 import com.readingtime.model.Record
 import com.readingtime.model.UserBook
 import com.readingtime.model.UserBookStatus
-import com.readingtime.model.remote.FirebaseProvider
+import com.readingtime.model.remote.RemoteRecord
+import com.readingtime.model.remote.RemoteUserBook
 import com.squareup.picasso.Picasso
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -18,7 +19,7 @@ import java.util.*
  * Created by pedro on 08/01/18.
  */
 
-class RecordPresenter : RecordContract.Presenter {
+class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter {
 
     lateinit var lastRecord: Record
     val subscriptions = CompositeSubscription()
@@ -34,7 +35,7 @@ class RecordPresenter : RecordContract.Presenter {
 
     fun loadLastRecord(bookId: String) {
         subscriptions.add(
-                FirebaseProvider.findLastRecord(bookId = bookId)
+                RemoteRecord.findLast(bookId = bookId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ record ->
@@ -68,7 +69,7 @@ class RecordPresenter : RecordContract.Presenter {
         } else {
             uBook.status = UserBookStatus.READING
         }
-        FirebaseProvider.saveUserBook(uBook)
+        RemoteUserBook.update(uBook)
     }
 
     override fun saveRecord(currentDate: Date, time: Long, pagenum: Int, uBook: UserBook) {
@@ -82,6 +83,6 @@ class RecordPresenter : RecordContract.Presenter {
             record = Record.construct(uBook.book, time, lastRecord, pagenum, currentDate)
         }
 
-        FirebaseProvider.saveRecord(record, uBook.id)
+        RemoteRecord.save(record, uBook.id)
     }
 }

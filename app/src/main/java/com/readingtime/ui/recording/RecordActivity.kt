@@ -34,6 +34,8 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
+        presenter = RecordPresenter(this)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record)
         uBook = intent.getParcelableExtra(BOOK)
 

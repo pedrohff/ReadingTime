@@ -13,7 +13,7 @@ import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.UploadTask
 import com.readingtime.ApplicationContextProvider
 import com.readingtime.model.Book
-import com.readingtime.model.remote.FirebaseProvider
+import com.readingtime.model.remote.RemoteBook
 import java.io.IOException
 
 /**
@@ -21,7 +21,6 @@ import java.io.IOException
  */
 class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Presenter {
 
-    private var api = FirebaseProvider
     private val storageReference = FirebaseStorage.getInstance().getReference("bookCovers/")
     private var bookKey = generateFirebaseKey()
     private val IMG_REQUEST_CODE = 7
@@ -38,7 +37,7 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
     }
 
     override fun saveBook(book: Book) {
-        api.saveBook(book)
+        RemoteBook.save(book)
     }
 
     override fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?, contentResolver: ContentResolver) {
