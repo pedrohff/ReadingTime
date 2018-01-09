@@ -3,13 +3,13 @@ package com.readingtime.model.remote
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.readingtime.model.Book
+import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
 
 /**
  * Created by pedro on 29/12/17.
@@ -34,7 +34,7 @@ object FirebaseProvider {
 
         val retrofit = Retrofit.Builder()
                 .baseUrl(FirebaseService.FIREBASE_URL)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient.build())
                 .build()
@@ -44,7 +44,7 @@ object FirebaseProvider {
     }
 
     fun getCache(bookId: String): Observable<Book> {
-        return Observable.from(booksCache.keys)
+        return Observable.fromIterable(booksCache.keys)
                 .filter { key ->
                     key == bookId
                 }

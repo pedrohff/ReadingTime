@@ -1,7 +1,7 @@
 package com.readingtime.model.remote
 
 import com.readingtime.model.Record
-import rx.Observable
+import io.reactivex.Observable
 
 /**
  * Created by pedro on 08/01/18.
@@ -18,7 +18,7 @@ object RemoteRecord : RemoteDatabaseHelper() {
 
     fun listAll(bookId: String?, userId: String = "pedro"): Observable<Record> {
         return FirebaseProvider.service.recordslist(bookId, userId)
-                .flatMap { record -> Observable.from(record.values) }
+                .flatMap { record -> Observable.fromIterable(record.values) }
     }
 
     fun findLast(userId: String = "pedro", bookId: String): Observable<Record> {

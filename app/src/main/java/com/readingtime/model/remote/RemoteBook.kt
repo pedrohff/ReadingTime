@@ -4,6 +4,8 @@ import com.readingtime.extensions.removeHMS
 import com.readingtime.model.Book
 import com.readingtime.model.Record
 import com.readingtime.model.UserBook
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import java.util.*
 
 /**
@@ -28,7 +30,7 @@ object RemoteBook {
 //        TODO("not implemented")
 //    }
 
-    fun findById(id: String): rx.Observable<Book> {
+    fun findById(id: String): Observable<Book> {
         return FirebaseProvider.service.bookFind(id)
     }
 

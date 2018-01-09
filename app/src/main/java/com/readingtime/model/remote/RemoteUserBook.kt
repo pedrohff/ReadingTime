@@ -2,10 +2,13 @@ package com.readingtime.model.remote
 
 import com.readingtime.extensions.removeHMS
 import com.readingtime.model.Book
+import com.readingtime.model.FirebaseUserBook
 import com.readingtime.model.Record
 import com.readingtime.model.UserBook
-import rx.Observable
 import java.util.*
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by pedro on 08/01/18.
@@ -26,31 +29,40 @@ object RemoteUserBook : RemoteDatabaseHelper() {
 
     fun findById(bookId: String, userId: String = "pedro"): Observable<UserBook> {
         return FirebaseProvider.service.findUserBook(userId, bookId)
-                .map { fbuBook -> fbuBook.toUserBook() }
+                .map { fbuBook: FirebaseUserBook -> fbuBook.toUserBook() }
                 .flatMap { book: UserBook? ->
                     Observable.zip(
                             Observable.just(book),
                             Observable.concat(
                                     FirebaseProvider.getCache(book!!.id),
                                     RemoteBook.findById(book.id).doOnNext { tBook -> FirebaseProvider.booksCache.put(tBook.id, tBook) }
-                            ).first(),
-                            { uBook: UserBook?, bk: Book? -> uBook?.book = bk!!; uBook }
+                            ).firstElement().toObservable(), //TODO validar
+                            BiFunction { uBook: UserBook?, bk: Book? -> uBook?.book = bk!!; uBook }
                     )
+//                    Observable.zip(
+//                            Observable.just(book),
+//                            Observable.concat(
+//                                    FirebaseProvider.getCache(book!!.id),
+//                                    RemoteBook.findById(book.id).doOnNext { tBook -> FirebaseProvider.booksCache.put(tBook.id, tBook) }
+//                            ).first(),
+//                            { uBook: UserBook?, bk: Book? -> uBook?.book = bk!!; uBook }
+//                    )
                 }
     }
 
-    fun listAll(userId: String = "pedro"): rx.Observable<UserBook> {
+    fun listAll(userId: String = "pedro"): Observable<UserBook>{
         return FirebaseProvider.service.listUserBooks(userId = userId)
-                .flatMap { fbuBooksMap -> Observable.from(fbuBooksMap.values) }
+                .flatMap { fbuMap: Map<String, FirebaseUserBook>? -> Observable.fromIterable(fbuMap?.values) }
                 .map { fbuBook -> fbuBook.toUserBook() }
-                .flatMap { book: UserBook? ->
+                .flatMap {
+                    book ->
                     Observable.zip(
                             Observable.just(book),
                             Observable.concat(
-                                    FirebaseProvider.getCache(book!!.id),
-                                    RemoteBook.findById(book.id).doOnNext { tBook -> FirebaseProvider.booksCache.put(tBook.id, tBook) }
-                            ).first(),
-                            { uBook: UserBook?, bk: Book? -> uBook?.book = bk!!; uBook }
+                                    FirebaseProvider.getCache(book.id),
+                                    RemoteBook.findById(book.id).doOnNext { tBook:Book -> FirebaseProvider.booksCache.put(tBook.id, tBook) }
+                            ),
+                            BiFunction { uBook:UserBook, bk:Book -> uBook.book = bk; uBook }
                     )
                 }
     }

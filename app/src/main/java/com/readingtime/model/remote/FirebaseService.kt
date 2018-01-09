@@ -3,10 +3,11 @@ package com.readingtime.model.remote
 import com.readingtime.model.Book
 import com.readingtime.model.FirebaseUserBook
 import com.readingtime.model.Record
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import rx.Observable
 
 /**
  * Created by pedro on 29/12/17.

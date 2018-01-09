@@ -10,9 +10,9 @@ import com.readingtime.model.UserBookStatus
 import com.readingtime.model.remote.RemoteRecord
 import com.readingtime.model.remote.RemoteUserBook
 import com.squareup.picasso.Picasso
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
@@ -21,20 +21,20 @@ import java.util.*
 
 class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter {
 
-    lateinit var lastRecord: Record
-    val subscriptions = CompositeSubscription()
+    private lateinit var lastRecord: Record
+    private val disposable = CompositeDisposable()
 
     override fun subscribe(bookId: String) {
         loadLastRecord(bookId)
     }
 
     override fun unsubscribe() {
-        subscriptions.clear()
+        disposable.dispose() //DISPOSE: Does not accept new disposables
     }
 
 
-    fun loadLastRecord(bookId: String) {
-        subscriptions.add(
+    private fun loadLastRecord(bookId: String) {
+        disposable.add(
                 RemoteRecord.findLast(bookId = bookId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
