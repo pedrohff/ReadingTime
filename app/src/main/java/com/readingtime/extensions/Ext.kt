@@ -10,10 +10,6 @@ import android.view.ViewGroup
 import com.readingtime.ApplicationContextProvider
 import com.readingtime.R
 import com.readingtime.model.Preferences
-import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action0
-import rx.functions.Action1
-import rx.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -73,13 +69,6 @@ fun AppCompatActivity.loadPreferenceString(preference: Preferences): String? {
 fun AppCompatActivity.loadPreferenceLong(preference: Preferences): Long {
     val sharedPref = this.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
     return sharedPref.getLong(preference.desc, 0L)
-}
-
-fun <T> rx.Observable<T>.subMainThread(onNext: Action1<T>, onError: Action1<Throwable>, onCompleted: Action0) {
-    TODO("verify parameters")
-    this.observeOn(Schedulers.io())
-            ?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(onNext, onError, onCompleted)
 }
 
 //Color

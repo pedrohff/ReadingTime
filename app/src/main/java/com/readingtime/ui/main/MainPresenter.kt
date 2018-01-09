@@ -1,6 +1,5 @@
 package com.readingtime.ui.main
 
-import android.opengl.Visibility
 import android.support.v7.widget.CardView
 import android.view.View
 import com.readingtime.model.UserBook
@@ -22,9 +21,10 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
             if(cardView.visibility == View.GONE)
                 cardView.visibility = View.VISIBLE
             subscriptions.add(
-                    RemoteUserBook.findById(bookId = bookId).subscribeOn(Schedulers.io())
-                            ?.observeOn(AndroidSchedulers.mainThread())
-                            ?.subscribe({ bookPres ->
+                    RemoteUserBook.findById(bookId = bookId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ bookPres ->
                                 bookAux = bookPres
                             }, { e ->
                                 e.printStackTrace()

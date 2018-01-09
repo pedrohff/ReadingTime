@@ -75,6 +75,10 @@ dependencies {
 
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    //Room
+    compile 'android.arch.persistence.room:runtime:1.0.0'
+    kapt "android.arch.persistence.room:compiler:1.0.0"
 }
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
