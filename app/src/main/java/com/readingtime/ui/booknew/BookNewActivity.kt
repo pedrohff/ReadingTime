@@ -1,6 +1,5 @@
 package com.readingtime.ui.booknew
 
-import android.content.ContentResolver
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -75,15 +74,11 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        presenter.updateSelectedImage(requestCode, resultCode, data)
+        presenter.updateSelectedImage(requestCode, resultCode, data, contentResolver)
     }
 
 
     //VIEW
-    override fun getResolver(): ContentResolver? {
-        return contentResolver
-    }
-
     override fun updateImageTextviews(byteCount: Int) {
         btUpload.text = "Image Selected" //TODO("Strings")
 

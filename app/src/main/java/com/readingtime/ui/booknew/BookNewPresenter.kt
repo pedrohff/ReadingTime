@@ -1,6 +1,7 @@
 package com.readingtime.ui.booknew
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
@@ -40,7 +41,7 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
         api.saveBook(book)
     }
 
-    override fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?, contentResolver: ContentResolver) {
         if (requestCode == IMG_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
 
             filePathUri = data.data
@@ -48,13 +49,13 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
             try {
 
                 // Getting selected image into Bitmap.
-                val bitmap = MediaStore.Images.Media.getBitmap(view.getResolver(), filePathUri)
+                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePathUri)
 
                 // Setting up bitmap selected image into ImageView.
                 selectedImage.setImageBitmap(bitmap)
 
                 view.updateImageTextviews(bitmap.byteCount)
-                uploadImage()
+                uploadImage(contentResolver)
             } catch (e: IOException) {
 
                 e.printStackTrace()
@@ -65,10 +66,10 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
 
 
     //PRIVATE
-    private fun uploadImage() {
+    private fun uploadImage(contentResolver: ContentResolver) {
         if (filePathUri != null) {
             view.showProgressBar()
-            val storageReference2nd = storageReference.child(bookKey + "." + getFileExtension(filePathUri))
+            val storageReference2nd = storageReference.child(bookKey + "." + getFileExtension(filePathUri, contentResolver))
 
             storageReference2nd.putFile(filePathUri)
                     .addOnSuccessListener({ taskSnapshot ->
@@ -98,12 +99,12 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
         return db.getReference("books").push().key
     }
 
-    private fun getFileExtension(uri: Uri): String {
+    private fun getFileExtension(uri: Uri, contentResolver: ContentResolver): String {
 
-        val contentResolver = view.getResolver()
+        val contentResolver = contentResolver
 
         val mimeTypeMap = MimeTypeMap.getSingleton()
 
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver?.getType(uri))
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))
     }
 }

@@ -12,7 +12,6 @@ import com.readingtime.ui.BasePresenter
 interface BookNewContract {
 
     interface View {
-        fun getResolver(): ContentResolver?
         fun updateImageTextviews(byteCount: Int)
         fun showProgressBar()
         fun hideProgressBar()
@@ -22,6 +21,6 @@ interface BookNewContract {
 
     interface Presenter : BasePresenter {
         fun saveBook(book: Book)
-        fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?)
+        fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?, contentResolver: ContentResolver)
     }
 }
