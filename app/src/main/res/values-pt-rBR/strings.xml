@@ -15,4 +15,5 @@
     <string name="hours_read">Tempo Lendo</string>
     <string name="progress">Progresso</string>
     <string name="book_page_stopped">Ultima Página</string>
+    <string name="upload_image">Upload Image</string>
 </resources>

@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".ui.booknew.BookNewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.recording.RecordActivity"
             android:screenOrientation="portrait" />

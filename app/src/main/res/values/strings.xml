@@ -25,5 +25,13 @@
     <string name="send">Send</string>
     <string name="hours_read">Time Read</string>
     <string name="progress">Progress</string>
+    <string name="upload_image">Upload Image</string>
+
+        <!--BOOK CATEGORIES-->
+
+
+        <!--BOOK TYPES-->
+        <string name="booktype_book">Book</string>
+        <string name="booktype_graphicnovel">Graphic Novel</string>
 
 </resources>

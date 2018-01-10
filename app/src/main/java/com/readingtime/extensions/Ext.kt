@@ -74,15 +74,15 @@ fun AppCompatActivity.loadPreferenceLong(preference: Preferences): Long {
 //Color
 fun getPercentageColorId(perc: Int): Int {
     if (perc < 20)
-        return R.color.percentage20
+        return R.color.text_percentage20
     else if (perc < 40)
-        return R.color.percentage40
+        return R.color.text_percentage40
     else if (perc < 60)
-        return R.color.percentage60
+        return R.color.text_percentage60
     else if (perc < 80)
-        return R.color.percentage80
+        return R.color.text_percentage80
     else
-        return R.color.percentage100
+        return R.color.text_percentage100
 }
 
 fun getPercentageColor(perc: Int): Int {

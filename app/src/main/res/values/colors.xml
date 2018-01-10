@@ -4,25 +4,37 @@
     <color name="colorPrimaryDark">#50a772</color>
     <color name="colorAccent">#ff4dc4</color>
     <color name="ye1">#ffed4d</color>
-    <color name="red1">#ff4d53</color>
 
-    <color name="hours_read">#90a5af</color>
-    <color name="percentage20">#91a992</color>
-    <color name="percentage40">#86B673</color>
-    <color name="percentage60">#7BC355</color>
-    <color name="percentage80">#6FD036</color>
-    <color name="percentage100">#64dd17</color>
 
+    <!--SKELLETON (delete?)-->
     <color name="skeleton_primary">#1378d185</color>
     <color name="skeleton_secondary">#233523</color>
+
+    <!--LAYOUT-->
     <color name="white">#ffffff</color>
     <color name="transparentbg">#B2141518</color><!--B2 = 70% = 0.7*255 to HEX-->
     <color name="background">#141518</color>
     <color name="backgroundLighter">#1b1c1d</color>
     <color name="greybackground">#5d6360</color>
-    <color name="greyaccent">#67c08a</color>
+    <color name="greenaccent">#67c08a</color>
     <color name="brownaccent">#948079</color>
-    <color name="greyfont">#dadcdb</color>
     <color name="bluelight">#90a5af</color>
     <color name="green">#67c08a</color>
+
+    <!--TEXT-->
+    <color name="text_white">#fff</color>
+    <color name="text_grey">#dadcdb</color>
+    <color name="text_hours_read">#90a5af</color>
+    <color name="text_percentage20">#91a992</color>
+    <color name="text_percentage40">#86B673</color>
+    <color name="text_percentage60">#7BC355</color>
+    <color name="text_percentage80">#6FD036</color>
+    <color name="text_percentage100">#64dd17</color>
+
+    <!--BUTTONS-->
+    <color name="button_primary">#67c08a</color>
+    <color name="button_secondary">#567b64</color>
+    <color name="button_accent">#90a5af</color>
+    <color name="button_red">#ff4d53</color>
+    <color name="button_green">#91a992</color>
 </resources>
