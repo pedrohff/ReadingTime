@@ -8,7 +8,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
+import android.view.View
 import android.widget.ImageView
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.readingtime.R
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.extensions.getPercentageColor
@@ -29,6 +32,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private var bookMap: LinkedHashMap<String, UserBook> = linkedMapOf()
     private var bookList: MutableList<UserBook> = mutableListOf()
     private var highlightedId: String? = null
+    private lateinit var skeletonCV: SkeletonScreen
+    private lateinit var skeletonAdapter: SkeletonScreen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +43,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
         createButtonListeners()
         createAdapter()
+        createSkelleton()
     }
 
     override fun onResume() {
@@ -55,6 +61,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun updateAdapter() {
         bookList.clear()
         bookList.addAll(bookMap.values.sortedWith(compareBy({ it.lastVisit })))
+
+        skeletonAdapter.hide()
         rvBookList.adapter.notifyDataSetChanged()
     }
 
@@ -63,12 +71,34 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun updateHighlighted(bookAux: UserBook) {
-        binding.uBook = bookAux
-        loadHighlightedImage(bookAux.book.coverURL)
-        updateHighlightedPercentage(bookAux.getPerc())
+        loadHighlightedImage(bookAux)
     }
 
     //PRIVATE
+    private fun displayCardInfo(bookAux: UserBook) {
+        skeletonCV.hide()
+        binding.uBook = bookAux
+        updateHighlightedPercentage(bookAux.getPerc())
+        ivProgressIcon.visibility = View.VISIBLE
+        ivHoursIcon.visibility = View.VISIBLE
+        tvProgressText.visibility = View.VISIBLE
+        tvTimeRead.visibility = View.VISIBLE
+    }
+
+    private fun createSkelleton() {
+        skeletonCV = Skeleton.bind(cvCurrent)
+                .load(R.layout.sk_main_cardview)
+                .duration(1500)
+                .angle(0)
+                .show()
+
+        skeletonAdapter = Skeleton.bind(rvBookList)
+                .adapter(rvBookList.adapter)
+                .load(R.layout.sk_main_adapter)
+                .shimmer(false)
+                .show()
+    }
+
     private fun createButtonListeners() {
         fabNewBook.setOnClickListener {
             val intent = Intent(this, BookNewActivity::class.java)
@@ -97,7 +127,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         rvBookList.layoutManager = mLayoutManager
     }
 
-    private fun loadHighlightedImage(url: String) {
+    private fun loadHighlightedImage(bookAux: UserBook) {
+        val url = bookAux.book.coverURL
         val img = ImageView(this)
         val width = Resources.getSystem().displayMetrics.widthPixels
         val height: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 160f, Resources.getSystem().displayMetrics).toInt()
@@ -113,6 +144,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                             } else {
                                 cvCurrent.setBackgroundDrawable(img.drawable)
                             }
+                            displayCardInfo(bookAux)
                         }
 
                         override fun onError() {

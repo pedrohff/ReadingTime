@@ -13,9 +13,12 @@
     <color name="percentage80">#6FD036</color>
     <color name="percentage100">#64dd17</color>
 
+    <color name="skeleton_primary">#1378d185</color>
+    <color name="skeleton_secondary">#233523</color>
     <color name="white">#ffffff</color>
     <color name="transparentbg">#B2141518</color><!--B2 = 70% = 0.7*255 to HEX-->
     <color name="background">#141518</color>
+    <color name="backgroundLighter">#1b1c1d</color>
     <color name="greybackground">#5d6360</color>
     <color name="greyaccent">#67c08a</color>
     <color name="brownaccent">#948079</color>

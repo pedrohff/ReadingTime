@@ -73,7 +73,6 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     }
 
     //PRIVATE
-
     private fun createButtonListeners() {
         btStartStop.setOnClickListener { startStopTimer() }
         btSend.setOnClickListener {

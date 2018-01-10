@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="65dp"
-    android:background="@drawable/border_bottom">
+    android:layout_marginBottom="1px"
+    android:background="@color/backgroundLighter">
 
     <TextView
         android:id="@+id/tvItemBookName"
@@ -58,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="11dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:tint="@color/percentage20"
         app:layout_constraintBottom_toBottomOf="parent"

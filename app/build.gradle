@@ -34,16 +34,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //Firebase
     compile 'com.google.firebase:firebase-database:11.8.0'
     compile 'com.google.firebase:firebase-auth:11.8.0'
     compile 'com.google.firebase:firebase-storage:11.8.0'
 //    kapt 'com.google.dagger:dagger-compiler:2.5'
 //    compile 'com.google.dagger:dagger:2.5'
     kapt 'com.android.databinding:compiler:3.0.1'
-
-//    compile 'com.kelvinapps:rxfirebase:0.0.15'
-//    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-//    compile "com.squareup.retrofit2:converter-moshi:2.0.0"
 
     // RXJava
     compile 'io.reactivex.rxjava2:rxjava:2.0.2'
@@ -79,6 +77,8 @@ dependencies {
 //    compile 'android.arch.persistence.room:runtime:1.0.0'
 //    kapt "android.arch.persistence.room:compiler:1.0.0"
 //    implementation "android.arch.persistence.room:rxjava2:1.0.0"
+
+    compile 'com.ethanhua:skeleton:1.0.0'
 }
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
