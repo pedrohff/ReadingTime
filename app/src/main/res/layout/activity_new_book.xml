@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background">
 
     <data>
         <variable name="book" type="com.readingtime.model.Book"/>
@@ -17,17 +18,17 @@
 
             <Button
                 android:id="@+id/btUpload"
-                android:background="@color/button_accent"
-                android:textColor="@color/text_white"
                 android:layout_width="wrap_content"
-                android:paddingHorizontal="12dp"
-                android:paddingTop="6dp"
-                android:gravity="top"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="16dp"
+                android:background="@color/button_accent"
+                android:gravity="top"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="6dp"
                 android:text="@string/upload_image"
+                android:textColor="@color/text_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,18 +50,18 @@
 
             <EditText
                 android:id="@+id/etName"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                android:backgroundTint="@color/greenaccent"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@color/greenaccent"
                 android:ems="10"
                 android:hint="@string/book_name"
                 android:inputType="textCapSentences"
                 android:text="@={book.name}"
+                android:textColor="@color/text_grey"
+                android:textColorHint="@color/text_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -69,92 +70,92 @@
 
             <EditText
                 android:id="@+id/etAuthor"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                android:backgroundTint="@color/greenaccent"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/greenaccent"
                 android:ems="10"
                 android:hint="@string/book_author"
                 android:inputType="textCapWords"
                 android:text="@={book.author}"
+                android:textColor="@color/text_grey"
+                android:textColorHint="@color/text_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etName" />
 
             <EditText
                 android:id="@+id/etArtist"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                android:backgroundTint="@color/greenaccent"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/greenaccent"
                 android:ems="10"
                 android:hint="@string/book_artist"
                 android:inputType="textCapWords"
                 android:text="@={book.artist}"
+                android:textColor="@color/text_grey"
+                android:textColorHint="@color/text_grey"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAuthor" />
 
             <EditText
                 android:id="@+id/etPublisher"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                android:backgroundTint="@color/greenaccent"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/greenaccent"
                 android:ems="10"
                 android:hint="@string/book_publisher"
                 android:inputType="textCapWords"
                 android:text="@={book.publisher}"
+                android:textColor="@color/text_grey"
+                android:textColorHint="@color/text_grey"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etArtist" />
 
             <Spinner
                 android:id="@+id/spType"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                android:backgroundTint="@color/greenaccent"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/greenaccent"
+                android:textColor="@color/text_grey"
+                android:textColorHint="@color/text_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etPublisher" />
 
             <EditText
                 android:id="@+id/etPages"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                android:backgroundTint="@color/greenaccent"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/greenaccent"
                 android:hint="@string/num_pages"
                 android:inputType="numberDecimal"
+                android:textColor="@color/text_grey"
+                android:textColorHint="@color/text_grey"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spType" />
 
             <Spinner
                 android:id="@+id/spCategory"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                android:backgroundTint="@color/greenaccent"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/greenaccent"
+                android:textColor="@color/text_grey"
+                android:textColorHint="@color/text_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etPages" />
@@ -185,10 +186,6 @@
                 android:textColor="@android:color/background_light"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spCategory" />
-
-
-
-
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

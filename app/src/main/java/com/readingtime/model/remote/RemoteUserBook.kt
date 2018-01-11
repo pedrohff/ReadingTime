@@ -5,10 +5,9 @@ import com.readingtime.model.Book
 import com.readingtime.model.FirebaseUserBook
 import com.readingtime.model.Record
 import com.readingtime.model.UserBook
-import java.util.*
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 /**
  * Created by pedro on 08/01/18.
@@ -37,7 +36,7 @@ object RemoteUserBook : RemoteDatabaseHelper() {
                                     FirebaseProvider.getCache(book!!.id),
                                     RemoteBook.findById(book.id).doOnNext { tBook -> FirebaseProvider.booksCache.put(tBook.id, tBook) }
                             ).firstElement().toObservable(), //TODO validar
-                            BiFunction { uBook: UserBook?, bk: Book? -> uBook?.book = bk!!; uBook }
+                            BiFunction { uBook: UserBook?, bk: Book? -> uBook?.book = bk!!; uBook!! }
                     )
 //                    Observable.zip(
 //                            Observable.just(book),

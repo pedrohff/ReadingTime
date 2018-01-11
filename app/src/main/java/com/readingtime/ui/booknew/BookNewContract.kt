@@ -1,6 +1,6 @@
 package com.readingtime.ui.booknew
 
-import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import com.readingtime.model.Book
 
@@ -11,7 +11,7 @@ import com.readingtime.model.Book
 interface BookNewContract {
 
     interface View {
-        fun updateImageTextviews(byteCount: Int)
+        fun updateImageTextviews(string: String)
         fun showProgressBar()
         fun hideProgressBar()
         fun makeToast(msg: String)
@@ -22,6 +22,6 @@ interface BookNewContract {
         fun subscribe()
         fun unsubscribe()
         fun saveBook(book: Book)
-        fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?, contentResolver: ContentResolver)
+        fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?, context: Context)
     }
 }

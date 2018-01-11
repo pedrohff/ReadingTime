@@ -78,7 +78,12 @@ dependencies {
 //    kapt "android.arch.persistence.room:compiler:1.0.0"
 //    implementation "android.arch.persistence.room:rxjava2:1.0.0"
 
+    //Skeleton(UI)
     compile 'com.ethanhua:skeleton:1.0.0'
+
+    //Image Compression
+    compile 'id.zelory:compressor:2.1.0'
+
 }
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'

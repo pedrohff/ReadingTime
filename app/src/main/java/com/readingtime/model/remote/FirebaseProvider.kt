@@ -49,7 +49,7 @@ object FirebaseProvider {
                     key == bookId
                 }
                 .map { key ->
-                    booksCache[key]
+                    booksCache[key]!!
                 }
     }
 }

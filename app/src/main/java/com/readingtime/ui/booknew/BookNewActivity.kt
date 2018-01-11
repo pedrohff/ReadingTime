@@ -15,15 +15,15 @@ import com.readingtime.R
 import com.readingtime.databinding.ActivityNewBookBinding
 import com.readingtime.model.Book
 import com.readingtime.model.BookCategory
-import com.readingtime.model.BookTypes
+import com.readingtime.model.BookType
 import kotlinx.android.synthetic.main.activity_new_book.*
 
 
 class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, BookNewContract.View {
 
     private var book: Book? = Book()
-    private var types = arrayOf(BookTypes.BOOK, BookTypes.GRAPHIC_NOVEL)
-    private var categories = arrayOf(BookCategory.ADVENTURE, BookCategory.FANTASY, BookCategory.SCI_FI)
+    private lateinit var types: MutableMap<Int, String>
+    private lateinit var categories: MutableMap<Int, String>
     lateinit var progress: ProgressBar
 
     lateinit var presenter: BookNewContract.Presenter
@@ -32,8 +32,11 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_book)
 
+        types = BookType.getMap(this)
+        categories = BookCategory.getMap(this)
+
         val binding: ActivityNewBookBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_book)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE) //TODO review
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN) //TODO review
 
         presenter = BookNewPresenter(this)
         binding.book = Book()
@@ -45,12 +48,12 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     private fun initAdapters() {
         spType.onItemSelectedListener = this
-        val adapterTypes = ArrayAdapter(this, android.R.layout.simple_spinner_item, BookTypes.values())
+        val adapterTypes = ArrayAdapter(this, android.R.layout.simple_spinner_item, types.values.toList())
         adapterTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spType.adapter = adapterTypes
 
         spCategory.onItemSelectedListener = this
-        val adapterCategory = ArrayAdapter(this, android.R.layout.simple_spinner_item, BookTypes.values())
+        val adapterCategory = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories.values.toList()) //TODO order by name
         adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = adapterCategory
     }
@@ -62,28 +65,30 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when(parent?.id) {
             R.id.spCategory -> {
-                var selected: BookCategory?= parent.getItemAtPosition(position) as? BookCategory
-                book?.category = selected?.cat.toString()
+                var selected: String? = parent.getItemAtPosition(position) as? String
+                book?.category = BookCategory.getEnumFromValue(categories, selected!!).toString()
+                //TODO try/catch nullpointer
             }
             R.id.spType -> {
-                var selected: BookTypes? = parent.getItemAtPosition(position) as? BookTypes
-                book?.type = selected?.type.toString()
+                var selected: String? = parent.getItemAtPosition(position) as? String
+                book?.type = BookType.getEnumFromValue(types, selected!!).toString()
+                //TODO try/catch nullpointer
             }
         }
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        presenter.updateSelectedImage(requestCode, resultCode, data, contentResolver)
+        presenter.updateSelectedImage(requestCode, resultCode, data, this)
     }
 
 
     //VIEW
-    override fun updateImageTextviews(byteCount: Int) {
+    override fun updateImageTextviews(string: String) {
         btUpload.text = "Image Selected" //TODO("Strings")
 
-        val mb = String.format("%.2f MB", (byteCount / 1048576))
-        tvFilesize.text = "File size: " + mb //TODO strings
+        tvFilesize.text = "File size: " + string //TODO strings
     }
 
     override fun showProgressBar() {
