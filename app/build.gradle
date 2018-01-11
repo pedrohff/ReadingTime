@@ -6,6 +6,14 @@ apply plugin: 'kotlin-android-extensions'
 
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'ReadingTimeAndroidKey'
+            keyPassword 'pedro123'
+            storeFile file('/home/phffeitosa/Projetos/ReadingTime/key/android.jks')
+            storePassword 'pedro123'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.readingtime"
@@ -20,6 +28,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+        }
     }
     dataBinding {
         enabled = true
@@ -27,7 +38,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -39,31 +50,41 @@ dependencies {
     compile 'com.google.firebase:firebase-database:11.8.0'
     compile 'com.google.firebase:firebase-auth:11.8.0'
     compile 'com.google.firebase:firebase-storage:11.8.0'
-//    kapt 'com.google.dagger:dagger-compiler:2.5'
-//    compile 'com.google.dagger:dagger:2.5'
+
+    //    kapt 'com.google.dagger:dagger-compiler:2.5'
+
+    //    compile 'com.google.dagger:dagger:2.5'
     kapt 'com.android.databinding:compiler:3.0.1'
 
     // RXJava
     compile 'io.reactivex.rxjava2:rxjava:2.0.2'
+
     // RXAndroid para termos acesso a main thread do Android
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
     // Retrofit !!DONT UPDATE!!
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
+
     // Adapter do Retrofit para retornar objetos observáveis
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
     // Converter do Retrofit para utilizar o Gson para tratar a resposta do servidor
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
     // Interceptor para visualizar os logs das requisições do Retrofit
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-android
-//    compile group: 'org.slf4j', name: 'slf4j-android', version: '1.7.21'
+
+    //    compile group: 'org.slf4j', name: 'slf4j-android', version: '1.7.21'
 
     //RxJava debug
-//    compile 'io.reactivex:rxjava-debug:1.0.3'
+
+    //    compile 'io.reactivex:rxjava-debug:1.0.3'
 
     //Multidex
-//    compile 'com.android.support:multidex:1.0.2'
+
+    //    compile 'com.android.support:multidex:1.0.2'
 
     //Views & Layouts
     compile 'com.android.support:recyclerview-v7:27.0.2'
@@ -74,16 +95,18 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     //Room
-//    compile 'android.arch.persistence.room:runtime:1.0.0'
-//    kapt "android.arch.persistence.room:compiler:1.0.0"
-//    implementation "android.arch.persistence.room:rxjava2:1.0.0"
+
+    //    compile 'android.arch.persistence.room:runtime:1.0.0'
+
+    //    kapt "android.arch.persistence.room:compiler:1.0.0"
+
+    //    implementation "android.arch.persistence.room:rxjava2:1.0.0"
 
     //Skeleton(UI)
     compile 'com.ethanhua:skeleton:1.0.0'
 
     //Image Compression
     compile 'id.zelory:compressor:2.1.0'
-
 }
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'

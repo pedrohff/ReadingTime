@@ -85,17 +85,20 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         tvTimeRead.visibility = View.VISIBLE
     }
 
-    private fun createSkelleton() {
+    override fun createSkeletonCardView() {
         skeletonCV = Skeleton.bind(cvCurrent)
                 .load(R.layout.sk_main_cardview)
-                .duration(1500)
+                .duration(1100)
                 .angle(0)
                 .show()
+    }
 
+    private fun createSkelleton() {
         skeletonAdapter = Skeleton.bind(rvBookList)
                 .adapter(rvBookList.adapter)
                 .load(R.layout.sk_main_adapter)
-                .shimmer(false)
+                .duration(1200)
+                .angle(0)
                 .show()
     }
 

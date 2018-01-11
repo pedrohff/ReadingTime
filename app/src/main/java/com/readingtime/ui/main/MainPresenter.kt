@@ -20,6 +20,7 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
         if (bookId != null) {
             if(cardView.visibility == View.GONE)
                 cardView.visibility = View.VISIBLE
+            view.createSkeletonCardView()
             disposable.add(
                     RemoteUserBook.findById(bookId = bookId)
                             .subscribeOn(Schedulers.io())

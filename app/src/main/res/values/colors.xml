@@ -9,6 +9,7 @@
     <!--SKELLETON (delete?)-->
     <color name="skeleton_primary">#1378d185</color>
     <color name="skeleton_secondary">#233523</color>
+    <color name="transparent">#00ffffff</color>
 
     <!--LAYOUT-->
     <color name="white">#ffffff</color>

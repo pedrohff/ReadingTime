@@ -12,6 +12,7 @@ interface MainContract {
         fun updateAdapter()
         fun updateHighlighted(bookAux: UserBook)
         fun addBookToAdapter(book: UserBook)
+        fun createSkeletonCardView()
     }
 
     interface Presenter {
