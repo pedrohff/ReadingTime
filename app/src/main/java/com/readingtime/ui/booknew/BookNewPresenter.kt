@@ -42,7 +42,11 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
     }
 
     override fun saveBook(book: Book) {
-        RemoteBook.save(book)
+        try {
+            RemoteBook.save(book)
+        } catch (exc: IllegalArgumentException) {
+            view.makeToast(exc.message.toString())
+        }
     }
 
     override fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?, context: Context) {
@@ -125,10 +129,5 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
         var string = uri.toString()
         string = string.substring(string.lastIndexOf(".") + 1)
         return string
-//        val contentResolver = contentResolver
-//
-//        val mimeTypeMap = MimeTypeMap.getSingleton()
-//
-//        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))
     }
 }

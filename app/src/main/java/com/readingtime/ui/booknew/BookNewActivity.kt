@@ -36,7 +36,7 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         categories = BookCategory.getMap(this)
 
         val binding: ActivityNewBookBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_book)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN) //TODO review
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE) //TODO review
 
         presenter = BookNewPresenter(this)
         binding.book = Book()
@@ -48,12 +48,12 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     private fun initAdapters() {
         spType.onItemSelectedListener = this
-        val adapterTypes = ArrayAdapter(this, android.R.layout.simple_spinner_item, types.values.toList())
+        val adapterTypes = ArrayAdapter(this, R.layout.spinner_item, types.values.toList())
         adapterTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spType.adapter = adapterTypes
 
         spCategory.onItemSelectedListener = this
-        val adapterCategory = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories.values.toList()) //TODO order by name
+        val adapterCategory = ArrayAdapter(this, R.layout.spinner_item, categories.values.toList()) //TODO order by name
         adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = adapterCategory
     }
