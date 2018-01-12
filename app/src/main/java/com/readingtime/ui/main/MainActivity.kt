@@ -10,8 +10,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
+import com.crashlytics.android.Crashlytics
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
+import com.google.firebase.crash.FirebaseCrash
 import com.readingtime.R
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.extensions.getPercentageColor
@@ -50,11 +52,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         super.onResume()
         highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
         presenter.subscribe(highlightedId, cvCurrent)
+        FirebaseCrash.log("Test")
+        Crashlytics.log("Subscribed")
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         presenter.unsubscribe()
+        Crashlytics.log("Unsubscribed")
     }
 
     //VIEW

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
 import android.widget.ImageView
+import com.crashlytics.android.Crashlytics
 import com.readingtime.model.Record
 import com.readingtime.model.UserBook
 import com.readingtime.model.UserBookStatus
@@ -26,10 +27,12 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
 
     override fun subscribe(bookId: String) {
         loadLastRecord(bookId)
+        Crashlytics.log("RecordView Subscribed")
     }
 
     override fun unsubscribe() {
         disposable.dispose() //DISPOSE: Does not accept new disposables
+        Crashlytics.log("RecordView Disposed")
     }
 
 
@@ -70,6 +73,7 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
             uBook.status = UserBookStatus.READING
         }
         RemoteUserBook.update(uBook)
+        Crashlytics.log("RecordView UserBook Updated")
     }
 
     override fun saveRecord(currentDate: Date, time: Long, pagenum: Int, uBook: UserBook) {
