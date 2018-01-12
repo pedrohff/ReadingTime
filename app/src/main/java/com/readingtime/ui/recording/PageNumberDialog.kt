@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.dialog_numpage.view.*
  */
 class PageNumberDialog : DialogFragment(), TextView.OnEditorActionListener {
 
+    lateinit var pageString: String
 
     interface NoticeDialogListener {
         fun onDialogPositiveClick(page: Int)
@@ -34,6 +35,7 @@ class PageNumberDialog : DialogFragment(), TextView.OnEditorActionListener {
         }
         val view = inflater!!.inflate(R.layout.dialog_numpage, container)
 
+        view.tvDialogPageCount.text = pageString
         view.etPageStopped.requestFocus()
         view.etPageStopped.postDelayed(object : Runnable {
             override fun run() {

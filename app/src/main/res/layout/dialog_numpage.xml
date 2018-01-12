@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <TextView
@@ -14,6 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/book_page_stopped"
+        android:textColor="@color/text_grey"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,10 +28,26 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/greenaccent"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:textColor="@color/text_white"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPageStopped"
         tools:text="498" />
+
+    <TextView
+        android:id="@+id/tvDialogPageCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/text_white"
+        app:layout_constraintBottom_toTopOf="@+id/etPageStopped"
+        app:layout_constraintStart_toEndOf="@+id/tvPageStopped"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="(232/320)" />
 </android.support.constraint.ConstraintLayout>

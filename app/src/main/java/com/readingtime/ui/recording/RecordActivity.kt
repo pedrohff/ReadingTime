@@ -89,7 +89,9 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
 
     private fun showDialog() {
         val dialog = PageNumberDialog()
+        dialog.pageString = "(${uBook.pageStopped}/${uBook.book.pages})"
         dialog.show(fragmentManager, "PageNumberDialog")
+
     }
 
     private fun startStopTimer() { //TRY TO IMPROVE
