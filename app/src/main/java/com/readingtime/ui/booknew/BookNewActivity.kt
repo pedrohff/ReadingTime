@@ -113,8 +113,9 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         book?.pages = etPages.text.toString().toInt()
         if (book != null) {
-            presenter.saveBook(book!!)
-            finish()
+            presenter.saveBook(book!!, {
+                finish()
+            })
         } else {
             Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show()
             Log.e("NPE", "Trying to save null uBook")

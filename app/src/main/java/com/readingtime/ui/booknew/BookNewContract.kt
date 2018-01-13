@@ -21,7 +21,7 @@ interface BookNewContract {
     interface Presenter {
         fun subscribe()
         fun unsubscribe()
-        fun saveBook(book: Book)
+        fun saveBook(book: Book, onComplete: () -> Unit = {})
         fun updateSelectedImage(requestCode: Int, resultCode: Int, data: Intent?, context: Context)
     }
 }

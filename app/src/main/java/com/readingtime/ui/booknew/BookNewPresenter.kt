@@ -41,9 +41,9 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun saveBook(book: Book) {
+    override fun saveBook(book: Book, onComplete: () -> Unit) {
         try {
-            RemoteBook.save(book)
+            RemoteBook.save(book, provKey = bookKey, onComplete = onComplete)
         } catch (exc: IllegalArgumentException) {
             view.makeToast(exc.message.toString())
         }

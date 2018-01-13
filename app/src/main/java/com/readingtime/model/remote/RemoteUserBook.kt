@@ -30,7 +30,7 @@ object RemoteUserBook : RemoteDatabaseHelper() {
                             .child(userBook.book.id)
                             .child(record.id)
                             .setValue(record) { dbError, dbRef ->
-                                onComplete
+                                onComplete()
                             }
                 }
     }
