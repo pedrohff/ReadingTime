@@ -1,6 +1,7 @@
 package com.readingtime.ui.main
 
 import android.support.v7.widget.CardView
+import android.widget.Toast
 import com.readingtime.model.UserBook
 
 /**
@@ -13,6 +14,7 @@ interface MainContract {
         fun updateHighlighted(bookAux: UserBook)
         fun addBookToAdapter(book: UserBook)
         fun createSkeletonCardView()
+        fun makeToast(message: String, len: Int = Toast.LENGTH_SHORT)
     }
 
     interface Presenter {

@@ -61,7 +61,7 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
         }
     }
 
-    override fun updateUserBook(uBook: UserBook, pagenum: Int, time: Long) {
+    private fun updateUserBook(uBook: UserBook, pagenum: Int, time: Long, onComplete: () -> Unit = {}) {
         uBook.pageStopped = pagenum
         uBook.lastVisit = Date().time
         uBook.timeRead += time
@@ -72,11 +72,11 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
         } else {
             uBook.status = UserBookStatus.READING
         }
-        RemoteUserBook.update(uBook)
+        RemoteUserBook.update(uBook, onComplete = onComplete)
         Crashlytics.log("RecordView UserBook Updated")
     }
 
-    override fun saveRecord(currentDate: Date, time: Long, pagenum: Int, uBook: UserBook) {
+    private fun saveRecord(currentDate: Date, time: Long, pagenum: Int, uBook: UserBook, onComplete: () -> Unit = {}) {
         var record: Record
         if (lastRecord.date == currentDate.time) {
             record = lastRecord
@@ -88,5 +88,25 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
         }
 
         RemoteRecord.save(record, uBook.id)
+    }
+
+    override fun saveAll(currentDate: Date, timecounter: Long, pagenum: Int, uBook: UserBook, onComplete: () -> Unit) {
+        var recordSaved = false
+        var bookUpdated = false
+        var funCalled = false
+        saveRecord(currentDate, timecounter, pagenum, uBook, {
+            recordSaved = true
+            if (bookUpdated && !funCalled) {
+                funCalled = true
+                onComplete()
+            }
+        })
+        updateUserBook(uBook, pagenum, timecounter, {
+            bookUpdated = true
+            if (recordSaved && !funCalled) {
+                funCalled = true
+                onComplete
+            }
+        })
     }
 }

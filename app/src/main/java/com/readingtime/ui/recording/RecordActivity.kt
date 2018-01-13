@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.readingtime.R
 import com.readingtime.databinding.ActivityRecordBinding
 import com.readingtime.extensions.loadPreferenceLong
@@ -117,11 +118,12 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     }
 
     private fun saveRecord(pagenum: Int) {
-        presenter.saveRecord(currentDate, timecounter, pagenum, uBook)
-        presenter.updateUserBook(uBook, pagenum, timecounter)
+        presenter.saveAll(currentDate, timecounter, pagenum, uBook, {
+            Toast.makeText(this@RecordActivity, "Record Saved", Toast.LENGTH_SHORT)
+            savePreference(Preferences.LAST_MILLIS, 0)
+            finish()
+        })
 
-        savePreference(Preferences.LAST_MILLIS, 0)
-        finish()
     }
 
 }

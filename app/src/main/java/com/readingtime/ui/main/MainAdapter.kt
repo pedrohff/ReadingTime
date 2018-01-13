@@ -30,9 +30,7 @@ class MainAdapter(private val books: List<UserBook>, private var listener: OnCli
 
     override fun onBindViewHolder(holder: BookHolder?, position: Int) {
         val book: UserBook = books.elementAt(position)
-        if (holder != null) {
-            holder.bindView(book, listener)
-        }
+        holder?.bindView(book, listener)
     }
 
 
@@ -63,8 +61,10 @@ class MainAdapter(private val books: List<UserBook>, private var listener: OnCli
             }
             val percentage = uBook.getPerc()
             val color = getPercentageColor(percentage)
-            percImg.setColorFilter(color)
-            bookPercentage.setTextColor(color)
+            color.let {
+                percImg.setColorFilter(color)
+                bookPercentage.setTextColor(color)
+            }
         }
 
 

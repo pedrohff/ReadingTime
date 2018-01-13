@@ -8,8 +8,16 @@ import io.reactivex.Observable
  */
 object RemoteRecord : RemoteDatabaseHelper() {
 
-    fun save(record: Record, bookId: String, userId: String = "pedro") {
-        FirebaseProvider.fbRef.child("records").child(userId).child(bookId).child(record.id).setValue(record)
+    fun save(record: Record, bookId: String, userId: String = "pedro", onComplete: () -> Unit = {}) {
+        FirebaseProvider
+                .fbRef
+                .child("records")
+                .child(userId)
+                .child(bookId)
+                .child(record.id) //p0: DatabaseError?, p1: DatabaseReference?
+                .setValue(record) { dbError, dbRef ->
+                    onComplete()
+                }
     }
 
 //    override fun update(classtype: Record, userId: String) {

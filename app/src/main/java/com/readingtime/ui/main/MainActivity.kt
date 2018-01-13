@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
@@ -59,7 +60,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onPause() {
         super.onPause()
         presenter.unsubscribe()
-        Crashlytics.log("Unsubscribed")
     }
 
     //VIEW
@@ -77,6 +77,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun updateHighlighted(bookAux: UserBook) {
         loadHighlightedImage(bookAux)
+    }
+
+    override fun makeToast(message: String, len: Int) {
+        Toast.makeText(this, message, len).show()
     }
 
     //PRIVATE
@@ -167,9 +171,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private fun updateHighlightedPercentage(percentage: Int) {
         val color = getPercentageColor(percentage)
-        tvBookperc.setTextColor(color)
-        tvProgressText.setTextColor(color)
-        ivProgressIcon.setColorFilter(color)
+        color.let {
+            tvBookperc.setTextColor(it)
+            tvProgressText.setTextColor(it)
+            ivProgressIcon.setColorFilter(it)
+        }
     }
 }
 

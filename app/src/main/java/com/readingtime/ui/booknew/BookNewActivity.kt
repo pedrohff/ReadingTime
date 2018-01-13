@@ -112,7 +112,7 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     private fun saveBook() {
 
         book?.pages = etPages.text.toString().toInt()
-        if (book != null && validateBook()) {
+        if (book != null) {
             presenter.saveBook(book!!)
             finish()
         } else {
@@ -130,16 +130,5 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, "Please select the Book cover"), 7) //TODO("Strings")
         }
-    }
-
-    private fun validateBook(): Boolean {
-        var error = ""
-        //TODO validate before upload
-
-        if (error != "") {
-            makeToast("Fields must be filled: " + error) //TODO strings
-            return false
-        }
-        return true
     }
 }

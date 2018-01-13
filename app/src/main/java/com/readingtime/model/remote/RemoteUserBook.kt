@@ -15,15 +15,35 @@ import java.util.*
 
 object RemoteUserBook : RemoteDatabaseHelper() {
 
-    fun save(userBook: UserBook, userId: String = "pedro") {
-        FirebaseProvider.fbRef.child("userbooks").child(userId).child(userBook.book.id).setValue(userBook)
-
-        var record: Record = Record.construct(userBook.book, 0, null, 0, Date().removeHMS())
-        FirebaseProvider.fbRef.child("records").child(userId).child(userBook.book.id).child(record.id).setValue(record)
+    fun save(userBook: UserBook, userId: String = "pedro", onComplete: () -> Unit = {}) {
+        FirebaseProvider
+                .fbRef
+                .child("userbooks")
+                .child(userId)
+                .child(userBook.book.id)
+                .setValue(userBook) { dbError, dbRef ->
+                    var record: Record = Record.construct(userBook.book, 0, null, 0, Date().removeHMS())
+                    FirebaseProvider
+                            .fbRef
+                            .child("records")
+                            .child(userId)
+                            .child(userBook.book.id)
+                            .child(record.id)
+                            .setValue(record) { dbError, dbRef ->
+                                onComplete
+                            }
+                }
     }
 
-    fun update(userBook: UserBook, userId: String = "pedro") {
-        FirebaseProvider.fbRef.child("userbooks").child(userId).child(userBook.book.id).setValue(userBook)
+    fun update(userBook: UserBook, userId: String = "pedro", onComplete: () -> Unit = {}) {
+        FirebaseProvider
+                .fbRef
+                .child("userbooks")
+                .child(userId)
+                .child(userBook.book.id)
+                .setValue(userBook) { dbError, dbRef ->
+                    onComplete()
+                }
     }
 
     fun findById(bookId: String, userId: String = "pedro"): Observable<UserBook> {

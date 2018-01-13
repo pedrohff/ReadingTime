@@ -14,9 +14,8 @@ interface RecordContract {
 
     interface Presenter {
         fun loadBookCover(url: String, view: ImageView, context: Context)
-        fun saveRecord(currentDate: Date, time: Long, pagenum: Int, uBook: UserBook)
-        fun updateUserBook(uBook: UserBook, pagenum: Int, time: Long)
         fun subscribe(bookId: String)
         fun unsubscribe()
+        fun saveAll(currentDate: Date, timecounter: Long, pagenum: Int, uBook: UserBook, onComplete: () -> Unit)
     }
 }
