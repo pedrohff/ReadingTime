@@ -119,7 +119,7 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
 
     private fun saveRecord(pagenum: Int) {
         presenter.saveAll(currentDate, timecounter, pagenum, uBook, {
-            Toast.makeText(this@RecordActivity, "Record Saved", Toast.LENGTH_SHORT)
+            Toast.makeText(this@RecordActivity, "Record Saved", Toast.LENGTH_SHORT).show()
             savePreference(Preferences.LAST_MILLIS, 0)
             finish()
         })

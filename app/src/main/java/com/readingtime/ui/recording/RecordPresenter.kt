@@ -87,26 +87,14 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
             record = Record.construct(uBook.book, time, lastRecord, pagenum, currentDate)
         }
 
-        RemoteRecord.save(record, uBook.id)
+        RemoteRecord.save(record, uBook.id, onComplete = onComplete)
     }
 
     override fun saveAll(currentDate: Date, timecounter: Long, pagenum: Int, uBook: UserBook, onComplete: () -> Unit) {
-        var recordSaved = false
-        var bookUpdated = false
-        var funCalled = false
         saveRecord(currentDate, timecounter, pagenum, uBook, {
-            recordSaved = true
-            if (bookUpdated && !funCalled) {
-                funCalled = true
+            updateUserBook(uBook, pagenum, timecounter, {
                 onComplete()
-            }
-        })
-        updateUserBook(uBook, pagenum, timecounter, {
-            bookUpdated = true
-            if (recordSaved && !funCalled) {
-                funCalled = true
-                onComplete
-            }
+            })
         })
     }
 }
