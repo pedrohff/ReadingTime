@@ -75,6 +75,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         bookMap.put(book.id, book)
     }
 
+    override fun addBooksToAdapter(books: List<UserBook>) {
+        for (uBook: UserBook in books) {
+            bookMap.put(uBook.id, uBook)
+        }
+    }
+
     override fun updateHighlighted(bookAux: UserBook) {
         loadHighlightedImage(bookAux)
     }
@@ -160,7 +166,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                         }
 
                         override fun onError() {
-                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
                         }
 
                     })

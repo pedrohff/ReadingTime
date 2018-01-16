@@ -2,8 +2,7 @@ package com.readingtime.ui.main
 
 import android.support.v7.widget.CardView
 import android.view.View
-import com.readingtime.model.UserBook
-import com.readingtime.model.remote.RemoteUserBook
+import com.readingtime.model.repository.UserBookRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,21 +15,18 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
     private val disposable = CompositeDisposable()
 
     override fun loadHighlighted(bookId: String?, cardView: CardView) {
-        lateinit var bookAux: UserBook
         if (bookId != null) {
             if(cardView.visibility == View.GONE)
                 cardView.visibility = View.VISIBLE
             view.createSkeletonCardView()
             disposable.add(
-                    RemoteUserBook.findById(bookId = bookId)
+                    UserBookRepository.getLastUserbook()
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ bookPres ->
-                                bookAux = bookPres
+                                view.updateHighlighted(bookPres)
                             }, { e ->
                                 e.printStackTrace()
-                            }, {
-                                view.updateHighlighted(bookAux)
                             })
             )
         } else {
@@ -41,11 +37,11 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
 
     override fun loadAllBooks() {
         disposable.add(
-                RemoteUserBook.listAll()
+                UserBookRepository.getUserBooks("pedro")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ uBook ->
-                            view.addBookToAdapter(uBook)
+                        .subscribe({ uBooks ->
+                            view.addBooksToAdapter(uBooks)
                         }, { e ->
                             e.printStackTrace()
                         }, {
@@ -53,6 +49,21 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
                         })
         )
     }
+
+//    override fun loadAllBooks() {
+//        disposable.add(
+//                RemoteUserBook.listAll()
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe({ uBook ->
+//                            view.addBookToAdapter(uBook)
+//                        }, { e ->
+//                            e.printStackTrace()
+//                        }, {
+//                            view.updateAdapter()
+//                        })
+//        )
+//    }
 
     override fun subscribe(bookId: String?, cardView: CardView) {
         loadHighlighted(bookId, cardView)

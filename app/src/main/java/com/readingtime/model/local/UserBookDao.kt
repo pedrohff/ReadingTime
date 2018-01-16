@@ -19,6 +19,9 @@ interface UserBookDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(userBook: UserBook)
 
-    @Query("SELECT * FROM UserBook ORDER BY lastVisit DESC LIMIT 10")
-    fun last(): Single<List<UserBook>>
+    @Query("SELECT * FROM UserBook ORDER BY lastVisit DESC LIMIT :limit")
+    fun recent(limit: Int = 10): Single<List<UserBook>>
+
+    @Query("SELECT * FROM UserBook ORDER BY lastVisit DESC LIMIT 1")
+    fun last(): Single<UserBook>
 }

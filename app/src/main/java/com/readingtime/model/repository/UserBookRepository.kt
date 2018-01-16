@@ -4,6 +4,7 @@ import com.readingtime.model.UserBook
 import com.readingtime.model.local.LocalProvider
 import com.readingtime.model.remote.RemoteUserBook
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -15,20 +16,28 @@ object UserBookRepository {
 
 
     fun getUserBooks(userId: String): Observable<List<UserBook>> {
-        return Observable.concatArray(
+        return Observable.concatArrayEager(
                 getUserbooksFromDb(),
                 getUserbooksFromApi(userId)
         )
     }
 
+    fun getLastUserbook(userId: String = "pedro"): Single<UserBook> {
+        return userBookDao.last()
+    }
+
+
     private fun getUserbooksFromDb(): Observable<List<UserBook>> {
-        return userBookDao.last().toObservable()
+        return userBookDao.recent().toObservable()
     }
 
     private fun getUserbooksFromApi(userId: String): Observable<MutableList<UserBook>> {
         return userBookApi
                 .listAllNew(userId)
                 .doOnNext { storeUserBook(it) }
+                .onErrorReturn {
+                    emptyList<UserBook>().toMutableList()
+                }
     }
 
     private fun storeUserBook(userBooks: List<UserBook>) {

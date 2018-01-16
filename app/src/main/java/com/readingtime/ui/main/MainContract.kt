@@ -13,6 +13,7 @@ interface MainContract {
         fun updateAdapter()
         fun updateHighlighted(bookAux: UserBook)
         fun addBookToAdapter(book: UserBook)
+        fun addBooksToAdapter(book: List<UserBook>)
         fun createSkeletonCardView()
         fun makeToast(message: String, len: Int = Toast.LENGTH_SHORT)
     }
