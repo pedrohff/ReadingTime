@@ -1,5 +1,8 @@
 package com.readingtime.model
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 import java.text.SimpleDateFormat
@@ -8,11 +11,22 @@ import java.util.*
 /**
  * Created by pedro on 26/12/17.
  */
-data class Record (var id:String, var bookId:String, var date: Long, var milisRead:Long, var pagesRead:Int, var pageStopped: Int) : Parcelable {
+@Entity
+data class Record(
+        @PrimaryKey
+        @ColumnInfo(name = "record_id")
+        var id: String,
+        var bookId: String,
+        var date: Long,
+        var dateString: String,
+        var milisRead: Long,
+        var pagesRead: Int,
+        var pageStopped: Int) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
             parcel.readLong(),
+            parcel.readString(),
             parcel.readLong(),
             parcel.readInt(),
             parcel.readInt())
@@ -21,6 +35,7 @@ data class Record (var id:String, var bookId:String, var date: Long, var milisRe
         parcel.writeString(id)
         parcel.writeString(bookId)
         parcel.writeLong(date)
+        parcel.writeString(dateString)
         parcel.writeLong(milisRead)
         parcel.writeInt(pagesRead)
         parcel.writeInt(pageStopped)
@@ -49,9 +64,9 @@ data class Record (var id:String, var bookId:String, var date: Long, var milisRe
             val newDate = calendar.time
 
             val formatter = SimpleDateFormat("yyyy-MM-dd")
-            val id = formatter.format(date)
+            val dateString = formatter.format(date)
             val pRead = if (lastRecord!=null) pageStopped - lastRecord.pageStopped else pageStopped
-            return Record(id, book.id, newDate.time, time, pRead, pageStopped)
+            return Record("", book.id, newDate.time, dateString, time, pRead, pageStopped)
         }
     }
 

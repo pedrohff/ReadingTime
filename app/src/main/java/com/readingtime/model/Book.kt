@@ -1,12 +1,18 @@
 package com.readingtime.model
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 
 /**
  * Created by pedro on 26/12/17.
  */
+@Entity
 data class Book(
+        @PrimaryKey
+        @ColumnInfo(name = "book_id")
         var id:String="",
         var name:String="",
         var author:String="",

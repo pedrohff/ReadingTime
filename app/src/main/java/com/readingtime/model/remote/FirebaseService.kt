@@ -3,7 +3,6 @@ package com.readingtime.model.remote
 import com.readingtime.model.Book
 import com.readingtime.model.FirebaseUserBook
 import com.readingtime.model.Record
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -59,11 +58,12 @@ interface FirebaseService {
             limit: Int = 1
     ): Observable<HashMap<String, Record>>
 
-    @GET("records/{userId}/{bookId}/{recordId}.json")
+    @GET("records/{userId}/{bookId}/{recordDateString}.json")
     fun recordsFind(
             @Path("bookId")
             bookId: String,
-            recordId: String,
+            @Path("recordDateString")
+            recordDateString: String,
             @Path("userId")
             userID: String = "pedro"
     ): Observable<Record>

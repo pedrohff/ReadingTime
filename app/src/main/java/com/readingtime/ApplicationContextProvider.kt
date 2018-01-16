@@ -1,7 +1,10 @@
 package com.readingtime
 
 import android.app.Application
+import android.arch.persistence.room.Room
 import android.content.Context
+import com.readingtime.model.local.LocalProvider
+import com.readingtime.model.local.LocalService
 
 
 /**
@@ -13,6 +16,7 @@ class ApplicationContextProvider : Application() {
         super.onCreate()
 
         context = applicationContext
+        LocalProvider.db = Room.databaseBuilder(context, LocalService::class.java, "LocalDB").build()
     }
 
     companion object {

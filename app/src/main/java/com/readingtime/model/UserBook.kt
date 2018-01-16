@@ -1,5 +1,6 @@
 package com.readingtime.model
 
+import android.arch.persistence.room.*
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
@@ -9,15 +10,21 @@ import java.util.*
 /**
  * Created by pedro on 05/01/18.
  */
-data class UserBook(var id: String = "",
-                    @get:Exclude var book: Book = Book(),
-                    var lastVisit: Long = Date().time,
-                    var timeRead: Long = 0,
-                    var status: UserBookStatus = UserBookStatus.NEW,
-                    var dateAdded: Long = Date().time,
-                    var dateFinished: Long? = null,
-                    var pageStopped: Int = 0,
-                    @get:Exclude var records: MutableList<Record>? = null) : Parcelable {
+@Entity
+data class UserBook(
+        @PrimaryKey
+        @ColumnInfo(name = "userbook_id")
+        var id: String = "",
+        @Embedded
+        @get:Exclude var book: Book = Book(),
+        var lastVisit: Long = Date().time,
+        var timeRead: Long = 0,
+        var status: UserBookStatus = UserBookStatus.NEW,
+        var dateAdded: Long = Date().time,
+        var dateFinished: Long? = null,
+        var pageStopped: Int = 0,
+        @Ignore
+        @get:Exclude var records: MutableList<Record>? = null) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),

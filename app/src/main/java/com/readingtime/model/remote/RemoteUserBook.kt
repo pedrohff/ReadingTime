@@ -86,6 +86,19 @@ object RemoteUserBook : RemoteDatabaseHelper() {
                 }
     }
 
+    fun listAllNew(userId: String = "pedro"): Observable<MutableList<UserBook>> {
+        return FirebaseProvider.service.listUserBooks(userId = userId)
+                .flatMap { fbuMap: Map<String, FirebaseUserBook>? -> Observable.fromIterable(fbuMap?.values) }
+                .map { fbuBook -> fbuBook.toUserBook() }
+                .flatMap { book ->
+                    Observable.zip(
+                            Observable.just(book),
+                            RemoteBook.findById(book.id).doOnNext { tBook: Book -> FirebaseProvider.booksCache.put(tBook.id, tBook) },
+                            BiFunction { uBook: UserBook, bk: Book -> uBook.book = bk; uBook }
+                    )
+                }.toList().toObservable()
+    }
+
     fun delete(typeId: String, userId: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
