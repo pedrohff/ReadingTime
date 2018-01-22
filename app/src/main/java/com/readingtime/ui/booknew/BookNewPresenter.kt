@@ -43,6 +43,7 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
 
     override fun saveBook(book: Book, onComplete: () -> Unit) {
         try {
+            //TODO BookRepository.save
             RemoteBook.save(book, provKey = bookKey, onComplete = onComplete)
         } catch (exc: IllegalArgumentException) {
             view.makeToast(exc.message.toString())

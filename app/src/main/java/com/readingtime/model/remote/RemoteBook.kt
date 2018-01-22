@@ -33,6 +33,7 @@ object RemoteBook {
 //        FirebaseProvider.fbRef.child("records").child(userId).child(book.id).child(record.id).setValue(record)
 
         if (saveToUserBook) {
+            //TODO Userbookprovider.save
             RemoteUserBook.save(UserBook(book.id, book), onComplete = onComplete)
         }
     }
