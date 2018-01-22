@@ -19,9 +19,9 @@ interface MainContract {
     }
 
     interface Presenter {
-        fun subscribe(bookId: String?, cardView: CardView)
+        fun subscribe(cardView: CardView)
         fun unsubscribe()
         fun loadAllBooks()
-        fun loadHighlighted(bookId: String?, cardView: CardView)
+        fun loadHighlighted(cardView: CardView)
     }
 }

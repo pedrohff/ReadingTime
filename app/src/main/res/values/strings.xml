@@ -27,15 +27,15 @@
     <string name="progress">Progress</string>
     <string name="upload_image">Upload Image</string>
 
-        <!--BOOK CATEGORIES-->
+    <!--BOOK CATEGORIES-->
     <string name="bookcategory_adventure">Adventure</string>
     <string name="bookcategory_fantasy">Fantasy</string>
     <string name="bookcategory_scify">Science-Fiction</string>
     <!--<string name="bookcategory_"></string>-->
 
-        <!--BOOK TYPES-->
-        <string name="booktype_book">Book</string>
-        <string name="booktype_graphicnovel">Graphic Novel</string>
+    <!--BOOK TYPES-->
+    <string name="booktype_book">Book</string>
+    <string name="booktype_graphicnovel">Graphic Novel</string>
     <string name="booktype_manga">Manga</string>
 
 </resources>

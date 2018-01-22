@@ -14,24 +14,20 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
 
     private val disposable = CompositeDisposable()
 
-    override fun loadHighlighted(bookId: String?, cardView: CardView) {
-        if (bookId != null) {
-            if(cardView.visibility == View.GONE)
-                cardView.visibility = View.VISIBLE
-            view.createSkeletonCardView()
-            disposable.add(
-                    UserBookRepository.getLastUserbook()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ bookPres ->
-                                view.updateHighlighted(bookPres)
-                            }, { e ->
-                                e.printStackTrace()
-                            })
-            )
-        } else {
-            cardView.visibility = View.GONE
-        }
+    override fun loadHighlighted(cardView: CardView) {
+        view.createSkeletonCardView()
+        disposable.add(
+                UserBookRepository.getLastUserbook()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ bookPres ->
+                            //TODO tratar nulo
+                            view.updateHighlighted(bookPres)
+                        }, { e ->
+                            cardView.visibility = View.GONE
+                            e.printStackTrace()
+                        })
+        )
 
     }
 
@@ -65,8 +61,8 @@ class MainPresenter(var view: MainContract.View) : MainContract.Presenter {
 //        )
 //    }
 
-    override fun subscribe(bookId: String?, cardView: CardView) {
-        loadHighlighted(bookId, cardView)
+    override fun subscribe(cardView: CardView) {
+        loadHighlighted(cardView)
         loadAllBooks()
     }
 

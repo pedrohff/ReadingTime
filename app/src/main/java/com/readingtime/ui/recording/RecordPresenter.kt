@@ -9,7 +9,7 @@ import com.readingtime.model.Record
 import com.readingtime.model.UserBook
 import com.readingtime.model.UserBookStatus
 import com.readingtime.model.remote.RemoteRecord
-import com.readingtime.model.remote.RemoteUserBook
+import com.readingtime.model.repository.UserBookRepository
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -72,12 +72,12 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
         } else {
             uBook.status = UserBookStatus.READING
         }
-        RemoteUserBook.update(uBook, onComplete = onComplete)
+        UserBookRepository.update(uBook, onComplete = onComplete)
         Crashlytics.log("RecordView UserBook Updated")
     }
 
     private fun saveRecord(currentDate: Date, time: Long, pagenum: Int, uBook: UserBook, onComplete: () -> Unit = {}) {
-        var record: Record
+        val record: Record
         if (lastRecord.date == currentDate.time) {
             record = lastRecord
             record.milisRead += time
@@ -86,10 +86,11 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
         } else {
             record = Record.construct(uBook.book, time, lastRecord, pagenum, currentDate)
         }
-
+        //TODO UserRepository.save || update
         RemoteRecord.save(record, uBook.id, onComplete = onComplete)
     }
 
+    //TODO whats this function for?
     override fun saveAll(currentDate: Date, timecounter: Long, pagenum: Int, uBook: UserBook, onComplete: () -> Unit) {
         saveRecord(currentDate, timecounter, pagenum, uBook, {
             updateUserBook(uBook, pagenum, timecounter, {

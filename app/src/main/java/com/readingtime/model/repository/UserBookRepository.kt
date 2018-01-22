@@ -14,6 +14,13 @@ object UserBookRepository {
     val userBookDao = LocalProvider.db.userBookDao()
     val userBookApi = RemoteUserBook
 
+    fun update(userBook: UserBook, onComplete: () -> Unit = {}) {
+        userBookApi.update(userBook, onComplete = {
+            userBookDao.update(userBook)
+            onComplete()
+        })
+    }
+
 
     fun getUserBooks(userId: String): Observable<List<UserBook>> {
         return Observable.concatArrayEager(

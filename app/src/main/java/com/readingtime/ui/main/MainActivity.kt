@@ -18,8 +18,6 @@ import com.google.firebase.crash.FirebaseCrash
 import com.readingtime.R
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.extensions.getPercentageColor
-import com.readingtime.extensions.loadPreferenceString
-import com.readingtime.model.Preferences
 import com.readingtime.model.UserBook
 import com.readingtime.ui.booknew.BookNewActivity
 import com.readingtime.ui.recording.RecordActivity
@@ -43,7 +41,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         presenter = MainPresenter(this)
-        highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
+//        highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
         createButtonListeners()
         createAdapter()
         createSkelleton()
@@ -51,8 +49,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onResume() {
         super.onResume()
-        highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
-        presenter.subscribe(highlightedId, cvCurrent)
+//        highlightedId = loadPreferenceString(Preferences.LAST_BOOK)
+        presenter.subscribe(cvCurrent)
         FirebaseCrash.log("Test")
         Crashlytics.log("Subscribed")
     }
