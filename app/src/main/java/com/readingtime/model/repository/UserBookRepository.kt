@@ -16,8 +16,11 @@ object UserBookRepository {
 
     fun update(userBook: UserBook, onComplete: () -> Unit = {}) {
         userBookApi.update(userBook, onComplete = {
-            userBookDao.update(userBook)
-            onComplete()
+            Observable.fromCallable { userBookDao.update(userBook) }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io())
+                    .doOnComplete(onComplete)
+                    .subscribe()
         })
     }
 
