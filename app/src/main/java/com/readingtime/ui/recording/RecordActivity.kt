@@ -48,10 +48,10 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
 
         var millisPref: Long = 0
         if (uBook.id == loadPreferenceString(Preferences.LAST_BOOK)) {
-            millisPref = loadPreferenceLong(Preferences.LAST_MILLIS)
+            millisPref = Math.abs(loadPreferenceLong(Preferences.LAST_MILLIS))
         }
-        counter.base = SystemClock.elapsedRealtime() - millisPref
-        timeaux = millisPref
+        counter.base = Math.abs(SystemClock.elapsedRealtime() - millisPref)
+        timeaux = Math.abs(millisPref)
     }
 
     override fun onResume() {

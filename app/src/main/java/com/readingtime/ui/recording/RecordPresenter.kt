@@ -49,7 +49,7 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
 
     override fun loadBookCover(url: String, view: ImageView, context: Context) {
         val width = Resources.getSystem().displayMetrics.widthPixels
-        val height: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 160f, Resources.getSystem().displayMetrics).toInt()
+        val height: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 360f, Resources.getSystem().displayMetrics).toInt()
         if (url != "") {
             Picasso.with(context)
                     .load(url)

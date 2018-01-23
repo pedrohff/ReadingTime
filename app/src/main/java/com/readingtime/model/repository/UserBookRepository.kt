@@ -5,6 +5,7 @@ import com.readingtime.model.local.LocalProvider
 import com.readingtime.model.remote.RemoteUserBook
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -18,7 +19,7 @@ object UserBookRepository {
         userBookApi.update(userBook, onComplete = {
             Observable.fromCallable { userBookDao.update(userBook) }
                     .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .doOnComplete(onComplete)
                     .subscribe()
         })
