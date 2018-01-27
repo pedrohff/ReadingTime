@@ -44,6 +44,21 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         initAdapters()
         createButtonListeners()
+//        testFillBook()
+    }
+
+    private fun testFillBook() {
+        book?.let {
+            it.name = "Moebius Library: The World of Edena"
+            it.pages = 360
+            etPages.setText(360.toString())
+            it.publisher = "Dark Horse Books"
+            it.coverURL = "https://firebasestorage.googleapis.com/v0/b/pizzagent-e12b9.appspot.com/o/bookCovers%2F-L3or1kmkz0JbPq79lJu.jpg?alt=media&token=5409951e-c24c-46f5-824d-cbe67192e225"
+            it.category = "SCI-FI"
+            it.author = "Moebius"
+            it.artist = "Moebius"
+            it.type = "GRAPHIC_NOVEL"
+        }
     }
 
     private fun initAdapters() {

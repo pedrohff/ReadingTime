@@ -23,15 +23,7 @@ object RemoteUserBook : RemoteDatabaseHelper() {
                 .child(userBook.book.id)
                 .setValue(userBook) { dbError, dbRef ->
                     var record: Record = Record.construct(userBook.book, 0, null, 0, Date().removeHMS())
-                    FirebaseProvider
-                            .fbRef
-                            .child("records")
-                            .child(userId)
-                            .child(userBook.book.id)
-                            .child(record.id)
-                            .setValue(record) { dbError, dbRef ->
-                                onComplete()
-                            }
+                    RemoteRecord.save(record, onComplete = onComplete, bookId = userBook.book.id)
                 }
     }
 
