@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private fun updateHighlightedPercentage(percentage: Int) {
         val color = getPercentageColor(percentage)
-        color.let {
+        color?.let {
             tvBookperc.setTextColor(it)
             tvProgressText.setTextColor(it)
             ivProgressIcon.setColorFilter(it)

@@ -26,11 +26,11 @@
     <color name="text_white">#fff</color>
     <color name="text_grey">#dadcdb</color>
     <color name="text_hours_read">#90a5af</color>
-    <color name="text_percentage20">#91a992</color>
-    <color name="text_percentage40">#86B673</color>
-    <color name="text_percentage60">#7BC355</color>
-    <color name="text_percentage80">#6FD036</color>
-    <color name="text_percentage100">#64dd17</color>
+    <color name="text_percentage20">#D1DFE6</color>
+    <color name="text_percentage40">#B7D7CF</color>
+    <color name="text_percentage60">#9CD0B8</color>
+    <color name="text_percentage80">#82C8A1</color>
+    <color name="text_percentage100">#67C08A</color>
 
     <!--BUTTONS-->
     <color name="button_primary">#67c08a</color>
