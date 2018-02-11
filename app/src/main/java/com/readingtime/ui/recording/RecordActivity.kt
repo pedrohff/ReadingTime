@@ -102,19 +102,19 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
         }
 
         if (isRunning){
-            timeaux = counter.base - SystemClock.elapsedRealtime()
+            timeaux = Math.abs(counter.base - SystemClock.elapsedRealtime())
             counter.stop()
             btStartStop.text = getString(R.string.counter_resume)
             isRunning = !isRunning
         } else {
-            counter.base = SystemClock.elapsedRealtime() + timeaux
+            counter.base = Math.abs(SystemClock.elapsedRealtime() + timeaux)
             counter.start()
             btStartStop.text = getString(R.string.counter_pause)
             isRunning = !isRunning
         }
 
         timecounter = ((SystemClock.elapsedRealtime() - counter.base).toString()).toLong()
-        savePreference(Preferences.LAST_MILLIS, timecounter)
+        savePreference(Preferences.LAST_MILLIS, Math.abs(timecounter))
     }
 
     private fun saveRecord(pagenum: Int) {

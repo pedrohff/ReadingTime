@@ -11,7 +11,7 @@ android {
         config {
             keyAlias 'ReadingTimeAndroidKey'
             keyPassword 'pedro123'
-            storeFile file('/home/pedro/Projetos/ReadingTime/key/android.jks')
+            storeFile file('C:/Users/Pedro/StudioProjects/ReadingTime/key/android.jks')
             storePassword 'pedro123'
         }
     }
@@ -46,7 +46,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }
@@ -103,14 +102,13 @@ dependencies {
     //Room
     compile 'android.arch.persistence.room:runtime:1.0.0'
     kapt "android.arch.persistence.room:compiler:1.0.0"
-    implementation "android.arch.persistence.room:rxjava2:1.0.0"
+    implementation 'android.arch.persistence.room:rxjava2:1.0.0'
 
     //Skeleton(UI)
     compile 'com.ethanhua:skeleton:1.0.0'
 
     //Image Compression
     compile 'id.zelory:compressor:2.1.0'
-
 }
 
 apply plugin: 'kotlin-kapt'
