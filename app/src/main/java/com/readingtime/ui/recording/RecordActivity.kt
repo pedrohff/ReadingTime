@@ -13,9 +13,13 @@ import com.readingtime.extensions.removeHMS
 import com.readingtime.extensions.savePreference
 import com.readingtime.model.Preferences
 import com.readingtime.model.UserBook
+import com.readingtime.model.remote.FirebaseLog
 import kotlinx.android.synthetic.main.activity_record.*
 import java.util.*
 
+/**
+ * This whole activity needs refactoring >_<
+ */
 class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListener, RecordContract.View {
 
     companion object {
@@ -25,7 +29,16 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
     private var currentDate = Date().removeHMS()
     private var firstClick = true
     private var isRunning = false
+
+    /**
+     * The system's current time + this = the time read in milis
+     * As it's value is always negative, the counting itself is calculated by the difference of the current time and the time counted in millis
+     */
     private var timeaux: Long = 0
+
+    /**
+     * Has the long value that will be stored on DB (always positive value)
+     */
     private var timecounter: Long = 0
 
     lateinit var binding: ActivityRecordBinding
@@ -48,10 +61,13 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
 
         var millisPref: Long = 0
         if (uBook.id == loadPreferenceString(Preferences.LAST_BOOK)) {
-            millisPref = Math.abs(loadPreferenceLong(Preferences.LAST_MILLIS))
+            millisPref = loadPreferenceLong(Preferences.LAST_MILLIS)
+            if(millisPref.toInt() != 0) {
+                FirebaseLog.put("Time saved in preference: ${millisPref}")
+            }
         }
-        counter.base = Math.abs(SystemClock.elapsedRealtime() - millisPref)
-        timeaux = Math.abs(millisPref)
+        counter.base = SystemClock.elapsedRealtime() + millisPref
+        timeaux = millisPref
     }
 
     override fun onResume() {
@@ -102,20 +118,22 @@ class RecordActivity : AppCompatActivity(), PageNumberDialog.NoticeDialogListene
         }
 
         if (isRunning){
-            timeaux = Math.abs(counter.base - SystemClock.elapsedRealtime())
+            timeaux = counter.base - SystemClock.elapsedRealtime()
             counter.stop()
             btStartStop.text = getString(R.string.counter_resume)
             isRunning = !isRunning
         } else {
-            counter.base = Math.abs(SystemClock.elapsedRealtime() + timeaux)
+            counter.base = SystemClock.elapsedRealtime() + timeaux
             counter.start()
             btStartStop.text = getString(R.string.counter_pause)
             isRunning = !isRunning
         }
 
         timecounter = ((SystemClock.elapsedRealtime() - counter.base).toString()).toLong()
-        savePreference(Preferences.LAST_MILLIS, Math.abs(timecounter))
+        FirebaseLog.put("Counter: $timecounter. Aux: $timeaux")
+        savePreference(Preferences.LAST_MILLIS, timeaux)
     }
+
 
     private fun saveRecord(pagenum: Int) {
         presenter.saveAll(currentDate, timecounter, pagenum, uBook, {
