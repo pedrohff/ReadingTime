@@ -22,6 +22,7 @@ import com.readingtime.model.UserBook
 import com.readingtime.ui.booknew.BookNewActivity
 import com.readingtime.ui.recording.RecordActivity
 import com.squareup.picasso.Callback
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -151,6 +152,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         if (url != "") {
             Picasso.with(this)
                     .load(url)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .resize(width, height)
                     .centerCrop()
                     .into(img, object : Callback {
@@ -164,7 +166,25 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                         }
 
                         override fun onError() {
+                            Picasso.with(this@MainActivity)
+                                    .load(url)
+                                    .resize(width, height)
+                                    .centerCrop()
+                                    .into(img, object : Callback {
+                                        override fun onSuccess() {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                                cvCurrent.background = img.drawable
+                                            } else {
+                                                cvCurrent.setBackgroundDrawable(img.drawable)
+                                            }
+                                            displayCardInfo(bookAux)
+                                        }
 
+                                        override fun onError() {
+
+                                        }
+
+                                    })
                         }
 
                     })
@@ -176,9 +196,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private fun updateHighlightedPercentage(percentage: Int) {
         val color = getPercentageColor(percentage)
         color?.let {
-            tvBookperc.setTextColor(it)
-            tvProgressText.setTextColor(it)
-            ivProgressIcon.setColorFilter(it)
+            tvBookperc?.setTextColor(it)
+            tvProgressText?.setTextColor(it)
+            ivProgressIcon?.setColorFilter(it)
         }
     }
 }

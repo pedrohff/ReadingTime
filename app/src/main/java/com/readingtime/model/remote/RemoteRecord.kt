@@ -1,7 +1,9 @@
 package com.readingtime.model.remote
 
 import com.readingtime.model.Record
+import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * Created by pedro on 08/01/18.
@@ -30,7 +32,7 @@ object RemoteRecord : RemoteDatabaseHelper() {
                 .flatMap { record -> Observable.fromIterable(record.values) }
     }
 
-    fun findLast(userId: String = "pedro", bookId: String): Observable<Record> {
+    fun findLast(userId: String = "pedro", bookId: String): Single<Record> {
         return FirebaseProvider.service.findLastRecord(userId, bookId)
                 .map { map -> map.values.first() }
     }

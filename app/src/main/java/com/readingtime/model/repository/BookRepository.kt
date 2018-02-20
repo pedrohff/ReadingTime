@@ -5,6 +5,7 @@ import com.readingtime.model.local.LocalProvider
 import com.readingtime.model.remote.RemoteBook
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by pedro on 15/01/18.
@@ -21,7 +22,9 @@ object BookRepository {
     }
 
     private fun getBookFromDb(id: String): Observable<Book> {
-        return bookDao.findById(id).toObservable()
+        return bookDao.findById(id)
+                .toObservable()
+                .debounce(400, TimeUnit.MILLISECONDS)
     }
 
     private fun getBookFromApi(id: String): Observable<Book> {

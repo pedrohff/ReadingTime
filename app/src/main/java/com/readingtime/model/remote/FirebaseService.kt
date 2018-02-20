@@ -3,7 +3,9 @@ package com.readingtime.model.remote
 import com.readingtime.model.Book
 import com.readingtime.model.FirebaseUserBook
 import com.readingtime.model.Record
+import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -56,7 +58,7 @@ interface FirebaseService {
             orderBy: String = "\"\$key\"",
             @Query("limitToLast")
             limit: Int = 1
-    ): Observable<HashMap<String, Record>>
+    ): Single<HashMap<String, Record>>
 
     @GET("records/{userId}/{bookId}/{recordDateString}.json")
     fun recordsFind(

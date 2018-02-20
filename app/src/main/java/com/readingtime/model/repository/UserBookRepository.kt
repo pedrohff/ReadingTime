@@ -2,11 +2,16 @@ package com.readingtime.model.repository
 
 import com.readingtime.model.UserBook
 import com.readingtime.model.local.LocalProvider
+import com.readingtime.model.remote.FirebaseLog
+import com.readingtime.model.remote.FirebaseProvider
+import com.readingtime.model.remote.FirebaseService
 import com.readingtime.model.remote.RemoteUserBook
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by pedro on 15/01/18.
@@ -37,15 +42,22 @@ object UserBookRepository {
         return userBookDao.last()
     }
 
-
     private fun getUserbooksFromDb(): Observable<List<UserBook>> {
-        return userBookDao.recent().toObservable()
+        return userBookDao.recent()
+                .toObservable()
+                .debounce(400, TimeUnit.MILLISECONDS)
+                .doOnNext {
+            FirebaseLog.put("Fetching ${it.size} userbooks from DB. Date: ${Date().toString()}")
+        }
     }
 
     private fun getUserbooksFromApi(userId: String): Observable<MutableList<UserBook>> {
         return userBookApi
                 .listAllNew(userId)
-                .doOnNext { storeUserBook(it) }
+                .doOnNext {
+                    storeUserBook(it)
+                    FirebaseLog.put("Fetching ${it.size} userbooks from API. Date: ${Date().toString()}")
+                }
                 .onErrorReturn {
                     emptyList<UserBook>().toMutableList()
                 }

@@ -9,7 +9,10 @@ import com.readingtime.model.Record
 import com.readingtime.model.UserBook
 import com.readingtime.model.UserBookStatus
 import com.readingtime.model.remote.RemoteRecord
+import com.readingtime.model.repository.RecordRepository
 import com.readingtime.model.repository.UserBookRepository
+import com.squareup.picasso.Callback
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -38,11 +41,13 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
 
     private fun loadLastRecord(bookId: String) {
         disposable.add(
-                RemoteRecord.findLast(bookId = bookId)
+                RecordRepository.findLast(bookId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ record ->
                             lastRecord = record
+                        },{
+                            e -> e.printStackTrace()
                         })
         )
     }
@@ -53,9 +58,22 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
         if (url != "") {
             Picasso.with(context)
                     .load(url)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .resize(width, height)
                     .centerCrop()
-                    .into(view)
+                    .into(view, object: Callback{
+                        override fun onSuccess() {
+                        }
+
+                        override fun onError() {
+                            Picasso.with(context)
+                                    .load(url)
+                                    .resize(width, height)
+                                    .centerCrop()
+                                    .into(view)
+                        }
+
+                    })
         } else {
 //            TODO("PLACEHOLDER IMG")
         }
@@ -87,7 +105,7 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
             record = Record.construct(uBook.book, time, lastRecord, pagenum, currentDate)
         }
         //TODO UserRepository.save || update
-        RemoteRecord.save(record, uBook.id, onComplete = onComplete)
+        RecordRepository.save(record, uBook.id, onComplete = onComplete)
     }
 
     //TODO whats this function for?

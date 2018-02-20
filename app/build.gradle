@@ -11,7 +11,7 @@ android {
         config {
             keyAlias 'ReadingTimeAndroidKey'
             keyPassword 'pedro123'
-            storeFile file('C:/Users/Pedro/StudioProjects/ReadingTime/key/android.jks')
+            storeFile file('/home/phffeitosa/Projetos/ReadingTime/key/android.jks')
             storePassword 'pedro123'
         }
     }
@@ -71,13 +71,13 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
 
     // Adapter do Retrofit para retornar objetos observáveis
-    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
     // Converter do Retrofit para utilizar o Gson para tratar a resposta do servidor
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     // Interceptor para visualizar os logs das requisições do Retrofit
-    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-android
 
@@ -109,6 +109,10 @@ dependencies {
 
     //Image Compression
     compile 'id.zelory:compressor:2.1.0'
+
+    //Test
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 }
 
 apply plugin: 'kotlin-kapt'
