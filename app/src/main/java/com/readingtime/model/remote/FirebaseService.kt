@@ -88,5 +88,4 @@ interface FirebaseService {
             @Path("bookId")
             bookId: String
     ): Observable<FirebaseUserBook>
-
 }

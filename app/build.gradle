@@ -110,9 +110,13 @@ dependencies {
     //Image Compression
     compile 'id.zelory:compressor:2.1.0'
 
-    //Test
+    //OkHttp
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
+    //Firebase Auth
+    compile 'com.google.firebase:firebase-auth:11.8.0'
+    compile 'com.google.android.gms:play-services-auth:11.8.0'
 }
 
 apply plugin: 'kotlin-kapt'
