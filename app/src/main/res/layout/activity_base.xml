@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.readingtime.ui.base.Base"
+    android:background="@color/background2">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutFill"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutCounter"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutMenu"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <ImageButton
+                android:id="@+id/ibAdd"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border_top"
+                android:paddingVertical="16px"
+                android:scaleType="fitCenter"
+                android:tint="@color/main_lighter"
+                app:srcCompat="@drawable/ic_fa_plus" />
+
+            <ImageButton
+                android:id="@+id/ibBooks"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border_top"
+                android:paddingVertical="16px"
+                android:scaleType="fitCenter"
+                android:tint="@color/main_lighter"
+                app:srcCompat="@drawable/ic_fa_book" />
+
+            <ImageButton
+                android:id="@+id/ibHome"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border_top"
+                android:paddingVertical="16px"
+                android:scaleType="fitCenter"
+                android:tint="@color/main_lighter"
+                app:srcCompat="@drawable/ic_fa_home" />
+
+            <ImageButton
+                android:id="@+id/ibStats"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border_top"
+                android:paddingVertical="16px"
+                android:scaleType="fitCenter"
+                android:tint="@color/main_lighter"
+                app:srcCompat="@drawable/ic_fa_chart_pie" />
+
+            <ImageButton
+                android:id="@+id/ibUser"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border_top"
+                android:paddingVertical="16px"
+                android:scaleType="fitCenter"
+                android:tint="@color/main_lighter"
+                app:srcCompat="@drawable/ic_fa_user" />
+
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutCounter"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/border_top_green"
+        app:layout_constraintBottom_toTopOf="@+id/layoutMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:ems="15"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="Book name testing 123 abc dfe fssasdfkj askjdfn lasdfin asfdadfasddfasdfas asdf asdf asdf asdf"
+            android:textColor="@color/text_white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ibPlay"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/transparent"
+            android:scaleType="fitCenter"
+            android:tint="@color/text_white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_fa_play" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/transparent"
+            android:scaleType="fitCenter"
+            android:tint="@color/text_white"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_fa_pause" />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/transparent"
+            android:scaleType="fitCenter"
+            android:tint="@color/text_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibPlay"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_fa_stop" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

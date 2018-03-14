@@ -11,6 +11,29 @@
     <color name="skeleton_secondary">#233523</color>
     <color name="transparent">#00ffffff</color>
 
+    <!--v2.0-->
+    <color name="background2">#f9f9f9</color>
+    <color name="background_item">#ffffff</color>
+
+    <!--DETAILS-->
+    <color name="detail_lighter">#eaedf1</color>
+    <color name="detail_light">#9ea7b3</color>
+    <color name="detail">#5e6d81</color>
+    <color name="detail_dark">#536278</color>
+    <color name="detail_darker">#323a45</color>
+
+    <!--MAIN-->
+    <color name="main_lighter">#9cd0b9</color>
+    <color name="main_light">#5fd38d</color>
+    <color name="main">#50a772</color>
+    <color name="main_dark">#2ca05a</color>
+    <color name="main_darker">#217844</color>
+
+
+
+
+
+
     <!--LAYOUT-->
     <color name="white">#ffffff</color>
     <color name="transparentbg">#B2141518</color><!--B2 = 70% = 0.7*255 to HEX-->
