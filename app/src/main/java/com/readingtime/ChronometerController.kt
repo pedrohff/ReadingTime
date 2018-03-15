@@ -11,41 +11,46 @@ import com.readingtime.model.Preferences
 
 object ChronometerController {
 
-    var running: Boolean = false
+    enum class Status {
+        RUNNING,
+        PAUSED,
+        STOPPED
+    }
+
+    var status: Status = Status.STOPPED
     var startTime: Long = 0
     var timeCounterMilis: Long = 0
 
     fun start(bookId: String, chronometer: Chronometer) {
         var baseFromPreferences:Long = 0
+        startTime = SystemClock.elapsedRealtime()
 
-        if(!running) {
+        if(status == Status.STOPPED) {
             val sharedPref = ApplicationContextProvider.context.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.putString(Preferences.LAST_BOOK.desc, bookId)
             editor.apply()
-
-            baseFromPreferences = loadPreference(bookId)
-            startTime = SystemClock.elapsedRealtime()
-            timeCounterMilis = SystemClock.elapsedRealtime() + baseFromPreferences
-
+            timeCounterMilis = loadPreference(bookId)
         }
 
         chronometer.base = SystemClock.elapsedRealtime() + timeCounterMilis
 
         chronometer.start()
+        status = Status.RUNNING
     }
 
     fun pause(bookId: String, chronometer: Chronometer) {
         storeTimeCounter(bookId, chronometer)
         chronometer.stop()
+        status = Status.PAUSED
     }
 
     fun stop(bookId: String, chronometer: Chronometer) {
         timeCounterMilis = 0
-        running = false
         storeTimeCounter(bookId, chronometer)
         chronometer.base = 0
         chronometer.stop()
+        status = Status.STOPPED
     }
 
     fun storeTimeCounter(bookId: String, chronometer: Chronometer) {
@@ -60,5 +65,11 @@ object ChronometerController {
         val sharedPref = ApplicationContextProvider.context.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         return sharedPref.getLong((bookId + "-timeCounterMilis"), 0)
     }
+
+    fun isRunning() : Boolean = (status == Status.RUNNING)
+
+    fun isPaused(): Boolean = (status == Status.PAUSED)
+
+    fun isStopped(): Boolean = (status == Status.STOPPED)
 
 }

@@ -18,7 +18,6 @@ abstract class Base : AppCompatActivity() {
 
     abstract val layoutR: Int
     lateinit var currentBook: UserBook
-    var activityCreated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,27 +26,22 @@ abstract class Base : AppCompatActivity() {
         createClickListeners()
         chronometer
 
-        if (ChronometerController.running) {
-            ChronometerController.start(currentBook.id, chronometer)
-        }
-        activityCreated = true
     }
 
     override fun onResume() {
         super.onResume()
-        if (activityCreated) {
-            activityCreated = false
+        if (ChronometerController.isRunning()) {
+            ChronometerController.start(currentBook.id, chronometer)
         } else {
-            // not sure if this is required
-            if (ChronometerController.running) {
-                ChronometerController.start(currentBook.id, chronometer)
+            if (ChronometerController.isPaused()) {
+                //TODO: JUST UPDATE THE CHRONOMETER
             }
         }
     }
 
     override fun onStop() {
         super.onStop()
-        if (ChronometerController.running) {
+        if (ChronometerController.isRunning()) {
             ChronometerController.storeTimeCounter(currentBook.id, chronometer)
         }
     }
