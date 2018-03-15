@@ -26,25 +26,30 @@ object ChronometerController {
 
             baseFromPreferences = loadPreference(bookId)
             startTime = SystemClock.elapsedRealtime()
+            timeCounterMilis = SystemClock.elapsedRealtime() + baseFromPreferences
+
         }
 
+        chronometer.base = SystemClock.elapsedRealtime() + timeCounterMilis
 
-        timeCounterMilis = SystemClock.elapsedRealtime() + baseFromPreferences
         chronometer.start()
     }
 
     fun pause(bookId: String, chronometer: Chronometer) {
-        timeCounterMilis = chronometer.base - SystemClock.elapsedRealtime()
+        storeTimeCounter(bookId, chronometer)
         chronometer.stop()
     }
 
-    fun stop(bookId: String) {
+    fun stop(bookId: String, chronometer: Chronometer) {
         timeCounterMilis = 0
         running = false
-        putPreference(bookId)
+        storeTimeCounter(bookId, chronometer)
+        chronometer.base = 0
+        chronometer.stop()
     }
 
-    private fun putPreference(bookId: String) {
+    fun storeTimeCounter(bookId: String, chronometer: Chronometer) {
+        timeCounterMilis = chronometer.base - SystemClock.elapsedRealtime()
         val sharedPref = ApplicationContextProvider.context.getSharedPreferences("ChronometerController", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.putLong(bookId + "-timeCounterMilis", timeCounterMilis)

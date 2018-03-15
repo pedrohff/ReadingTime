@@ -4,11 +4,12 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
+import com.readingtime.ChronometerController
 import com.readingtime.R
 import com.readingtime.extensions.inflate
+import com.readingtime.model.UserBook
 import com.readingtime.ui.booknew.BookNewActivity
 import com.readingtime.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_base.*
@@ -16,15 +17,40 @@ import kotlinx.android.synthetic.main.activity_base.*
 abstract class Base : AppCompatActivity() {
 
     abstract val layoutR: Int
+    lateinit var currentBook: UserBook
+    var activityCreated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
         inflate(layoutR)
         createClickListeners()
+        chronometer
+
+        if (ChronometerController.running) {
+            ChronometerController.start(currentBook.id, chronometer)
+        }
+        activityCreated = true
     }
 
-    on
+    override fun onResume() {
+        super.onResume()
+        if (activityCreated) {
+            activityCreated = false
+        } else {
+            // not sure if this is required
+            if (ChronometerController.running) {
+                ChronometerController.start(currentBook.id, chronometer)
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (ChronometerController.running) {
+            ChronometerController.storeTimeCounter(currentBook.id, chronometer)
+        }
+    }
 
     private fun inflate(@LayoutRes layoutRes: Int) {
         layoutFill.inflate(layoutRes)
@@ -42,6 +68,10 @@ abstract class Base : AppCompatActivity() {
         ibHome.setOnClickListener { onClickHome() }
         ibStats.setOnClickListener { onClickStats() }
         ibUser.setOnClickListener { onClickStats() }
+
+        ibPlay.setOnClickListener { onClickPlay() }
+        ibPause.setOnClickListener { onClickPause() }
+        ibStop.setOnClickListener { onClickStop() }
     }
 
     private fun onClickAdd() {
@@ -73,15 +103,15 @@ abstract class Base : AppCompatActivity() {
     }
 
     private fun onClickPlay() {
-
+        ChronometerController.start(currentBook.id, chronometer)
     }
 
     private fun onClickPause() {
-
+        ChronometerController.pause(currentBook.id, chronometer)
     }
 
     private fun onClickStop() {
-
+        ChronometerController.stop(currentBook.id, chronometer)
     }
 
 }

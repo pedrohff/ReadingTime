@@ -11,7 +11,7 @@ android {
         config {
             keyAlias 'ReadingTimeAndroidKey'
             keyPassword 'pedro123'
-            storeFile file('/home/phffeitosa/Projetos/ReadingTime/key/android.jks')
+            storeFile file('C:/Users/Pedro/StudioProjects/ReadingTime/key/android.jks')
             storePassword 'pedro123'
         }
     }
