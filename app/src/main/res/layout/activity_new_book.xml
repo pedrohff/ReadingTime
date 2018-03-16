@@ -7,203 +7,229 @@
     <data>
         <variable name="book" type="com.readingtime.model.Book"/>
     </data>
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/outercl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/svcl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background"
             tools:context="com.readingtime.ui.booknew.BookNewActivity">
 
-            <Button
-                android:id="@+id/btUpload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/button_accent"
-                android:gravity="top"
-                android:paddingHorizontal="12dp"
-                android:paddingTop="6dp"
-                android:text="@string/upload_image"
-                android:textColor="@color/text_white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tvFilesize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:elevation="5dp"
-                android:gravity="end"
-                android:textAlignment="textEnd"
-                android:textColor="@color/text_white"
-                app:layout_constraintBottom_toBottomOf="@+id/btUpload"
-                app:layout_constraintEnd_toEndOf="@+id/btUpload"
-                app:layout_constraintStart_toStartOf="@+id/btUpload"
-                tools:text="File Size: 256mb" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
 
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/greenaccent"
-                android:ems="10"
-                android:hint="@string/book_name"
-                android:inputType="textCapSentences"
-                android:text="@={book.name}"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btUpload" />
+                    <Button
+                        android:id="@+id/btUpload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/button_accent"
+                        android:gravity="top"
+                        android:paddingHorizontal="12dp"
+                        android:paddingTop="6dp"
+                        android:text="@string/upload_image"
+                        android:textColor="@color/text_white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/etAuthor"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/greenaccent"
-                android:ems="10"
-                android:hint="@string/book_author"
-                android:inputType="textCapWords"
-                android:text="@={book.author}"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etName" />
+                    <TextView
+                        android:id="@+id/tvFilesize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:elevation="5dp"
+                        android:gravity="end"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/text_white"
+                        app:layout_constraintBottom_toBottomOf="@+id/btUpload"
+                        app:layout_constraintEnd_toEndOf="@+id/btUpload"
+                        app:layout_constraintStart_toStartOf="@+id/btUpload"
+                        tools:text="File Size: 256mb" />
 
-            <EditText
-                android:id="@+id/etArtist"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/greenaccent"
-                android:ems="10"
-                android:hint="@string/book_artist"
-                android:inputType="textCapWords"
-                android:text="@={book.artist}"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etAuthor" />
+                    <EditText
+                        android:id="@+id/etName"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/greenaccent"
+                        android:ems="10"
+                        android:hint="@string/book_name"
+                        android:inputType="textCapSentences"
+                        android:text="@={book.name}"
+                        android:textColor="@color/text_grey"
+                        android:textColorHint="@color/text_grey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btUpload" />
 
-            <EditText
-                android:id="@+id/etPublisher"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/greenaccent"
-                android:ems="10"
-                android:hint="@string/book_publisher"
-                android:inputType="textCapWords"
-                android:text="@={book.publisher}"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etArtist" />
+                    <EditText
+                        android:id="@+id/etAuthor"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/greenaccent"
+                        android:ems="10"
+                        android:hint="@string/book_author"
+                        android:inputType="textCapWords"
+                        android:text="@={book.author}"
+                        android:textColor="@color/text_grey"
+                        android:textColorHint="@color/text_grey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etName" />
 
-            <Spinner
-                android:id="@+id/spType"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/greenaccent"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPublisher" />
+                    <EditText
+                        android:id="@+id/etArtist"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/greenaccent"
+                        android:ems="10"
+                        android:hint="@string/book_artist"
+                        android:inputType="textCapWords"
+                        android:text="@={book.artist}"
+                        android:textColor="@color/text_grey"
+                        android:textColorHint="@color/text_grey"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etAuthor" />
 
-            <EditText
-                android:id="@+id/etPages"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/greenaccent"
-                android:hint="@string/num_pages"
-                android:inputType="numberDecimal"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spType" />
+                    <EditText
+                        android:id="@+id/etPublisher"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/greenaccent"
+                        android:ems="10"
+                        android:hint="@string/book_publisher"
+                        android:inputType="textCapWords"
+                        android:text="@={book.publisher}"
+                        android:textColor="@color/text_grey"
+                        android:textColorHint="@color/text_grey"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etArtist" />
 
-            <Spinner
-                android:id="@+id/spCategory"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/greenaccent"
-                android:textColor="@color/text_grey"
-                android:textColorHint="@color/text_grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPages" />
+                    <Spinner
+                        android:id="@+id/spType"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/greenaccent"
+                        android:textColor="@color/text_grey"
+                        android:textColorHint="@color/text_grey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etPublisher" />
 
+                    <EditText
+                        android:id="@+id/etPages"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/greenaccent"
+                        android:hint="@string/num_pages"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/text_grey"
+                        android:textColorHint="@color/text_grey"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/spType" />
 
-            <Button
-                android:id="@+id/btCancel"
-                android:layout_width="172dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="32dp"
-                android:background="@color/button_secondary"
-                android:text="@string/cancel"
-                android:textColor="@android:color/background_light"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/spCategory" />
-
-            <Button
-                android:id="@+id/btSave"
-                android:layout_width="172dp"
-                android:layout_height="48dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:background="@color/button_primary"
-                android:text="@string/save"
-                android:textColor="@android:color/background_light"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/spCategory" />
+                    <Spinner
+                        android:id="@+id/spCategory"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/greenaccent"
+                        android:textColor="@color/text_grey"
+                        android:textColorHint="@color/text_grey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etPages" />
 
 
-            <android.support.constraint.Guideline
-                android:id="@+id/guideline4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="192dp"
-                android:layout_marginStart="192dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintGuide_percent="0.5"
-                app:layout_constraintStart_toStartOf="parent" />
+                    <Button
+                        android:id="@+id/btCancel"
+                        android:layout_width="172dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="32dp"
+                        android:background="@color/button_secondary"
+                        android:text="@string/cancel"
+                        android:textColor="@android:color/background_light"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintTop_toBottomOf="@+id/spCategory" />
+
+                    <Button
+                        android:id="@+id/btSave"
+                        android:layout_width="172dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="32dp"
+                        android:background="@color/button_primary"
+                        android:text="@string/save"
+                        android:textColor="@android:color/background_light"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline4"
+                        app:layout_constraintTop_toBottomOf="@+id/spCategory" />
+
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guideline4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="192dp"
+                        android:layout_marginStart="192dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintGuide_percent="0.5"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </ScrollView>
+
 
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+
+        <include
+            android:id="@+id/includeMenu"
+            layout="@layout/menu_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
 </layout>

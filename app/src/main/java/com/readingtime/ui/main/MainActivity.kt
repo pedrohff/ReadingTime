@@ -93,10 +93,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         skeletonCV.hide()
         binding.uBook = bookAux
         updateHighlightedPercentage(bookAux.getPerc())
-        ivProgressIcon.visibility = View.VISIBLE
-        ivHoursIcon.visibility = View.VISIBLE
-        tvProgressText.visibility = View.VISIBLE
-        tvTimeRead.visibility = View.VISIBLE
+        ivProgressIcon?.visibility = View.VISIBLE
+        ivHoursIcon?.visibility = View.VISIBLE
+        tvProgressText?.visibility = View.VISIBLE
+        tvTimeRead?.visibility = View.VISIBLE
     }
 
     override fun createSkeletonCardView() {

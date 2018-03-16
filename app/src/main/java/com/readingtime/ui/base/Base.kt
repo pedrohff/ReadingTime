@@ -7,29 +7,25 @@ import android.support.annotation.LayoutRes
 import android.view.View
 import android.widget.ImageButton
 import com.readingtime.ChronometerController
-import com.readingtime.R
-import com.readingtime.extensions.inflate
 import com.readingtime.model.UserBook
 import com.readingtime.ui.booknew.BookNewActivity
 import com.readingtime.ui.main.MainActivity
-import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.menu_player.*
+import kotlinx.android.synthetic.main.menu_player.view.*
 
 abstract class Base : AppCompatActivity() {
 
     abstract val layoutR: Int
+    abstract var include: View
     lateinit var currentBook: UserBook
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
-        inflate(layoutR)
-        createClickListeners()
-        chronometer
-
     }
 
     override fun onResume() {
         super.onResume()
+        createClickListeners()
         if (ChronometerController.isRunning()) {
             ChronometerController.start(currentBook.id, chronometer)
         } else {
@@ -47,7 +43,9 @@ abstract class Base : AppCompatActivity() {
     }
 
     private fun inflate(@LayoutRes layoutRes: Int) {
-        layoutFill.inflate(layoutRes)
+//        layoutFill.inflate(layoutRes)
+//        val layout = layoutInflater.inflate(layoutRes, layoutFill)
+//        layoutFill.addView(layout)
     }
 
     private fun toggleVisibility(imageButton: ImageButton) {
@@ -57,15 +55,15 @@ abstract class Base : AppCompatActivity() {
     }
 
     fun createClickListeners() {
-        ibAdd.setOnClickListener { onClickAdd() }
-        ibBooks.setOnClickListener { onClickBooks() }
-        ibHome.setOnClickListener { onClickHome() }
-        ibStats.setOnClickListener { onClickStats() }
-        ibUser.setOnClickListener { onClickStats() }
+        include.ibAdd.setOnClickListener { onClickAdd() }
+        include.ibBooks.setOnClickListener { onClickBooks() }
+        include.ibHome.setOnClickListener { onClickHome() }
+        include.ibStats.setOnClickListener { onClickStats() }
+        include.ibUser.setOnClickListener { onClickStats() }
 
-        ibPlay.setOnClickListener { onClickPlay() }
-        ibPause.setOnClickListener { onClickPause() }
-        ibStop.setOnClickListener { onClickStop() }
+        include.ibPlay.setOnClickListener { onClickPlay() }
+        include.ibPause.setOnClickListener { onClickPause() }
+        include.ibStop.setOnClickListener { onClickStop() }
     }
 
     private fun onClickAdd() {
@@ -76,7 +74,7 @@ abstract class Base : AppCompatActivity() {
     private fun onClickBooks() {
 //        TODO CREATE BOOK DISPLAY ACTIVITY
 //        val intent = Intent(this, ::class.java)
-        startActivity(intent)
+//        startActivity(intent)
     }
 
     private fun onClickHome() {
@@ -87,13 +85,13 @@ abstract class Base : AppCompatActivity() {
     private fun onClickStats() {
 //        TODO CREATE STATS ACTVITY
 //        val intent = Intent(this, ::class.java)
-        startActivity(intent)
+//        startActivity(intent)
     }
 
     private fun onClickUser() {
 //        TODO CREATE USER ACTIVITY
 //        val intent = Intent(this, ::class.java)
-        startActivity(intent)
+//        startActivity(intent)
     }
 
     private fun onClickPlay() {

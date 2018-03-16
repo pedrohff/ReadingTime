@@ -1,9 +1,9 @@
 package com.readingtime.ui.booknew
 
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -16,10 +16,17 @@ import com.readingtime.databinding.ActivityNewBookBinding
 import com.readingtime.model.Book
 import com.readingtime.model.BookCategory
 import com.readingtime.model.BookType
+import com.readingtime.ui.base.Base
 import kotlinx.android.synthetic.main.activity_new_book.*
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.util.TypedValue
 
 
-class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, BookNewContract.View {
+class BookNewActivity : Base(), AdapterView.OnItemSelectedListener, BookNewContract.View {
+
+    override lateinit var include: View
+
+    override val layoutR: Int = R.layout.activity_new_book
 
     private var book: Book? = Book()
     private lateinit var types: MutableMap<Int, String>
@@ -32,6 +39,10 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_book)
 
+//        layoutInflater.inflate(R.layout.menu_player, menu)
+
+//        val layout: ConstraintLayout = findViewById(R.id.menuplayertest)
+//        menu.addView(layout)
         types = BookType.getMap(this)
         categories = BookCategory.getMap(this)
 
@@ -44,8 +55,39 @@ class BookNewActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         initAdapters()
         createButtonListeners()
-//        testFillBook()
+//        testFillBook
+
+        test()
+        include = includeMenu
     }
+
+    private fun test () {
+
+        val activityRootView = outercl
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight()
+                println("a" + activityRootView.getRootView().getHeight())
+                println("b" + activityRootView.getHeight())
+                println("c" + heightDiff)
+                if (heightDiff > dpToPx(this@BookNewActivity, 200f)) { // if more than 200 dp, it's probably a keyboard...
+//                    scrollView.layoutParams.height = (0.75 * scrollView.height).toInt()
+                    println(" 111")
+                    includeMenu.visibility = View.GONE
+                } else {
+//                    scrollView.layoutParams.height = activityRootView.getRootView().getHeight()
+                    println(" 222")
+                    includeMenu.visibility = View.VISIBLE
+                }
+            }
+        })
+    }
+
+    fun dpToPx(context: Context, valueInDp: Float): Float {
+        val metrics = context.resources.displayMetrics
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics)
+    }
+
 
     private fun testFillBook() {
         book?.let {
