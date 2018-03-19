@@ -96,6 +96,7 @@ class RecordPresenter(var view: RecordContract.View) : RecordContract.Presenter 
 
     private fun saveRecord(currentDate: Date, time: Long, pagenum: Int, uBook: UserBook, onComplete: () -> Unit = {}) {
         val record: Record
+
         if (lastRecord.date == currentDate.time) {
             record = lastRecord
             record.milisRead += time

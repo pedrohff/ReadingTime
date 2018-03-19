@@ -58,7 +58,7 @@ interface FirebaseService {
             orderBy: String = "\"\$key\"",
             @Query("limitToLast")
             limit: Int = 1
-    ): Single<HashMap<String, Record>>
+    ): Maybe<HashMap<String, Record>>
 
     @GET("records/{userId}/{bookId}/{recordDateString}.json")
     fun recordsFind(

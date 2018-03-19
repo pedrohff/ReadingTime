@@ -42,7 +42,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.base.Base"></activity>
+        <activity android:name=".ui.base.Base" />
+        <activity android:name=".ui.main.Main2Activity"></activity>
     </application>
 
 </manifest>

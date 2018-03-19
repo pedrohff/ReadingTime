@@ -32,7 +32,7 @@ object RemoteRecord : RemoteDatabaseHelper() {
                 .flatMap { record -> Observable.fromIterable(record.values) }
     }
 
-    fun findLast(userId: String = "pedro", bookId: String): Single<Record> {
+    fun findLast(userId: String = "pedro", bookId: String): Maybe<Record> {
         return FirebaseProvider.service.findLastRecord(userId, bookId)
                 .map { map -> map.values.first() }
     }

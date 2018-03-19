@@ -19,6 +19,7 @@ import com.readingtime.R
 import com.readingtime.databinding.ActivityMainBinding
 import com.readingtime.extensions.getPercentageColor
 import com.readingtime.model.UserBook
+import com.readingtime.ui.base.Base
 import com.readingtime.ui.booknew.BookNewActivity
 import com.readingtime.ui.recording.RecordActivity
 import com.squareup.picasso.Callback
@@ -27,7 +28,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), MainContract.View {
+class MainActivity : Base(), MainContract.View {
+    override lateinit var include: View
 
     lateinit var binding: ActivityMainBinding
     lateinit var presenter: MainContract.Presenter
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         createButtonListeners()
         createAdapter()
         createSkelleton()
+        include = includeMenu
     }
 
     override fun onResume() {
@@ -117,11 +120,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     private fun createButtonListeners() {
-        fabNewBook.setOnClickListener {
-            val intent = Intent(this, BookNewActivity::class.java)
-            startActivity(intent)
-        }
-
         cvCurrent.setOnClickListener {
             val intent = Intent(this, RecordActivity::class.java)
             intent.putExtra(RecordActivity.BOOK, binding.uBook)

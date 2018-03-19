@@ -1,6 +1,7 @@
 package com.readingtime.ui.base
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.LayoutRes
@@ -15,9 +16,8 @@ import kotlinx.android.synthetic.main.menu_player.view.*
 
 abstract class Base : AppCompatActivity() {
 
-    abstract val layoutR: Int
     abstract var include: View
-    lateinit var currentBook: UserBook
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ abstract class Base : AppCompatActivity() {
         super.onResume()
         createClickListeners()
         if (ChronometerController.isRunning()) {
-            ChronometerController.start(currentBook.id, chronometer)
+            ChronometerController.start(chronometer)
         } else {
             if (ChronometerController.isPaused()) {
                 //TODO: JUST UPDATE THE CHRONOMETER
@@ -38,14 +38,8 @@ abstract class Base : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         if (ChronometerController.isRunning()) {
-            ChronometerController.storeTimeCounter(currentBook.id, chronometer)
+            ChronometerController.storeTimeCounter(chronometer)
         }
-    }
-
-    private fun inflate(@LayoutRes layoutRes: Int) {
-//        layoutFill.inflate(layoutRes)
-//        val layout = layoutInflater.inflate(layoutRes, layoutFill)
-//        layoutFill.addView(layout)
     }
 
     private fun toggleVisibility(imageButton: ImageButton) {
@@ -68,6 +62,7 @@ abstract class Base : AppCompatActivity() {
 
     private fun onClickAdd() {
         val intent = Intent(this, BookNewActivity::class.java)
+        intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
     }
 
@@ -79,7 +74,9 @@ abstract class Base : AppCompatActivity() {
 
     private fun onClickHome() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
+
     }
 
     private fun onClickStats() {
@@ -95,15 +92,15 @@ abstract class Base : AppCompatActivity() {
     }
 
     private fun onClickPlay() {
-        ChronometerController.start(currentBook.id, chronometer)
+        ChronometerController.start(chronometer)
     }
 
     private fun onClickPause() {
-        ChronometerController.pause(currentBook.id, chronometer)
+        ChronometerController.pause(chronometer)
     }
 
     private fun onClickStop() {
-        ChronometerController.stop(currentBook.id, chronometer)
+        ChronometerController.stop(chronometer)
     }
 
 }

@@ -40,4 +40,12 @@ object BookRepository {
                 .observeOn(Schedulers.io())
                 .subscribe()
     }
+
+    fun save(book: Book, userId: String = "pedro", saveToUserBook: Boolean = true, provKey: String? = null, onComplete: () -> Unit = {}) {
+        RemoteBook.save(book, userId, saveToUserBook, provKey, {
+            storeBook(book)
+            onComplete()
+        })
+
+    }
 }

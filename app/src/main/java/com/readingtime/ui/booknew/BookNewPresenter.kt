@@ -15,6 +15,7 @@ import com.readingtime.ApplicationContextProvider
 import com.readingtime.extensions.FileUtil
 import com.readingtime.model.Book
 import com.readingtime.model.remote.RemoteBook
+import com.readingtime.model.repository.BookRepository
 import id.zelory.compressor.Compressor
 import java.io.File
 import java.io.IOException
@@ -43,8 +44,7 @@ class BookNewPresenter(var view: BookNewContract.View) : BookNewContract.Present
 
     override fun saveBook(book: Book, onComplete: () -> Unit) {
         try {
-            //TODO BookRepository.save
-            RemoteBook.save(book, provKey = bookKey, onComplete = onComplete)
+            BookRepository.save(book, provKey = bookKey, onComplete = onComplete )
         } catch (exc: IllegalArgumentException) {
             view.makeToast(exc.message.toString())
         }

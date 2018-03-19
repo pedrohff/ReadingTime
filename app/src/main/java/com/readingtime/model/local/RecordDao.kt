@@ -24,6 +24,6 @@ interface RecordDao {
     @Query("SELECT * FROM Record WHERE bookId = :bookid")
     fun listAll(bookid: String): Single<List<Record>>
 
-    @Query("SELECT * FROM Record WHERE bookId = :bookid ORDER BY dateString DESC LIMIT 1")
-    fun last(bookid: String): Single<Record>
+    @Query("SELECT * FROM Record WHERE bookId = :bookid ORDER BY date DESC LIMIT 1")
+    fun last(bookid: String): Maybe<Record>
 }

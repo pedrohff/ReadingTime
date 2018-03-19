@@ -22,17 +22,17 @@ object RecordRepository {
     private val recordDao = LocalProvider.db.recordDao()
 
     fun findLast(bookid: String): Single<Record> {
-        return Single.concat(
+        return Maybe.concat(
                 getLastFromDb(bookid),
                 getLastFromApi(bookid)
         ).firstOrError()
     }
 
-    private fun getLastFromDb(bookid: String): Single<Record> {
+    private fun getLastFromDb(bookid: String): Maybe<Record> {
         return recordDao.last(bookid)
     }
 
-    private fun getLastFromApi(bookid: String): Single<Record>? {
+    private fun getLastFromApi(bookid: String): Maybe<Record>? {
         return recordApi.findLast(bookId=bookid)
                 .doOnSuccess { storeRecord(it) }
     }
@@ -45,10 +45,15 @@ object RecordRepository {
     }
 
     fun save(record: Record, bookId: String, userId: String = "pedro", onComplete: () -> Unit = {}) {
-        recordApi.save(record, bookId, userId, {
-            recordDao.insert(record)
-            onComplete()
-        })
+        Observable.fromCallable {
+            recordApi.save(record, bookId, userId, {
+                storeRecord(record)
+                onComplete()
+            })
+        }.subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.io())
+        .subscribe()
+
 
     }
 }

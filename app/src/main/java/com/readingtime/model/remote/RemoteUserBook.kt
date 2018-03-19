@@ -5,6 +5,7 @@ import com.readingtime.model.Book
 import com.readingtime.model.FirebaseUserBook
 import com.readingtime.model.Record
 import com.readingtime.model.UserBook
+import com.readingtime.model.repository.RecordRepository
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import java.util.*
@@ -23,7 +24,7 @@ object RemoteUserBook : RemoteDatabaseHelper() {
                 .child(userBook.book.id)
                 .setValue(userBook) { dbError, dbRef ->
                     var record: Record = Record.construct(userBook.book, 0, null, 0, Date().removeHMS())
-                    RemoteRecord.save(record, onComplete = onComplete, bookId = userBook.book.id)
+                    RecordRepository.save(record, userBook.id, userId, onComplete = onComplete)
                 }
     }
 

@@ -16,23 +16,23 @@ import com.readingtime.model.UserBook
 
 
 class MainAdapter(private val books: List<UserBook>, private var listener: OnClickListener) : RecyclerView.Adapter<MainAdapter.BookHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookHolder {
+        val inflatedView = parent!!.inflate(R.layout.item_book)
+        return BookHolder(inflatedView)
+    }
+
+    override fun onBindViewHolder(holder: BookHolder, position: Int) {
+        val book: UserBook = books.elementAt(position)
+        holder?.bindView(book, listener)
+    }
+
     interface OnClickListener {
         fun onItemClick(item: UserBook)
     }
     override fun getItemCount(): Int {
         return books.size
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BookHolder {
-        val inflatedView = parent!!.inflate(R.layout.item_book)
-        return BookHolder(inflatedView)
-    }
-
-    override fun onBindViewHolder(holder: BookHolder?, position: Int) {
-        val book: UserBook = books.elementAt(position)
-        holder?.bindView(book, listener)
-    }
-
 
     class BookHolder(v: View) : RecyclerView.ViewHolder(v) {
 

@@ -1,8 +1,13 @@
 package com.readingtime.model.remote
 
+import com.readingtime.extensions.removeHMS
 import com.readingtime.model.Book
+import com.readingtime.model.Record
 import com.readingtime.model.UserBook
+import com.readingtime.model.repository.RecordRepository
+import com.readingtime.model.repository.UserBookRepository
 import io.reactivex.Observable
+import java.util.*
 
 /**
  * Created by pedro on 08/01/18.
@@ -29,12 +34,9 @@ object RemoteBook {
                     if (!saveToUserBook) onComplete()
                 }
 
-//        var record: Record = Record.construct(book, 0, null, 0, Date().removeHMS())
-//        FirebaseProvider.fbRef.child("records").child(userId).child(book.id).child(record.id).setValue(record)
-
         if (saveToUserBook) {
             //TODO Userbookprovider.save
-            RemoteUserBook.save(UserBook(book.id, book), onComplete = onComplete)
+            UserBookRepository.save(UserBook(book.id, book), userId, onComplete = onComplete)
         }
     }
 

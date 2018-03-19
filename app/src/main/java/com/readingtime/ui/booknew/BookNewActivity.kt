@@ -26,7 +26,6 @@ class BookNewActivity : Base(), AdapterView.OnItemSelectedListener, BookNewContr
 
     override lateinit var include: View
 
-    override val layoutR: Int = R.layout.activity_new_book
 
     private var book: Book? = Book()
     private lateinit var types: MutableMap<Int, String>

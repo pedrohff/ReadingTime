@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.SystemClock
 import android.widget.Chronometer
 import com.readingtime.model.Preferences
+import com.readingtime.model.UserBook
 
 /**
  * Created by phffeitosa on 14/03/18.
@@ -17,20 +18,21 @@ object ChronometerController {
         STOPPED
     }
 
+    lateinit var currentBook: UserBook
     var status: Status = Status.STOPPED
     var startTime: Long = 0
     var timeCounterMilis: Long = 0
 
-    fun start(bookId: String, chronometer: Chronometer) {
+    fun start(chronometer: Chronometer) {
         var baseFromPreferences:Long = 0
         startTime = SystemClock.elapsedRealtime()
 
         if(status == Status.STOPPED) {
             val sharedPref = ApplicationContextProvider.context.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
-            editor.putString(Preferences.LAST_BOOK.desc, bookId)
+            editor.putString(Preferences.LAST_BOOK.desc, currentBook.id)
             editor.apply()
-            timeCounterMilis = loadPreference(bookId)
+            timeCounterMilis = loadPreference(currentBook.id)
         }
 
         chronometer.base = SystemClock.elapsedRealtime() + timeCounterMilis
@@ -39,25 +41,25 @@ object ChronometerController {
         status = Status.RUNNING
     }
 
-    fun pause(bookId: String, chronometer: Chronometer) {
-        storeTimeCounter(bookId, chronometer)
+    fun pause(chronometer: Chronometer) {
+        storeTimeCounter(chronometer)
         chronometer.stop()
         status = Status.PAUSED
     }
 
-    fun stop(bookId: String, chronometer: Chronometer) {
+    fun stop(chronometer: Chronometer) {
         timeCounterMilis = 0
-        storeTimeCounter(bookId, chronometer)
+        storeTimeCounter(chronometer)
         chronometer.base = 0
         chronometer.stop()
         status = Status.STOPPED
     }
 
-    fun storeTimeCounter(bookId: String, chronometer: Chronometer) {
+    fun storeTimeCounter(chronometer: Chronometer) {
         timeCounterMilis = chronometer.base - SystemClock.elapsedRealtime()
         val sharedPref = ApplicationContextProvider.context.getSharedPreferences("ChronometerController", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.putLong(bookId + "-timeCounterMilis", timeCounterMilis)
+        editor.putLong(currentBook.id + "-timeCounterMilis", timeCounterMilis)
         editor.apply()
     }
 
