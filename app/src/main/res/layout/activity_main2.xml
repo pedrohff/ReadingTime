@@ -4,20 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.readingtime.ui.main.Main2Activity"
-    android:background="@color/background2">
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/fillFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutCounter">
-
-    </android.support.constraint.ConstraintLayout>
+    android:background="@color/background2"
+    tools:context="com.readingtime.ui.main.Main2Activity">
 
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/layoutCounter"
+        android:id="@+id/layoutCounter2"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/border_top_green"
@@ -39,7 +31,7 @@
             android:maxLength="25"
             android:maxLines="1"
             android:scrollHorizontally="true"
-            android:text="Book name testing 123 abc dfe fssasdfkj askjdfn lasdfin asfdadfasddfasdfas asdf asdf asdf asdf"
+            android:text="ViewPager Activity"
             android:textColor="@color/text_white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +40,7 @@
 
 
         <Chronometer
-            android:id="@+id/chronometer"
+            android:id="@+id/chronometerMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -58,11 +50,11 @@
             android:textColor="@color/text_white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ibStop"
+            app:layout_constraintEnd_toStartOf="@id/ibStop2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/ibPlay"
+            android:id="@+id/ibPlay2"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_marginBottom="8dp"
@@ -79,7 +71,7 @@
             app:srcCompat="@drawable/ic_fa_play" />
 
         <ImageButton
-            android:id="@+id/ibPause"
+            android:id="@+id/ibPause2"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_marginBottom="8dp"
@@ -96,7 +88,7 @@
             app:srcCompat="@drawable/ic_fa_pause" />
 
         <ImageButton
-            android:id="@+id/ibStop"
+            android:id="@+id/ibStop2"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginBottom="8dp"
@@ -107,7 +99,7 @@
             android:scaleType="fitCenter"
             android:tint="@color/text_white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ibPlay"
+            app:layout_constraintEnd_toStartOf="@+id/ibPlay2"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_fa_stop" />
 
@@ -131,7 +123,7 @@
             android:weightSum="5">
 
             <ImageButton
-                android:id="@+id/ibAdd"
+                android:id="@+id/ibAdd2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -142,7 +134,7 @@
                 app:srcCompat="@drawable/ic_fa_plus" />
 
             <ImageButton
-                android:id="@+id/ibBooks"
+                android:id="@+id/ibBooks2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -153,7 +145,7 @@
                 app:srcCompat="@drawable/ic_fa_book" />
 
             <ImageButton
-                android:id="@+id/ibHome"
+                android:id="@+id/ibHome2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -164,7 +156,7 @@
                 app:srcCompat="@drawable/ic_fa_home" />
 
             <ImageButton
-                android:id="@+id/ibStats"
+                android:id="@+id/ibStats2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -175,7 +167,7 @@
                 app:srcCompat="@drawable/ic_fa_chart_pie" />
 
             <ImageButton
-                android:id="@+id/ibUser"
+                android:id="@+id/ibUser2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -187,4 +179,13 @@
 
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutCounter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

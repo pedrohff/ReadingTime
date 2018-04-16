@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import com.readingtime.ChronometerController
 import com.readingtime.model.UserBook
 import com.readingtime.ui.booknew.BookNewActivity
+import com.readingtime.ui.main.Main2Activity
 import com.readingtime.ui.main.MainActivity
 import kotlinx.android.synthetic.main.menu_player.*
 import kotlinx.android.synthetic.main.menu_player.view.*
@@ -68,8 +69,8 @@ abstract class Base : AppCompatActivity() {
 
     private fun onClickBooks() {
 //        TODO CREATE BOOK DISPLAY ACTIVITY
-//        val intent = Intent(this, ::class.java)
-//        startActivity(intent)
+        val intent = Intent(this, Main2Activity::class.java)
+        startActivity(intent)
     }
 
     private fun onClickHome() {
